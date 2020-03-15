@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
-const ThemeSchema  = mongoose.Schema({
-    title: {
+const Schema = mongoose.Schema;
+
+const ThemeSchema  = new Schema({
+    theme_name: {
         type: String,
         required: true
     },
@@ -9,7 +11,7 @@ const ThemeSchema  = mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    theme_img: {
         type: String,
         required: true
     },
@@ -19,4 +21,4 @@ const ThemeSchema  = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('themes' , ThemeSchema)
+module.exports = mongoose.model('Theme' , ThemeSchema)

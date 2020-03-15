@@ -13,6 +13,7 @@ const bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var themesRouter = require('./routes/theme');
+var websitesRouter = require('./routes/website');
 
 
 var app = express();
@@ -33,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/theme', themesRouter);
+app.use('/website', websitesRouter);
+
 
 
 // catch 404 and forward to error handler
