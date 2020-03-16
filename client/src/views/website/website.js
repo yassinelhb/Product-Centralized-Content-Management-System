@@ -1,53 +1,59 @@
 import React, {Suspense, Fragment} from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import serviceSite from '../../services/website.service'
+import Category from "../../theme/theme1/views/category";
 
 
 class Website extends React.Component {
 
+    constructor() {
+        super();
+        this.state = {
+            website: ''
+        }
+
+    }
+   componentDidMount() {
+
+        serviceSite.webSite()
+            .then( res => {
+            this.setState({
+                website : res
+            });
+        })
+   }
+
+   loadHeader(website) {
+        const Header = React.lazy(() => import('../../theme/' + website.theme.theme_name + '/components/header'))
+        return <Header links = { website.header.links} logo = { website.logo_pic } />
+   }
+
+   loadComponent(website,link) {
+       return  React.lazy(() => import('../../theme/'+website.theme.theme_name+'/views/'+link.link_text))
+   }
+
+
     render() {
+        const website = this.state.website
+        const router = website.header ? (
+            website.header.links.map((link,index) =>
+             <Route path={`${this.props.match.url}/`+link.link_path} component={this.loadComponent(website,link)} key={index}/>
+             )
+        ) : ''
 
-        return (
+
+         return (
             <div className="wrapper">
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <a className="navbar-brand" href="#">Navbar</a>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div id="navbarNavDropdown" className="navbar-collapse collapse">
-                        <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Features</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Pricing</a>
-                            </li>
-
-                        </ul>
-                        <ul className="navbar-nav">
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="http://example.com"
-                                   id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a className="dropdown-item" href="#">Action</a>
-                                    <a className="dropdown-item" href="#">Another action</a>
-                                </div>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="{{ url('/login') }}">Login</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="{{ url('/register') }}">Register</a>
-                            </li>
-                        </ul>
+                <Suspense fallback={<div>Loading ...</div>}>
+                    { website.theme ?  this.loadHeader(website) : ''  }
+                </Suspense>
+                <div className="wrapper-content">
+                    <div className="container">
+                        <Suspense fallback={<div>Loading ...</div>}>
+                          { router }
+                        </Suspense>
                     </div>
-                </nav>
+                </div>
             </div>
         );
     }

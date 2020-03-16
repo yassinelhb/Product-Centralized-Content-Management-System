@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.otf');
+}
+
+body {
+    font-family: Poppins;
+}
+.navbar {
+    background: #0e2453;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #afafaf !important;
+    cursor: pointer;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+}
+
+.navbar-light .navbar-nav .active>.nav-link,
+
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link {
+    color: #ffffff ;
+}
+
+.navbar .navbar-brand img {
+    width: 100px;
+}
+
+.navbar .navbar-nav .nav-item-setting {
+    padding-top: 5px;
+}
+.navbar .navbar-nav .nav-item .nav-btn {
+    color: #afafaf;
+    border: 1px solid #afafaf;
+    border-radius: 5px;
+    width: 60px;
+    line-height: 1.725rem;
+    height: 33px;
+    font-size: 13px;
+    margin-left: 15px;
+    outline: none;
+    background: transparent;
+}
+
+.navbar .navbar-nav .nav-item .dropdown-menu {
+    width: 260px;
+    right: 0 !important;
+    left: auto;
+    padding: 7px 15px;
+}
+
+.navbar .navbar-nav .nav-item .dropdown-menu input{
+  margin: 5px 0;
+}
+.navbar .navbar-nav .nav-item .dropdown-menu .btn {
+    font-size: 14px;
+    text-transform: lowercase;
+    font-weight: 500;
+}
+
+.navbar-nav .dropdown-menu:before,
+.dropdown .dropdown-menu[x-placement="bottom-start"]:before,
+.dropdown .dropdown-menu[x-placement="bottom-end"]:before,
+.card.card-just-text .dropdown .dropdown-menu:before,
+.card-just-text .dropdown .dropdown-menu:before, .dropdown-btn .dropdown-menu:before {
+
+}
+
+
+.btn-primary {
+    background: #0e2453;
+}
+
+
+.btn-primary:hover, .btn-primary:focus {
+    background: #0c2646 !important;
+}
