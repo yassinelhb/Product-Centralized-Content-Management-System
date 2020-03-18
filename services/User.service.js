@@ -43,7 +43,7 @@ exports.login = async  (req, res) => {
                 var token = jwt.sign({users}, 'secret', {expiresIn: 3600})
                 res.json(token)
             } else {
-                res.status(401).json("Mot de passe incorrecte")
+                res.status(401).json("Mot de passe incorrecte ")
             }
         }
     })
