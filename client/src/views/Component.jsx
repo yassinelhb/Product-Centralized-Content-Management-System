@@ -33,39 +33,78 @@ import {
   Col, DropdownToggle, DropdownMenu, DropdownItem, Dropdown
 } from "reactstrap";
 import "../assets/css/page.css";
+import Link from "../components/Link/Link";
+import serviceSite from "../services/website.service";
 
 
 class Pages extends React.Component {
 
-  state = {
-    visible: true,
-    isOpen: false,
-    dropdownOpen: false,
-    color: "transparent"
-  };
+  constructor(props) {
+    super(props);
 
-  addLinkClick = () => {
+    this.state = {
+      links : props.website.header?.links,
+      toggle_add: false
+    }
+  }
 
+  handleLink = (link) => {
+    this.setState({
+      links : [...this.state.links, link]
+    })
   }
 
   editLinkClick = (link_id,index) => {
+
+    const link_text = this.refs[`link_text` + index ].value
+    const page = this.refs[`page` + index].value
+
+    if (link_text !== '' && page.value !== '') {
+      const link = {
+        link_text: link_text,
+        page: page,
+        _id: link_id
+      }
+
+      serviceSite.linkSite(link, 'edit').then(res => {
+        const links = [...this.state.links]
+        links[index] = res
+        this.setState({
+          links: links
+        })
+
+      })
+
+    }
 
   }
 
   deleteLinkClick = (link, index) => {
 
+    serviceSite.linkSite(link,'remove')
+        .then(
+            this.setState({
+              links: this.state.links.filter((link,i) => i !== index)
+            })
+        )
+  }
+
+  addClick = () => {
+    this.setState({
+      toggle_add: !this.state.toggle_add
+    })
   }
 
   render() {
 
     const pages = this.props.website.pages ? (
-        this.props.website.pages.map(link =>
-           <option key={link._id} value={link._id}> { link.page_name} </option>
+        this.props.website.pages.map(page =>
+           <option key={page._id} value={page._id}> { page.page_name} </option>
         )
     ) : ''
 
-    const links = this.props.website.header ?
-        this.props.website.header.links.map((link,index) =>
+    const links = this.state.links ?
+        this.state.links.map((link,index) =>
             <div className="menu-link_item" key={link._id}>
               <p className="link-item_title" data-toggle="collapse" data-parent="#menu_link" href={'#collapse'+index}>
                 <span className="item-title_text">{ link.link_text }</span>
@@ -86,8 +125,8 @@ class Pages extends React.Component {
                         { pages }
                       </select>
                     </div>
-                    <button className="btn btn-primary col-12" onClick={ () => this.editLinkClick(link._id,index) }>Save</button>
-                    <button className="btn btn-danger col-12"  onClick={ () => this.deleteLinkClick(link,index) }>Delete</button>
+                    <span className="btn btn-primary col-12" onClick={ () => this.editLinkClick(link._id,index) }>Save</span>
+                    <span className="btn btn-danger col-12"  onClick={ () => this.deleteLinkClick(link,index) }>Delete</span>
                   </form>
                 </div>
               </div>
@@ -115,7 +154,7 @@ class Pages extends React.Component {
                     <div className="tab-content">
                       <div id="header" className="container tab-pane active">
                        <Row>
-                         <div className="col-auto nav_link">
+                         <div className="col-md-5 nav_link">
                            <div className="container">
                              <h5 className="nav-link_title">
                                Links
@@ -123,12 +162,22 @@ class Pages extends React.Component {
                              <div className="menu_link" id="menu_link">
                                { links }
                              </div>
+                             <div className="link-btn_add">
+                               <button className="btn btn-primary" onClick={ () => this.addClick() }>
+                                     <i className= { this.state.toggle_add ? "nc-icon nc-simple-remove" : "nc-icon nc-simple-add"}></i>
+                                     &nbsp;Add link
+                               </button>
+                             </div>
                            </div>
+                         </div>
+                         <div className="col-md-5 offset-md-1 add_link">
+                           { this.state.toggle_add ?
+                               <Link pages={ this.props.website.pages } link = { this.handleLink } /> : ''
+                           }
                          </div>
                        </Row>
                       </div>
                       <div id="footer" className="container tab-pane fade">
-                        zef
                       </div>
                     </div>
                 </CardBody>
