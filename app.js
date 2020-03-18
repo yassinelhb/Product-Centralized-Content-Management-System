@@ -19,7 +19,7 @@ var links_boxRouter = require('./routes/links_box')
 var ProductTypeRouter = require('./routes/productType');
 var websitesRouter = require('./routes/website');
 var ProductSubTypeRouter = require('./routes/productSubType')
-
+var Ads_bannerRouter = require('./routes/ads_banner');
 
 
 var app = express();
