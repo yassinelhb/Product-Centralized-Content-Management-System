@@ -1,7 +1,7 @@
 const users = require('../models/users')
 var bcrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
-// get back all the themes
+
 exports.getuser = async function (req, res) {
     try {
         const User = await users.find();
