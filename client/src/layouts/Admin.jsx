@@ -26,7 +26,9 @@ import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
+
 import routes from "routes.js";
+import serviceSite from "../services/website.service";
 
 var ps;
 
@@ -35,7 +37,8 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       backgroundColor: "black",
-      activeColor: "info"
+      activeColor: "info",
+      website: ''
     };
     this.mainPanel = React.createRef();
   }
@@ -44,7 +47,15 @@ class Dashboard extends React.Component {
       ps = new PerfectScrollbar(this.mainPanel.current);
       document.body.classList.toggle("perfect-scrollbar-on");
     }
+
+    serviceSite.webSite()
+        .then( res => {
+          this.setState({
+            website : res
+          });
+        })
   }
+
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
@@ -79,7 +90,7 @@ class Dashboard extends React.Component {
               return (
                 <Route
                   path={prop.layout + prop.path}
-                  component={prop.component}
+                  component={() => <prop.component website={this.state.website}/>}
                   key={key}
                 />
               );
@@ -87,12 +98,12 @@ class Dashboard extends React.Component {
           </Switch>
           <Footer fluid />
         </div>
-        <FixedPlugin
+        {/* <FixedPlugin
           bgColor={this.state.backgroundColor}
           activeColor={this.state.activeColor}
           handleActiveClick={this.handleActiveClick}
           handleBgClick={this.handleBgClick}
-        />
+        />*/}
       </div>
     );
   }

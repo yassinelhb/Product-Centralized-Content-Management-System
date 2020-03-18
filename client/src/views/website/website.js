@@ -25,7 +25,7 @@ class Website extends React.Component {
 
    loadHeader(website) {
         const Header = React.lazy(() => import('../../theme/' + website.theme.theme_name + '/components/header'))
-        return <Header links = { website.header.links} logo = { website.logo_pic } />
+        return <Header links = { website.header.links} logo = { website.logo_pic } pages = { website.pages } />
    }
 
    loadComponent(website,link) {
