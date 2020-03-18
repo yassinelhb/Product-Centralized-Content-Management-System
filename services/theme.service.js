@@ -1,4 +1,4 @@
-const Theme = require('../models/Theme')
+const Theme = require('../models/theme.model')
 
 
 // get back all the themes
@@ -14,9 +14,9 @@ exports.getThemes = async function (req, res) {
 // submit a theme
 exports.addTheme = async  (req, res) => {
     const theme = new Theme({
-        title: req.body.title,
+        theme_name: req.body.theme_name,
         description: req.body.description,
-        image: req.body.image
+        theme_img: req.body.theme_img
     });
     try {
         const savedTheme = await theme.save();
@@ -52,7 +52,7 @@ exports.updateTheme = async  (req, res) => {
     try {
         const updatedTheme = await Theme.updateOne(
             { _id: req.params.themeId },
-            { $set: { image: req.body.image }}
+            { $set: { theme_img: req.body.theme_img }}
         );
         res.json(updatedTheme);
     } catch (err) {
