@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const WebsiteService = require('../../../P2CMS/p2cms_client/src/theme/theme1/website.service')
+const WebsiteService = require('../services/website.service');
 
 
 
