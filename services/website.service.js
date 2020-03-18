@@ -1,4 +1,6 @@
 const Website = require('../models/website.model')
+const Page = require('../models/page.model')
+const Link = require('../models/link.model')
 
 
 // get back all the websites
@@ -20,22 +22,60 @@ exports.addWebsite = async  (req, res) => {
         theme: req.body.theme
     });
     try {
-        const savedWebsite = await website.save();
+        const savedWebsite = await website.save(
+            createPages(website._id)
+        );
         res.json(savedWebsite);
     } catch (err) {
         res.json({message: err});
     }
 }
 
+const createPages = function(websiteId){
+
+    const arrayPages = [
+        new Page({ page_name : 'home', description : 'home description'}),
+        new Page({ page_name : 'index', description : 'index description'}),
+        new Page({ page_name : 'category', description : 'category description'}),
+        new Page({ page_name : 'contact', description : 'contact description'})]
+
+
+    arrayPages.forEach(async (page)=> {
+            const savedPage = await page.save();
+
+            const link = new Link({
+                link_text: page.page_name,
+                page: savedPage._id
+            })
+            const savedLink = await link.save();
+
+            await Website.updateOne(
+                { _id: websiteId },
+                { $push: { pages : savedPage._id , 'header.links' : savedLink._id }}
+            );
+    })
+
+
+}
 
 // specific website
 exports.getOneWebsite = async  (req, res) => {
     try {
-        const website = await Website.findById(req.params.siteId).populate("theme");
+        const website = await Website.findById(req.params.siteId)
+            .populate('theme')
+            .populate('pages')
+            .populate({
+                    path: 'header.links',
+                    populate: {
+                        path: 'page'
+                    }
+                });
+
         res.json(website);
     } catch (err) {
         res.json({message: err});
     }
+
 }
 
 // delete website
@@ -64,48 +104,40 @@ exports.updateWebsite = async  (req, res) => {
 // update links of header ( add or remove )
 exports.updateLinksHeader = async  (req, res) => {
     try {
-        let updatedWebsite;
+        let updateLinks;
 
         // remove link
         if (req.params.type === 'remove'){
-            updatedWebsite = await Website.updateOne(
-                { _id: req.body.site_id },
-                { $pull: { "header.links" : { link_text :  req.body.link_text , link_path :  req.body.link_path}}});
+            await Link.deleteOne({ _id : req.body._id});
         }
 
         // add link
         if(req.params.type === 'add'){
 
-            updatedWebsite = await Website.updateOne(
-                { _id: req.body.site_id, "header.links": {"$not": { "$elemMatch": { link_text :  req.body.link_text, link_path :  req.body.link_path }}}},
-                { $addToSet: { "header.links" : { link_text :  req.body.link_text, link_path :  req.body.link_path  }}});
+            let link = new Link({
+                link_text:  req.body.link_text,
+                page :  req.body.page
+            })
+
+            updateLinks =  await link.save().then(link => link.populate('page').execPopulate())
+
+            await Website.updateOne(
+                    { _id: req.body.site_id},
+                    { $push: { "header.links" : link._id }})
 
         }
 
         // edit link
         if(req.params.type === 'edit') {
-            let link = {};
-            link["header.links." +req.body.link_index] = {
-                link_text: req.body.link_text,
-                link_path: req.body.link_path
-            }
-            updatedWebsite = await Website.updateOne(
-                {
-                    _id: req.body.site_id,
-                    "header.links": {
-                        "$not": {
-                            "$elemMatch": {
-                                link_text: req.body.link_text,
-                                link_path: req.body.link_path
-                            }
-                        }
-                    },
-                },
-                {
-                    $set: link
-                });
+
+            updateLinks = await Link.findOneAndUpdate(
+                {_id: req.body._id},
+                { $set: { link_text: req.body.link_text, page: req.body.page }},
+                {new: true, useFindAndModify: false}).populate('page')
+
         }
-        res.json(updatedWebsite);
+
+        res.json(updateLinks);
 
     } catch (err) {
         res.json({message: err});

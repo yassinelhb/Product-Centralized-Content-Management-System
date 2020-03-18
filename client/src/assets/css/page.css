@@ -1,0 +1,97 @@
+.toolbar .input-search {
+    padding-top: 5px;
+}
+.pages-page_list .page-list_item {
+    background: #FFFFFF;
+    position: relative;
+    padding: 15px 25px;
+    border-radius: 30px;
+    margin-top: 5px;
+}
+
+.pages-page_list .page-list_item:hover {
+    background: #51bcda;
+    color: #FFFFFF;
+    position: relative;
+    padding: 15px 25px;
+    border-radius: 30px;
+    margin-top: 5px;
+}
+
+.pages-page_list .page-list_item .list-item_title {
+    font-size: 17px;
+    margin-bottom: 0;
+}
+.pages-page_list .page-list_item .item-dropdown {
+    position: absolute;
+    right: 25px;
+    top: 15px;
+}
+
+.pages-page_list .page-list_item .item-dropdown .item-btn_setting {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.pages-page_list .page-list_item .item-dropdown .item-btn_setting i:hover {
+    transition: 0.9s;
+    -webkit-transform: rotateZ(90deg);
+    -moz-transform: rotateZ(90deg);
+    transform: rotateZ(90deg);
+}
+
+.pages-page_list .page-list_item .item-dropdown .dropdown-menu .dropdown-item {
+    padding: 10px 15px;
+}
+.pages-page_list .page-list_item .item-dropdown .dropdown-menu .dropdown-item:hover {
+    background: transparent;
+    color: #51bcda !important;
+}
+.pages-page_list .page-list_item .item-dropdown .dropdown-menu .dropdown-item .nc-icon {
+    padding-right: 10px;
+}
+
+.tab-content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.nav-link .nav-link_title {
+
+}
+.menu_link .menu-link_item {
+    margin-bottom: -17px;
+}
+.menu_link .menu-link_item .link-item_title {
+    border: 1px solid #E1E1E1;
+    padding: 10px 15px;
+    width: 350px;
+    cursor: pointer;
+
+}
+
+.menu_link .menu-link_item .link-item_body {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #E1E1E1;
+}
+
+.menu_link .menu-link_item .link-item_body .btn {
+    margin-bottom: 0 ;
+}
+
+.menu_link .menu-link_item .link-item_title .item-title_text {
+    color: #3C4858;
+    font-size: 15px;
+}
+.menu_link .menu-link_item .link-item_title .item-title_toggle {
+    float: right;
+    padding-right: 15px;
+    font-size: 13px;
+    color: #3C4858;
+}
+.menu_link .menu-link_item .link-item_title .item-title_toggle i {
+    position: absolute;
+    margin-top: 4px;
+    margin-left: 5px;
+}

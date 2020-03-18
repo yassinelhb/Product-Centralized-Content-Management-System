@@ -1,6 +1,6 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const side_id = '5e6e43601f65cb3224f27471'
+const side_id = '5e7106ed7b59424314347c60'
 
 class website {
 

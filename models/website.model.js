@@ -32,16 +32,19 @@ const WebsiteSchema = new Schema({
             default: "header",
             required: true
         },
-        links: {
-            type: Array,
-            default: [
-                { link_text: "Home" , link_path: "/home" },
-                { link_text: "Index" , link_path: "/index" },
-                { link_text: "Category" , link_path: "/category" },
-                { link_text: "Contact" , link_path: "/contact" },
-            ]
-        },
+        links:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Link"
+            }
+        ],
     },
+    pages: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Page"
+        }
+    ],
     date: {
         type: Date,
         default: Date.now

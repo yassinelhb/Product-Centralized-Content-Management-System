@@ -169,7 +169,7 @@ class Header extends React.Component {
         serviceSite.linkSite(this.state.link,'remove')
             .then(
                 this.setState({
-                    links: this.state.links.filter((link,i) => i != this.state.link.link_index)
+                    links: this.state.links.filter((link,i) => i !== this.state.link.link_index)
                 })
             )
     }
