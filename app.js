@@ -13,11 +13,12 @@ const bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var themesRouter = require('./routes/theme');
+var links_boxRouter = require('./routes/links_box');
 
 
 var app = express();
-app.use(cors())
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.json());
 
 
 // view engine setup
