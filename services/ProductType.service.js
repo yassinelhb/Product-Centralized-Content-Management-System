@@ -3,13 +3,13 @@ const ProductType = require('../models/ProductType.model');
 // get all Product Types
 exports.getAllTypes =   (req, res) =>{
    ProductType.find()
-        .then(productTypes => res.json(productTypes))
-        .catch(err => res.status(400).json('Error: ' + err));
+              .then(productTypes => res.json(productTypes))
+              .catch(err => res.status(400).json('Error: ' + err));
 
 };
 
 // create a new product type
-exports.Create = async  (req, res) => {
+exports.create = async  (req, res) => {
     const type = new ProductType({
         name: req.body.name,
         description: req.body.description

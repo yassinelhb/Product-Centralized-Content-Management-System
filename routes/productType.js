@@ -8,7 +8,7 @@ var ProductTypeService = require('../services/ProductType.service');
 router.get('/', ProductTypeService.getAllTypes);
 
 // create a new product type
-router.post('/', ProductTypeService.Create);
+router.post('/', ProductTypeService.create);
 
 // get a type by id
 router.get('/:typeId', ProductTypeService.getById);
