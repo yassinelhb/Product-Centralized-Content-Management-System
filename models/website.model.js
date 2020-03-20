@@ -45,6 +45,25 @@ const WebsiteSchema = new Schema({
             ref: "Page"
         }
     ],
+    ads_banners: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Ads_banner"
+        }
+    ],
+    Language: {
+        type: String,
+        required: true
+    },
+    Contry: {
+        type: String,
+        required: true
+    },
+    Curreny_sign: {
+        type: String,
+        required: true
+    },
+
     date: {
         type: Date,
         default: Date.now
