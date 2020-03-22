@@ -49,6 +49,7 @@ app.use('/website', websitesRouter);
 app.use('/productProperty', ProductPropertyRouter);
 app.use('/productSubType', ProductSubTypeRouter);
 app.use('/propertyLabel', PropertyLabelRouter);
+
 app.use('/product', ProductRouter);
 
 
