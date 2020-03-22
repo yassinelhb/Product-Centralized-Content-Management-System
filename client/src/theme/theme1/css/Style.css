@@ -8,6 +8,7 @@ body {
 }
 .navbar {
     background: #0e2453;
+    margin-bottom: 0px;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -77,4 +78,25 @@ body {
 
 .btn-primary:hover, .btn-primary:focus {
     background: #0c2646 !important;
+}
+
+
+
+
+
+
+/* breadcrumb */
+
+.breadcrumb {
+    color: #5e5e5e;
+    background: transparent;
+    padding-left: 0px;
+}
+.breadcrumb .navigation_pipe {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.category_intro .category_name {
+    font-size: 15px;
 }

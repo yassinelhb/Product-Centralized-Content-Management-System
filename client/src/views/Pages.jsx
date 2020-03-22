@@ -33,33 +33,39 @@ import {
   Col, DropdownToggle, DropdownMenu, DropdownItem, Dropdown
 } from "reactstrap";
 import "../assets/css/page.css";
+import { Link} from "react-router-dom";
 
 
 class Pages extends React.Component {
 
-  state = {
-    visible: true,
-    isOpen: false,
-    dropdownOpen: false,
-    color: "transparent"
-  };
+  constructor() {
+    super();
+    this.state = {
+      page : {}
+    }
+  }
 
+  clicke= (page) => {
+    this.setState({
+      page : page
+    })
+  }
   render() {
 
-    const pages = this.props.website.pages ?
+    const pages = this.props.website.pages &&
         this.props.website.pages.map((page) =>
-          <div className="page-list_item">
+          <div className="page-list_item" key={page._id}>
             <p className="list-item_title">{ page.page_name }</p>
-            <div className="dropdown item-dropdown">
+            <div className="dropdown item-dropdown" onClick={ () => this.clicke(page)}>
                            <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
                              <i className="nc-icon nc-settings-gear-65"></i>
                            </span>
               <div className="dropdown-menu dropdown-menu-right">
-                <a className="dropdown-item" href="#">
+                <Link className="dropdown-item" to={'/block-editor/' + page._id } >
                   <i className="nc-icon nc-ruler-pencil"></i>
                   Edit
-                </a>
-                <a className="dropdown-item" href="#">
+                </Link>
+                <a className="dropdown-item" >
                   <i className="nc-icon nc-caps-small"></i>
                   Rename
                 </a>
@@ -71,7 +77,7 @@ class Pages extends React.Component {
               </div>
             </div>
           </div>
-        ) : ''
+        )
 
 
     return (
@@ -84,9 +90,9 @@ class Pages extends React.Component {
                 <CardHeader>
                   <Row>
                     <div className="col-auto mr-auto">
-                      <button className="btn btn-primary">
+                      <Link className="btn btn-info" to={'/block-editor'}>
                         Add page
-                      </button>
+                      </Link>
                     </div>
                     <div className="col-auto toolbar">
                       <div className="no-border input-group input-search">

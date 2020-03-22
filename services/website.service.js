@@ -1,6 +1,10 @@
 const Website = require('../models/website.model')
 const Page = require('../models/page.model')
 const Link = require('../models/link.model')
+const Layout = require('../models/layout.model')
+const xlsx = require("xlsx")
+
+const fs = require("fs")
 
 
 // get back all the websites
@@ -23,39 +27,58 @@ exports.addWebsite = async  (req, res) => {
     });
     try {
         const savedWebsite = await website.save(
-            createPages(website._id)
-        );
+            addLayouts(req.body.layouts,website._id)
+        )
         res.json(savedWebsite);
+
     } catch (err) {
         res.json({message: err});
     }
 }
 
-const createPages = function(websiteId){
+const addLayouts = function(layouts,websiteId){
 
-    const arrayPages = [
-        new Page({ page_name : 'home', description : 'home description'}),
-        new Page({ page_name : 'index', description : 'index description'}),
-        new Page({ page_name : 'category', description : 'category description'}),
-        new Page({ page_name : 'contact', description : 'contact description'})]
+    layouts.forEach(async (item, index)=> {
+        const layout = new Layout(item)
+        await layout.save(
+              index < 4 &&  addPages(layout,websiteId)
+        )
 
+        await Website.updateOne(
+            { _id: websiteId },
+            { $push: { layouts : layout._id }}
+        )
 
-    arrayPages.forEach(async (page)=> {
-            const savedPage = await page.save();
-
-            const link = new Link({
-                link_text: page.page_name,
-                page: savedPage._id
-            })
-            const savedLink = await link.save();
-
-            await Website.updateOne(
-                { _id: websiteId },
-                { $push: { pages : savedPage._id , 'header.links' : savedLink._id }}
-            );
     })
 
+}
 
+const addPages = async  function(layout,websiteId){
+
+    const page = new Page({
+        page_name : layout.layout_name,
+        layout : layout._id
+    })
+
+    await page.save(
+        addLinks(page,layout,websiteId)
+    )
+
+}
+
+const addLinks = async function(page, layout, websiteId) {
+
+    const link = new Link({
+        link_text: page.page_name,
+        page: page._id
+    })
+
+    await link.save(
+        await Website.updateOne(
+            { _id: websiteId },
+            { $push: { pages : page._id , 'header.links' : link._id }}
+        )
+    )
 }
 
 // specific website
@@ -63,13 +86,22 @@ exports.getOneWebsite = async  (req, res) => {
     try {
         const website = await Website.findById(req.params.siteId)
             .populate('theme')
-            .populate('pages')
+            .populate('layouts')
             .populate({
-                    path: 'header.links',
+                path: 'pages',
+                populate: {
+                    path: 'layout'
+                }
+            })
+            .populate({
+                path: 'header.links',
+                populate: ({
+                    path: 'page',
                     populate: {
-                        path: 'page'
+                        path: 'layout'
                     }
-                });
+                })
+            });
 
         res.json(website);
     } catch (err) {
@@ -119,7 +151,12 @@ exports.updateLinksHeader = async  (req, res) => {
                 page :  req.body.page
             })
 
-            updateLinks =  await link.save().then(link => link.populate('page').execPopulate())
+            updateLinks =  await link.save().then(link => link.populate({
+                path: 'page',
+                populate: {
+                    path: 'layout'
+                }
+            }).execPopulate())
 
             await Website.updateOne(
                     { _id: req.body.site_id},
@@ -133,7 +170,13 @@ exports.updateLinksHeader = async  (req, res) => {
             updateLinks = await Link.findOneAndUpdate(
                 {_id: req.body._id},
                 { $set: { link_text: req.body.link_text, page: req.body.page }},
-                {new: true, useFindAndModify: false}).populate('page')
+                {new: true, useFindAndModify: false})
+                .populate({
+                    path: 'page',
+                    populate: {
+                        path: 'layout'
+                    }
+                })
 
         }
 
