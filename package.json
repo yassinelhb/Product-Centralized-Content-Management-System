@@ -15,7 +15,8 @@
     "http-errors": "~1.6.3",
     "mongoose": "^5.9.4",
     "morgan": "~1.9.1",
-    "twig": "~0.10.3"
+    "twig": "~0.10.3",
+    "xlsx": "^0.15.6"
   },
   "devDependencies": {
     "jsonwebtoken": "^8.5.1"

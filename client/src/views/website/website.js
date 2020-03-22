@@ -28,16 +28,16 @@ class Website extends React.Component {
         return <Header links = { website.header.links} logo = { website.logo_pic } pages = { website.pages } />
    }
 
-   loadComponent(website,link) {
-       return  React.lazy(() => import('../../theme/'+website.theme.theme_name+'/views/'+link.link_text))
+   loadComponent(website,page) {
+       return  React.lazy(() => import('../../theme/'+website.theme.theme_name+'/views/'+page.page_name))
    }
 
 
     render() {
         const website = this.state.website
-        const router = website.header ? (
-            website.header.links.map((link,index) =>
-             <Route path={`${this.props.match.url}/`+link.link_path} component={this.loadComponent(website,link)} key={index}/>
+        const router = website.pages ? (
+            website.pages.map((page) =>
+             <Route path={`${this.props.match.url}/`+page.layout.layout_name} component={this.loadComponent(website,page)} key={page._id}/>
              )
         ) : ''
 

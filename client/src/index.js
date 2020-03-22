@@ -28,6 +28,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 import AdminLayout from "layouts/Admin.jsx";
 import Website from "./views/website/website";
+import BlockEditor from "./views/block-editor/layouts/block-editor";
 
 const hist = createBrowserHistory();
 
@@ -35,6 +36,8 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/website" component={Website} />
+        <Route exact path="/block-editor" component={BlockEditor} />
+        <Route path="/block-editor/:pageId" component={BlockEditor} />
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Redirect to="/admin/dashboard" />
     </Switch>

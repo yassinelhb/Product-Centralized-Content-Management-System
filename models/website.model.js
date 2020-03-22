@@ -45,6 +45,12 @@ const WebsiteSchema = new Schema({
             ref: "Page"
         }
     ],
+    layouts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Layout",
+        }
+    ],
     date: {
         type: Date,
         default: Date.now
