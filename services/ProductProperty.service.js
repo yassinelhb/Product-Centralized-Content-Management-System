@@ -57,4 +57,15 @@ exports.update = async  (req, res) => {
         res.json({message: err});
     }
 };
-
+// assign a sub-type to a product property
+exports.assignSubType = async  (req, res) => {
+    try {
+        const updated = await Property.updateOne(
+            { _id: req.params.propertyId },
+            { $set: { subType: req.body.subType }}
+        );
+        res.json(updated);
+    } catch (err) {
+        res.json({message: err});
+    }
+};

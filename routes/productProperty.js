@@ -18,6 +18,6 @@ router.delete('/:propertyId', PropertyService.delete);
 
 // update a property
 router.put('/:propertyId', PropertyService.update);
-
-
+// assign a sub-type to a product property
+router.put('/assignSubType/:propertyId', PropertyService.assignSubType);
 module.exports = router;
