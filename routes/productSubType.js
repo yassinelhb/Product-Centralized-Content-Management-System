@@ -20,6 +20,6 @@ router.delete('/:subTypeId', SubTypeService.delete);
 router.put('/:subTypeId', SubTypeService.update);
 
 // assign a type to a sub-type
-router.put('/:subTypeId', SubTypeService.assignType);
+router.put('/assignType/:subTypeId', SubTypeService.assignType);
 
 module.exports = router;

@@ -19,7 +19,10 @@ var links_boxRouter = require('./routes/links_box')
 
 var ProductTypeRouter = require('./routes/productType');
 var websitesRouter = require('./routes/website');
-var ProductSubTypeRouter = require('./routes/productSubType')
+var ProductSubTypeRouter = require('./routes/productSubType');
+var ProductPropertyRouter = require('./routes/productProperty');
+var PropertyLabelRouter = require('./routes/propertyLabel');
+
 var Ads_bannerRouter = require('./routes/ads_banner');
 
 
@@ -43,7 +46,12 @@ app.use('/users', usersRouter);
 app.use('/theme', themesRouter);
 app.use('/productType', ProductTypeRouter);
 app.use('/website', websitesRouter);
+app.use('/productProperty', ProductPropertyRouter);
 app.use('/productSubType', ProductSubTypeRouter);
+app.use('/propertyLabel', PropertyLabelRouter);
+
+
+
 
 
 
