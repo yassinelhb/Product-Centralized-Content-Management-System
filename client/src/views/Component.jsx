@@ -163,7 +163,7 @@ class Pages extends React.Component {
                                { links }
                              </div>
                              <div className="link-btn_add">
-                               <button className="btn btn-primary" onClick={ () => this.addClick() }>
+                               <button className="btn btn-info" onClick={ () => this.addClick() }>
                                      <i className= { this.state.toggle_add ? "nc-icon nc-simple-remove" : "nc-icon nc-simple-add"}></i>
                                      &nbsp;Add link
                                </button>

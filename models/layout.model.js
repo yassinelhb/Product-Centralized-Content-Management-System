@@ -2,14 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const PageSchema  = new Schema({
-    page_name: {
+const LayoutSchema  = new Schema({
+    layout_name: {
         type: String,
         required: true
     },
-    layout: {
-        type: Schema.Types.ObjectId,
-        ref: "Layout",
+    layout_img: {
+        type: String,
         required: true
     },
     date: {
@@ -18,4 +17,4 @@ const PageSchema  = new Schema({
     }
 })
 
-module.exports = mongoose.model('Page' , PageSchema)
+module.exports = mongoose.model('Layout' , LayoutSchema)

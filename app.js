@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 require('./config/database');
 
 const bodyParser = require('body-parser');
@@ -21,6 +22,7 @@ var websitesRouter = require('./routes/website');
 var ProductSubTypeRouter = require('./routes/productSubType');
 var ProductPropertyRouter = require('./routes/productProperty');
 var PropertyLabelRouter = require('./routes/propertyLabel');
+var ProductRouter = require('./routes/product');
 
 var Ads_bannerRouter = require('./routes/ads_banner');
 
@@ -50,6 +52,9 @@ app.use('/productSubType', ProductSubTypeRouter);
 app.use('/propertyLabel', PropertyLabelRouter);
 app.use('/ads_banner', Ads_bannerRouter);
 app.use('/links_box', links_boxRouter);
+
+app.use('/product', ProductRouter);
+
 
 
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const side_id = '5e7106ed7b59424314347c60'
+const side_id = '5e766d4f18dead0e6c2612b6'
 
 class website {
 
@@ -8,6 +8,19 @@ class website {
     webSite = () => {
         return new Promise((resolve, reject) => {
             axios.get(api + `website/`+side_id)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
+    importXlsx = (formData,config) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `website/page`,formData,config)
                 .then(res => {
                     resolve(res.data);
                 })

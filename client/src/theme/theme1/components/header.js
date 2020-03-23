@@ -12,6 +12,7 @@ class Header extends React.Component {
         this.state = {
             edit: false,
             links: this.props.links,
+            toggle_edit : false
         }
     }
 
@@ -21,6 +22,7 @@ class Header extends React.Component {
             edit: !this.state.edit
         })
     }
+
     saveButtonClick  = () => {
         this.setState({
             edit: !this.state.edit
@@ -80,6 +82,17 @@ class Header extends React.Component {
             )
     }
 
+    mouseEnterHandle = () => {
+        this.setState({
+            toggle_edit: true
+        })
+    }
+
+    mouseLeaveHandle = () => {
+        this.setState({
+            toggle_edit: false
+        })
+    }
 
     render() {
 
@@ -117,7 +130,7 @@ class Header extends React.Component {
                 </li>
             ) : (
                 <li className="nav-item" key={link._id} >
-                    <Link className="nav-link" to={`/website/`+link.page.page_name}>
+                    <Link className="nav-link" to={`/website/`+link.page.layout.layout_name}>
                         { link.link_text }
                     </Link>
                 </li>
@@ -146,19 +159,23 @@ class Header extends React.Component {
                     </div>
                 </li>
                 <li className="nav-item nav-item-setting">
-                    <button className="nav-btn"  onClick={ this.saveButtonClick} data-toggle-second="tooltip" title="Click to save!"> Save </button>
+                    <button className="nav-btn"  onClick={ this.saveButtonClick } data-toggle-second="tooltip" title="Click to save!"> Save </button>
                 </li>
             </>
         ) : (
-            <li className="nav-item nav-item-setting" >
-                 <button className="nav-btn" onClick={this.editButtonClick} >
-                     Edit
-                 </button>
-            </li>
+
+            this.state.toggle_edit ? (
+                <li className="nav-item nav-item-setting" >
+                    <button className="nav-btn" onClick={this.editButtonClick} >
+                        Edit
+                    </button>
+                </li>
+            ) : ''
+
         )
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-light">
+            <nav className="navbar navbar-expand-lg navbar-light" onMouseEnter={ () => this.mouseEnterHandle() }  onMouseLeave={ () => this.mouseLeaveHandle() }>
                 <div className="container">
                     <a className="navbar-brand" href="#">
                         <img src={ require('../../../assets/img/'+ logo)}/>
