@@ -26,6 +26,7 @@ import UserPage from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
 import Pages from "views/Pages.jsx";
 import Component from "views/Component.jsx";
+import productTypes from "views/productType/productTypes";
 
 var routes = [
   {
@@ -40,6 +41,13 @@ var routes = [
     name: "Pages",
     icon: "nc-icon nc-single-copy-04",
     component: Pages,
+    layout: "/admin"
+  },
+  {
+    path: "/productTypes",
+    name: "Types",
+    icon: "nc-icon nc-single-copy-04",
+    component: productTypes,
     layout: "/admin"
   },
   {
