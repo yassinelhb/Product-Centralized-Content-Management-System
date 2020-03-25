@@ -55,7 +55,7 @@ var routes = [
   },
   {
     path: "/productTypes",
-    name: "Types",
+    name: "Product Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
     layout: "/admin"
