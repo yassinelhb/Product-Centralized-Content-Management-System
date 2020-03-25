@@ -56,6 +56,8 @@ app.use('/website', websitesRouter);
 app.use('/productProperty', ProductPropertyRouter);
 app.use('/productSubType', ProductSubTypeRouter);
 app.use('/propertyLabel', PropertyLabelRouter);
+app.use('/ads_banner', Ads_bannerRouter);
+app.use('/links_box', links_boxRouter);
 
 app.use('/product', ProductRouter);
 

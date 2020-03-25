@@ -23,7 +23,10 @@ exports.addWebsite = async  (req, res) => {
         domain: req.body.domain,
         logo_pic: req.body.logo_pic,
         site_name: req.body.site_name,
-        theme: req.body.theme
+        theme: req.body.theme,
+        Language: req.body.Language,
+        Contry:req.body.Contry ,
+        Curreny_sign:req.body.Curreny_sign
     });
     try {
         const savedWebsite = await website.save(
@@ -65,6 +68,9 @@ const addPages = async  function(layout,websiteId){
     )
 
 }
+
+
+
 
 const addLinks = async function(page, layout, websiteId) {
 
