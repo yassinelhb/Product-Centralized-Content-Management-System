@@ -26,13 +26,21 @@ import UserPage from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
 import Pages from "views/Pages.jsx";
 import Component from "views/Component.jsx";
-
+import register from "views/register/register.jsx"
+import Login from "views/Login/Login.jsx";
 var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
     component: Dashboard,
+    layout: "/admin"
+  },
+  {
+    path: "/register",
+    name: "register",
+    icon: "nc-icon nc-bank",
+    component: register,
     layout: "/admin"
   },
   {

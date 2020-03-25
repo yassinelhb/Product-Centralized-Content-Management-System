@@ -12,6 +12,9 @@ exports.getuser = async function (req, res) {
 }
 
 exports.register = async  (req, res) => {
+    const user = res.locals.user;
+    console.log(user);
+    if(user.role==="admin"){
     users.findOne({ email: req.body.email }).then(user => {
         if (!user) {
             const User = new users({
@@ -32,6 +35,8 @@ else {
         res.json({error : " User already exist"})
     }
     })
+    }
+    else {  res.json({error : " You cant"})}
 }
 
 exports.login = async  (req, res) => {
@@ -43,16 +48,35 @@ exports.login = async  (req, res) => {
                 var token = jwt.sign({users}, 'secret', {expiresIn: 3600})
                 res.json(token)
             } else {
-                res.status(401).json("Mot de passe incorrecte ")
+                res.json({error : "Mot de passe incorrecte "});
             }
         }
     })
 }
 
-exports.loginn = async  (req, res) => {
+exports.loginn = async  (req, res , next) => {
     const token = req.headers.authorization;
-    if(token){res.json({error: "User existe "});}
+    if(token){
+    const user = parseToken(token);
+    users.findById(user.users._id, function (err , user) {
+        if(err){return res.json({error: "User n'existe pas"});}
+        if(user){
+            res.locals.user = user;
+            next();
+        }
+        else {
+            return res.json({error: "User n'existe pas 3"});
+        }
+    })
+
+    }
     else{res.json({error: "User n'existe pas"});}
 
 
 }
+function parseToken(token) {
+    return jwt.verify(token.split(' ')[1],'secret');
+    
+}
+
+
