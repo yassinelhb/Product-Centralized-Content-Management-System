@@ -76,7 +76,7 @@ class productTypes extends React.Component {
 
                       {
                         types.length ?
-                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><row><UpdateProductType typeId={type._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(type)} >Add to website</Button></row></td></tr>) :
+                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><div className="row"><UpdateProductType typeId={type._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(type)} >Add to website</Button></div></td></tr>) :
                             null
                       }
 

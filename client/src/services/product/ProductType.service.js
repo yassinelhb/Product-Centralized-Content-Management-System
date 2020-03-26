@@ -91,7 +91,18 @@ class ProductType {
         })
 
     };
+    typesPagesByWebsite = (websiteid) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productType/typesPagesByWebsite/`+websiteid)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
 
 }
 

@@ -81,3 +81,15 @@ exports.getByWebsite =   (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
+// get  Product Types pages by website
+exports.getTypesPagesByWebsite =   (req, res) =>{
+    Page.find({website:req.params.websiteId})
+        .then(pages => {
+
+            res.json(pages);
+
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+
+};
