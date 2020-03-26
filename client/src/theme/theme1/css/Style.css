@@ -100,3 +100,45 @@ body {
 .category_intro .category_name {
     font-size: 15px;
 }
+
+.section-best_category {
+    background-image: url("../assets/img/img2.jpg");
+    padding-top: 50px;
+    padding-bottom: 25px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.section-best_category .best_category_text {
+    font-size: 35px;
+}
+
+.section-best_category .best_category_desc {
+    font-size: 19px;
+    padding-bottom: 35px;
+}
+
+.section-best_category .best_category_list .list_best {
+    width: 70%;
+}
+
+.section-best_category .best_category_list .best_category_item {
+    background: #FFFFFF;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(99, 99, 99, 0.67);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.best_category_list .best_category_item .category_item_icon {
+    font-size: 25px;
+}
+
+.best_category_list .best_category_item .category_item_text {
+    font-size: 16px;
+    margin: 0;
+}
+
+

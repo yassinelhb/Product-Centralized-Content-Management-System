@@ -2,6 +2,7 @@ import React, {Suspense, Fragment} from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import serviceSite from '../../services/website.service'
 import Category from "../../theme/theme1/views/category";
+import NavTools from "../../components/Navbars/NavTools";
 
 
 class Website extends React.Component {
@@ -14,7 +15,6 @@ class Website extends React.Component {
 
     }
    componentDidMount() {
-
         serviceSite.webSite()
             .then( res => {
             this.setState({
@@ -29,7 +29,8 @@ class Website extends React.Component {
    }
 
    loadComponent(website,page) {
-       return  React.lazy(() => import('../../theme/'+website.theme.theme_name+'/views/'+page.page_name))
+       const Componant =  React.lazy(() => import('../../theme/'+website.theme.theme_name+'/views/'+page.layout.layout_name))
+       return <Componant page={ page } editor = { true } />
    }
 
 
@@ -37,22 +38,21 @@ class Website extends React.Component {
         const website = this.state.website
         const router = website.pages ? (
             website.pages.map((page) =>
-             <Route path={`${this.props.match.url}/`+page.layout.layout_name} component={this.loadComponent(website,page)} key={page._id}/>
+             <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(website,page)} key={page._id}/>
              )
         ) : ''
 
 
          return (
             <div className="wrapper">
+                <NavTools/>
                 <Suspense fallback={<div>Loading ...</div>}>
                     { website.theme ?  this.loadHeader(website) : ''  }
                 </Suspense>
                 <div className="wrapper-content">
-                    <div className="container">
-                        <Suspense fallback={<div>Loading ...</div>}>
-                          { router }
-                        </Suspense>
-                    </div>
+                    <Suspense fallback={<div>Loading ...</div>}>
+                      { router }
+                    </Suspense>
                 </div>
             </div>
         );

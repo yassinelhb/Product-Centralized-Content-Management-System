@@ -16,6 +16,6 @@ const PageSchema  = new Schema({
         type: Date,
         default: Date.now
     }
-})
+}, {strict: false})
 
 module.exports = mongoose.model('Page' , PageSchema)

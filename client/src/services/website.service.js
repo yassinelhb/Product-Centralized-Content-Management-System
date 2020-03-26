@@ -1,6 +1,6 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const side_id = '5e766d4f18dead0e6c2612b6'
+const side_id = '5e7a2899fcec973c4457e1d0'
 
 class website {
 
@@ -18,9 +18,9 @@ class website {
 
     };
 
-    importXlsx = (formData,config) => {
+    category = () => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `website/page`,formData,config)
+            axios.get(api + `productType`)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -45,42 +45,6 @@ class website {
 
     };
 
-    getProduct = () => {
-        const data = [
-            {
-                id: 'php',
-                label: 'php',
-                value: 372,
-                color: 'hsl(233, 70%, 50%)'
-            },
-            {
-                id: 'scala',
-                label: 'scala',
-                value: 363,
-                color: 'hsl(15, 70%, 50%)'
-            },
-            {
-                id: 'go',
-                label: 'go',
-                value: 597,
-                color: 'hsl(79, 70%, 50%)'
-            },
-            {
-                id: 'css',
-                label: 'css',
-                value: 524,
-                color: 'hsl(142, 70%, 50%)'
-            },
-            {
-                id: 'hack',
-                label: 'hack',
-                value: 514,
-                color: 'hsl(198, 70%, 50%)'
-            }
-        ];
-        return data
-    }
-
     getThemes = () => {
         return new Promise((resolve, reject) => {
             axios.get(api + `theme`)
@@ -94,7 +58,46 @@ class website {
 
     };
 
-}
+    addPage = (page) => {
+        page.site_id = side_id
+        return new Promise((resolve, reject) => {
+            axios.post(api + `website/page`, page)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    }
+
+    savePage = (page) => {
+        page.site_id = side_id
+        return new Promise((resolve, reject) => {
+            axios.patch(api + `website/page`, page)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    }
+
+
+    deletePage = (pageId) => {
+        return new Promise((resolve, reject) => {
+            axios.delete(api + `website/page/` + pageId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    }
+
+    }
 
 const instance = new website()
 

@@ -13,6 +13,7 @@
     "perfect-scrollbar": "1.4.0",
     "popper.js": "^1.16.1",
     "react": "16.8.6",
+    "react-bootstrap": "^1.0.0",
     "react-chartjs-2": "2.7.6",
     "react-dom": "16.8.6",
     "react-draft-wysiwyg": "^1.14.4",

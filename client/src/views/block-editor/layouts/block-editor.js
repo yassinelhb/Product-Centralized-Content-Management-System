@@ -20,7 +20,6 @@ class BlockEditor extends React.Component {
     }
 
     componentDidMount() {
-
         serviceSite.webSite()
             .then( res => {
                 this.setState({

@@ -2,12 +2,10 @@ const Website = require('../models/website.model')
 const Page = require('../models/page.model')
 const Link = require('../models/link.model')
 const Layout = require('../models/layout.model')
-const xlsx = require("xlsx")
-
-const fs = require("fs")
 
 
-// get back all the websites
+
+// get all website
 exports.getWebsites = async function (req, res) {
     try {
         const websites = await Website.find();
@@ -17,13 +15,17 @@ exports.getWebsites = async function (req, res) {
     }
 }
 
-// submit a website
+// add website
 exports.addWebsite = async  (req, res) => {
     const website = new Website({
         domain: req.body.domain,
         logo_pic: req.body.logo_pic,
         site_name: req.body.site_name,
-        theme: req.body.theme
+        theme: req.body.theme,
+        Contry: req.body.Contry,
+        Curreny_sign: req.body.Curreny_sign,
+        Language: req.body.Language
+
     });
     try {
         const savedWebsite = await website.save(
@@ -53,6 +55,8 @@ const addLayouts = function(layouts,websiteId){
 
 }
 
+
+
 const addPages = async  function(layout,websiteId){
 
     const page = new Page({
@@ -81,7 +85,7 @@ const addLinks = async function(page, layout, websiteId) {
     )
 }
 
-// specific website
+// get website by Id
 exports.getOneWebsite = async  (req, res) => {
     try {
         const website = await Website.findById(req.params.siteId)
@@ -186,4 +190,3 @@ exports.updateLinksHeader = async  (req, res) => {
         res.json({message: err});
     }
 }
-
