@@ -1,4 +1,5 @@
 const ProductType = require('../models/ProductType.model');
+const Page = require('../models/page.model');
 
 // get all Product Types
 exports.getAllTypes =   (req, res) =>{
@@ -55,3 +56,12 @@ exports.update = async  (req, res) => {
     }
 };
 
+// assign a product type to a website
+exports.assignTypeToWebsite = async  (req, res) => {
+    const saved = await Page.create(req.body).then((s)=>res.json(s)).catch(err => res.status(400).json('Error: ' + err));
+};
+// get  Product Types by website
+exports.getByWebsite =   (req, res) =>{
+
+
+};
