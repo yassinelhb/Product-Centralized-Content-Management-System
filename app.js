@@ -23,6 +23,7 @@ var pagesRouter = require('./routes/page');
 var ProductSubTypeRouter = require('./routes/productSubType');
 var ProductPropertyRouter = require('./routes/productProperty');
 var PropertyLabelRouter = require('./routes/propertyLabel');
+var ProductRouter = require('./routes/product');
 
 var Ads_bannerRouter = require('./routes/ads_banner');
 
@@ -51,6 +52,11 @@ app.use('/page', pagesRouter);
 app.use('/productProperty', ProductPropertyRouter);
 app.use('/productSubType', ProductSubTypeRouter);
 app.use('/propertyLabel', PropertyLabelRouter);
+app.use('/ads_banner', Ads_bannerRouter);
+app.use('/links_box', links_boxRouter);
+
+app.use('/product', ProductRouter);
+
 
 
 

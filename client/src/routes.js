@@ -19,6 +19,7 @@
 import Dashboard from "views/Dashboard.jsx";
 import Notifications from "views/Notifications.jsx";
 import Icons from "views/Icons.jsx";
+import Websites from "views/Websites.jsx";
 import Typography from "views/Typography.jsx";
 import TableList from "views/Tables.jsx";
 import Maps from "views/Map.jsx";
@@ -26,6 +27,7 @@ import UserPage from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
 import Pages from "views/Pages.jsx";
 import Component from "views/Component.jsx";
+import productTypes from "views/productType/productTypes";
 
 var routes = [
   {
@@ -43,6 +45,13 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/productTypes",
+    name: "Product Types",
+    icon: "nc-icon nc-single-copy-04",
+    component: productTypes,
+    layout: "/admin"
+  },
+  {
     path: "/component",
     name: "Component",
     icon: "nc-icon nc-tile-56",
@@ -50,10 +59,10 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "nc-icon nc-diamond",
-    component: Icons,
+    path: "/Websites",
+    name: "Websites",
+    icon: "nc-icon nc-globe",
+    component: Websites,
     layout: "/admin"
   },
   {

@@ -4,7 +4,7 @@ var PropertyService = require('../services/ProductProperty.service');
 
 
 
-// get all property
+// get all properties
 router.get('/', PropertyService.getAll);
 
 // create a new property
