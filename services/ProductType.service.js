@@ -77,6 +77,7 @@ exports.assignTypeToWebsite = async  (req, res) => {
         })
         .catch(err => res.status(400).json('Error: ' + err));
 };
+
 // get  Product Types by website
 exports.getByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId,type:"category"})

@@ -1,7 +1,7 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const websiteId = '5e70c6b0a2ad2d38a47e8ccd';
-const layout='5e76426f402b071f78fcc05d';
+const websiteId = '5e7ce3309f0d3737e8980743';
+const layout='5e7ce3309f0d3737e8980744';
 class ProductType {
 
 
@@ -29,6 +29,7 @@ class ProductType {
         })
 
     };
+
     assignTypeToWebsite = (type) => {
         return new Promise((resolve, reject) => {
             const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};

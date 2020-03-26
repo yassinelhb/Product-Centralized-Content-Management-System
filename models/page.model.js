@@ -15,7 +15,12 @@ const PageSchema  = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    website: {
+        type: Schema.Types.ObjectId,
+        ref: "Website",
+        required: true
+    },
 
 }, {strict: false});
 

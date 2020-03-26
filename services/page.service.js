@@ -2,11 +2,15 @@ const Page = require('../models/page.model')
 const Website = require('../models/website.model')
 
 
-
 // get all pages
 exports.getPages = async function (req, res) {
     try {
-        const pages = await Page.find();
+        const pages = await Page.find({ website : req.params.siteId }).populate('layout').populate({
+            path: 'website',
+            populate: {
+                path: 'theme'
+            }
+        })
         res.json(pages)
     } catch (err) {
         res.json({ message: err });
@@ -28,14 +32,17 @@ exports.getOnePage = async  (req, res) => {
 
 // add page
 exports.addPage = async  (req, res) => {
-    try {
-        
-        const addedPage = await Page.create(req.body).then(result => result.populate('layout').execPopulate())
-        await Website.updateOne(
-            { _id: req.params.siteId},
-            { $push: { "pages" : addedPage._id }})
 
-        res.json(addedPage);
+    try {
+        const exist = await Page.find({ website : req.body.website, page_name : req.body.page_name }).count()
+
+        if (exist === 0) {
+            const addedPage = await Page.create(req.body).then(result => result.populate('layout').execPopulate())
+            res.json(addedPage);
+        } else {
+            res.json({message: 'Page already exist'})
+        }
+
 
     } catch (err) {
         res.json({message: err});
@@ -47,13 +54,22 @@ exports.addPage = async  (req, res) => {
 exports.updatePage = async  (req, res) => {
     try {
 
-        const updatedPage = await Page.findOneAndUpdate(
-            { _id: req.body._id },
-            { $set: req.body },
-            {new: true, useFindAndModify: false}
-        ).populate('layout')
+        const exist = await Page.find({ website : req.body.website, page_name : req.body.page_name, _id : {$ne: req.body._id } }).count()
 
-        res.json(updatedPage);
+        if ( exist === 0) {
+
+            const updatedPage = await Page.findOneAndUpdate(
+                { _id: req.body._id },
+                { $set: req.body },
+                {new: true, useFindAndModify: false}
+            ).populate('layout')
+
+            res.json(updatedPage);
+        } else {
+            res.json({message: 'Page already exist'})
+        }
+
+
 
     } catch (err) {
         res.json({message: err});

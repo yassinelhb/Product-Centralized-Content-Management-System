@@ -35,6 +35,7 @@ import {
 import "../assets/css/page.css";
 import Link from "../components/Link/Link";
 import serviceSite from "../services/website.service";
+import servicePage from "../services/page.service";
 
 
 class Pages extends React.Component {
@@ -44,8 +45,18 @@ class Pages extends React.Component {
 
     this.state = {
       links : props.website.header?.links,
-      toggle_add: false
+      toggle_add: false,
+      pages : ''
     }
+  }
+
+  componentDidMount() {
+    servicePage.getPage()
+        .then(res =>
+            this.setState({
+                pages: res
+            })
+        )
   }
 
   handleLink = (link) => {
@@ -97,8 +108,8 @@ class Pages extends React.Component {
 
   render() {
 
-    const pages = this.props.website.pages ? (
-        this.props.website.pages.map(page =>
+    const pages = this.state.pages ? (
+        this.state.pages.map(page =>
            <option key={page._id} value={page._id}> { page.page_name} </option>
         )
     ) : ''
@@ -172,7 +183,7 @@ class Pages extends React.Component {
                          </div>
                          <div className="col-md-5 offset-md-1 add_link">
                            { this.state.toggle_add ?
-                               <Link pages={ this.props.website.pages } link = { this.handleLink } /> : ''
+                               <Link pages={ this.state.pages } link = { this.handleLink } /> : ''
                            }
                          </div>
                        </Row>

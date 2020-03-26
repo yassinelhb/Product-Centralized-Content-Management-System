@@ -41,14 +41,10 @@ exports.addWebsite = async  (req, res) => {
 const addLayouts = function(layouts,websiteId){
 
     layouts.forEach(async (item, index)=> {
+        item.website = websiteId
         const layout = new Layout(item)
         await layout.save(
               index < 4 &&  addPages(layout,websiteId)
-        )
-
-        await Website.updateOne(
-            { _id: websiteId },
-            { $push: { layouts : layout._id }}
         )
 
     })
@@ -61,29 +57,33 @@ const addPages = async  function(layout,websiteId){
 
     const page = new Page({
         page_name : layout.layout_name,
-        layout : layout._id
+        layout : layout._id,
+        website: websiteId
     })
 
-    await page.save(
-        addLinks(page,layout,websiteId)
-    )
+
+    const addedPage = await page.save()
+
+    console.log(addedPage)
+
+    await addLinks(addedPage, websiteId)
 
 }
 
 
 
 
-const addLinks = async function(page, layout, websiteId) {
+const addLinks = async function(page, websiteId) {
 
     const link = new Link({
         link_text: page.page_name,
-        page: page._id
+        page: page._id,
     })
 
     await link.save(
         await Website.updateOne(
             { _id: websiteId },
-            { $push: { pages : page._id , 'header.links' : link._id }}
+            { $push: { 'header.links' : link._id }}
         )
     )
 }

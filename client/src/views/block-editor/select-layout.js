@@ -1,16 +1,27 @@
 import React, {Suspense, Fragment} from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import Header from "./components/header";
+import serviceLayout from "../../services/layout.service";
 
 class SelectLayout extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            layout : props.website.layouts[0]
+            layout : ''
         }
 
         this.handleSelectLayout = this.handleSelectLayout.bind(this)
+    }
+
+    componentDidMount() {
+        serviceLayout.getLayout()
+            .then(res =>
+                this.setState({
+                    layouts: res,
+                    layout: res[0]
+                })
+            )
     }
 
     layoutClick = (layout) => {
@@ -24,13 +35,11 @@ class SelectLayout extends React.Component {
     }
 
     render() {
-        const { website } = this.props
-        const layouts = website.layouts && website.layouts.map((layout) =>
-
+        const layouts = this.state.layouts && this.state.layouts.map((layout) =>
             <div className="page_item" key={layout._id}>
                 <h1 className="page_text"> { layout.layout_name } </h1>
                 <div className={ this.state.layout.layout_name === layout.layout_name ? 'page_img active' : 'page_img'}  onClick={ () => this.layoutClick(layout) }>
-                    <img src={ require('../../theme/' + website.theme.theme_name + '/assets/img/'+ layout.layout_img) }  />
+                    <img src={ require('../../theme/' + layout.website.theme.theme_name + '/assets/img/'+ layout.layout_img) }  />
                 </div>
             </div>
         )
@@ -48,7 +57,10 @@ class SelectLayout extends React.Component {
                             <div className="col-md-8">
                                 <div className="page-preview">
                                     <div className="preview_img">
-                                      <img src={require('../../theme/' + website.theme.theme_name + '/assets/img/' + this.state.layout.layout_img)}/>
+                                        {
+                                            this.state.layout.website &&
+                                            <img src={require('../../theme/' + this.state.layout.website.theme.theme_name + '/assets/img/' + this.state.layout.layout_img)}/>
+                                        }
                                     </div>
                                 </div>
                             </div>

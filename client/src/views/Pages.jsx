@@ -32,6 +32,8 @@ import {
 import "../assets/css/page.css";
 import { Link} from "react-router-dom";
 import ModalConfirm from "../components/Modal/ModalConfirm";
+import servicePage from "../services/page.service";
+
 
 class Pages extends React.Component {
 
@@ -40,12 +42,20 @@ class Pages extends React.Component {
     this.state = {
       page : '',
       show : false,
-      pages : props.website.pages
+      pages : ''
     }
   }
 
+  componentDidMount() {
+     servicePage.getPage()
+         .then(res =>
+             this.setState({
+               pages : res
+             })
+         )
+  }
+
   handleClose = (pageId) => {
-    console.log(pageId)
     this.setState({
       show : false,
       pages: this.state.pages.filter((page) => page._id !== pageId)
