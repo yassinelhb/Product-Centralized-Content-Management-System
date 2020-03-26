@@ -3,16 +3,13 @@ const router = express.Router();
 const PageService = require('../services/page.service')
 
 // get all page
-router.get('/', PageService.getPages)
-
-// get page by id
-router.get('/:pageId', PageService.getOnePage)
+router.get('/:siteId', PageService.getPages)
 
 // add page
-router.post('/:siteId', PageService.addPage)
+router.post('/', PageService.addPage)
 
 // update page
-router.patch('/:siteId', PageService.updatePage)
+router.patch('/', PageService.updatePage)
 
 // delete page
 router.delete('/:pageId', PageService.deletePage)

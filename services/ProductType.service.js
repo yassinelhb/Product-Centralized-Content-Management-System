@@ -60,6 +60,7 @@ exports.update = async  (req, res) => {
 exports.assignTypeToWebsite = async  (req, res) => {
     const saved = await Page.create(req.body).then((s)=>res.json(s)).catch(err => res.status(400).json('Error: ' + err));
 };
+
 // get  Product Types by website
 exports.getByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId})

@@ -7,14 +7,12 @@ class Sidebar extends React.Component {
         super(props);
         this.state = {
             page : props.page,
-            errors : {}
         }
     }
 
     componentWillReceiveProps = (props) => {
         this.setState({
             page : props.page,
-            errors : props.errors
         })
     }
 
@@ -30,15 +28,13 @@ class Sidebar extends React.Component {
                 page_name : event.target.value
             }
         }, () => {
-            this.props.handle(this.state.page,this.state.errors)
+            this.props.handle(this.state.page)
         })
     }
 
 
 
     render() {
-
-        const { page, errors } = this.state
         return (
             <div className="sidebar-editor">
                 <ul className="nav nav-tabs">
@@ -65,7 +61,7 @@ class Sidebar extends React.Component {
                                     <div className="item-body">
                                         <div className="form-group">
                                             <label>Title</label>
-                                            <input type="text" className={ errors.page_name ? 'form-control border-danger' : 'form-control' } defaultValue={ page.page_name } onChange={ this.titleChange } />
+                                            <input type="text" className='form-control' onChange={ this.titleChange } defaultValue={ this.state.page.page_name } />
                                         </div>
                                     </div>
                                 </div>

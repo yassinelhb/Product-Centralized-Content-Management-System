@@ -24,6 +24,7 @@ var ProductSubTypeRouter = require('./routes/productSubType');
 var ProductPropertyRouter = require('./routes/productProperty');
 var PropertyLabelRouter = require('./routes/propertyLabel');
 var ProductRouter = require('./routes/product');
+var layoutRouter = require('./routes/layout');
 
 var Ads_bannerRouter = require('./routes/ads_banner');
 
@@ -49,6 +50,7 @@ app.use('/theme', themesRouter);
 app.use('/productType', ProductTypeRouter);
 app.use('/website', websitesRouter);
 app.use('/page', pagesRouter);
+app.use('/layout', layoutRouter);
 app.use('/productProperty', ProductPropertyRouter);
 app.use('/productSubType', ProductSubTypeRouter);
 app.use('/propertyLabel', PropertyLabelRouter);

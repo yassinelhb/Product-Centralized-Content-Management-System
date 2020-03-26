@@ -13,7 +13,7 @@ class Home extends React.Component {
             editor: props.editor,
             alert : '',
             toggle_btn : false,
-            page : this.props.page,
+            page : props.page,
             category: '',
             best_category_list_edit : false,
             best_category_text_edit : false,
@@ -23,6 +23,7 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
+
         servicePage.category()
             .then(res => {
 
@@ -80,6 +81,7 @@ class Home extends React.Component {
                     ...this.state.page.best_category,
                     best_category_text: best_category_text
                 }
+
             },
             best_category_text_edit : false
         })
@@ -135,19 +137,20 @@ class Home extends React.Component {
     componentDidUpdate = ( nextProps, nextState) => {
         if( ! this.state.editor){
             if (this.state.page !== nextState.page ) {
-                this.props.setPage(this.state.page)
+                this.props.handle(this.state.page)
             }
         }
     }
 
     render() {
+
         const { page, alert, category, best_category_list_edit, toggle_btn } = this.state
 
         const best_category_text = this.state.best_category_text_edit ?
                 <EditorText editorState = { page.best_category?.best_category_text ? page.best_category.best_category_text : '' } editor = {this.editorBestCategoryText} />
                 :
                 <h1 className="best_category_text" onClick={ this.handleBestCategoryText }>
-                    { page.best_category?.best_category_text  ? page.best_category.best_category_text : 'Title of best category'  }
+                     { page.best_category?.best_category_text  ? page.best_category.best_category_text : 'Title of best category'  }
                 </h1>
 
 
@@ -163,7 +166,7 @@ class Home extends React.Component {
         const best_category_list =   best_category_list_edit ?
                             (
                                 <div className="best_category_drag">
-                                   <Dragdrop category={category} done={this.bestCategoryChange}/>
+                                    <Dragdrop category={category} done={this.bestCategoryChange}/>
                                 </div>
                             ) :
                             (
@@ -193,7 +196,7 @@ class Home extends React.Component {
                                                          </span>
                                                     <h4 className="category_item_text">Card Credit</h4>
                                                 </div>
-                                            </div>
+                                              </div>
                                             <div className="col-md-3">
                                                 <div className="best_category_item">
                                                          <span className="category_item_icon">
@@ -213,7 +216,7 @@ class Home extends React.Component {
                                             <div className="col-md-3">
                                                 <div className="best_category_item">
                                                          <span className="category_item_icon">
-                                                             <i className="nc-icon nc-credit-card"></i>
+                                                              <i className="nc-icon nc-credit-card"></i>
                                                          </span>
                                                     <h4 className="category_item_text">Card Credit</h4>
                                                 </div>
@@ -241,7 +244,6 @@ class Home extends React.Component {
                 }
                 <div className="section-best_category">
                     <div className="container">
-
                         { best_category_text }
 
                         { best_category_desc }

@@ -4,6 +4,7 @@ import Category from "../../theme/theme1/views/category";
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import servicePage from "../../services/page.service";
+import serviceSite from "../../services/website.service";
 
 
 
@@ -12,23 +13,35 @@ class PageEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            website: props.website,
             page: props.page,
-            errors : {}
+            website : '',
+            alert : ''
         }
     }
 
     loadComponent() {
-        const { website, page } = this.state
-        const Component = React.lazy(() => import('../../theme/'+this.state.website.theme.theme_name+'/views/' + this.state.page.layout.layout_name))
-        return <Component page = { page } website = { website } editor = { false } setPage = { this.pageChange } />
+
+        const { page, website } = this.state
+
+        const Component = React.lazy(() => import('../../theme/'+ website.theme.theme_name + '/views/' + page.layout.layout_name))
+        return <Component page = { page } editor = { false } handle = { this.handleChange } />
+
     }
 
-    handleChange = (page, errors) => {
+    handleChange = (page) => {
         this.setState({
             page: page,
-            errors: errors
+            alert : ''
         })
+    }
+
+    componentDidMount() {
+        serviceSite.webSite()
+            .then( res =>
+                this.setState({
+                    website : res
+                })
+            )
     }
 
     savePage = () => {
@@ -36,11 +49,9 @@ class PageEditor extends React.Component {
         if ( !this.state.page._id ) {
             servicePage.addPage( this.state.page )
                 .then(res => {
-                    res.message === 'already exist' ?
+                    res.message ?
                         this.setState({
-                            errors : {
-                                page_name : 'required'
-                            }
+                            alert : res.message
                         })
                         :
                         this.setState({
@@ -52,23 +63,36 @@ class PageEditor extends React.Component {
 
             servicePage.editPage( this.state.page )
                 .then(res => {
-                    this.setState({
-                        page: res
-                    })
+                    res.message ?
+                        this.setState({
+                            alert : res.message
+                        })
+                        :
+                        this.setState({
+                            page: res
+                        })
                 })
         }
 
     }
 
     render() {
-        const { page, errors } = this.state
+        const { page, errors, website, alert } = this.state
         return (
             <div className="wrapper-editor">
                 <Header component="pageEditor" page={ page } save = { () => this.savePage() } />
                 <Sidebar  page={ page }  handle = { this.handleChange } errors = { errors } />
                 <div className="content-editor">
+                    {
+                        alert &&
+
+                        <div className="alert alert-danger">
+                            { alert }
+                        </div>
+                    }
+
                     <Suspense fallback={<div>Loading ...</div>}>
-                        { this.loadComponent() }
+                        { website.theme && this.loadComponent() }
                     </Suspense>
                 </div>
             </div>
