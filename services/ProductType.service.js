@@ -62,6 +62,22 @@ exports.assignTypeToWebsite = async  (req, res) => {
 };
 // get  Product Types by website
 exports.getByWebsite =   (req, res) =>{
+    Page.find({website:req.params.websiteId})
+        .then(pages => {
+            const types =[];
+            pages.forEach( async  (page,i) =>{
+                    const type = await ProductType.findById(page.get('productType'));
+                    types.push(type);
 
+                    if(i === pages.length -1){
+
+                        res.json(types);
+                    }
+                }
+            );
+
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
 
 };
