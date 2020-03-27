@@ -5,13 +5,13 @@ const WebsiteService = require('../services/website.service')
 
 
 
-// get back all the websites
+// get all websites
 router.get('/', WebsiteService.getWebsites);
 
-// submit a website
+// add website
 router.post('/', WebsiteService.addWebsite);
 
-// specific website
+// get website by Id
 router.get('/:siteId', WebsiteService.getOneWebsite)
 
 // delete website
@@ -22,5 +22,6 @@ router.patch('/:siteId', WebsiteService.updateWebsite)
 
 // update links of header
 router.post('/header/link/:type', WebsiteService.updateLinksHeader)
+
 
 module.exports = router;

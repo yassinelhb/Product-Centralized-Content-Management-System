@@ -18,25 +18,51 @@
 */
 import React from "react";
 import axios from "axios";
+import { Link} from "react-router-dom";
 import propTypes from 'prop-types';
 import '../assets/css/WebsiteListe.css';
 import '../assets/scss/websiteListe.js';
 
+
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Container ,Row, Col } from "reactstrap";
 
 class Websites extends React.Component {
+StyleLink= ()=>{
+        return{
+            backgroundColor : 'bleu' ,
+            color : 'white',
+            textAlign :'center'
 
+
+        }
+    };
   state = {websites: []}
+    clicke= (website) => {
+      this.setState({
+        website : website
+      })
+    }
 
 
  componentDidMount() {
 
-    fetch('http://localhost:3001/website') // this route doesn't work with Express!
+    fetch('http://localhost:3001/website')
       .then(res => res.json())
       .then(websites => this.setState({ websites }));
   }
 
+deleteRow  ( web_id){
+
+      const id = web_id
+      ;
+
+    const url = "http://localhost:3001/website/" + id;
+
+   fetch(url, {
+   			method: 'DELETE'
+   		});
+}
 
 
   render() {
@@ -58,6 +84,7 @@ class Websites extends React.Component {
 
   <section>
                                 <div className="App">
+                                <button type="submit" class="btn-round btn btn-primary"> <Link style={this.StyleLink()} to='/Website_add'>add website</Link> </button>
 
                                 <div class="container">
                                     <div class="well well-sm">
@@ -72,11 +99,17 @@ class Websites extends React.Component {
 
                                      <h1>Sitewebs</h1>
                                                                       {this.state.websites.map(Website =>
-                                                                        <div key={Website.id} >
+                                                                      <Container>
+                                                                        <Row> <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+                                                                                     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+                                                                                     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+                                                                          <Col>
+                                                                        <div className="page-list_item" key={Website.id} >
                                                                          <div id="products" class="row list-group">
                                                                                                                 <div class="item  col-xs-4 col-lg-4">
-                                                                                                                    <div class="thumbnail">
-                                                                                                                        <img class="group list-group-image"  src={require("assets/img/logo1.jpg")} />
+                                                                                                                    <div >
+                                                                                                                        <img class="group list-group-image"  src={require("assets/img/"+Website.logo_pic)} />
+
                                                                                                                         <div class="caption">
                                                                                                                             <h5 class="group inner list-group-item-heading">
                                                                                                                                 website name : {Website.site_name} </h5>
@@ -89,8 +122,27 @@ class Websites extends React.Component {
                                                                                                                                      Country   {Website.Contry}</p>
                                                                                                                                 </div>
 
-                                                                                                                                 <a class="btn btn-success" href="http://www.jquery2dotnet.com">delete</a>
-                                                                                                                                    <a class="btn btn-success" href="http://www.jquery2dotnet.com">Update</a>
+
+                                                                                                                                     <div className="dropdown item-dropdown" onClick={ () => this.clicke(Website)}>
+                                                                                                                                                               <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
+                                                                                                                                                                 <i className="nc-icon nc-settings-gear-65"></i>
+                                                                                                                                                               </span>
+                                                                                                                                                  <div className="dropdown-menu dropdown-menu-right">
+                                                                                                                                                    <Link className="dropdown-item" to={'/block-editor/' + Website._id } >
+
+                                                                                                                                                      Edit
+                                                                                                                                                    </Link>
+                                                                                                                                                    <a className="dropdown-item" >
+
+                                                                                                                                                      Rename
+                                                                                                                                                    </a>
+                                                                                                                                                    <div className="dropdown-divider"></div>
+                                                                                                                                                    <a  onClick={() => this.deleteRow(Website._id)} className="dropdown-item" href="#">
+
+                                                                                                                                                      Remove
+                                                                                                                                                    </a>
+                                                                                                                                                  </div>
+                                                                                                                                                </div>
 
                                                                                                                             </div>
                                                                                                                         </div>
@@ -99,8 +151,13 @@ class Websites extends React.Component {
                                                                                                             </div>
                                                                          </div>
 
+
+
+ </Col>    </Row>
+  </Container>
                                                                       )}
                                                                       </div>
+
 
 
 

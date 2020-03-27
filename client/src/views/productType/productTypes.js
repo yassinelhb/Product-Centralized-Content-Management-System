@@ -44,6 +44,12 @@ class productTypes extends React.Component {
         })
 
   }
+  addToWebsiteHandler(type) {
+    TypeService.assignTypeToWebsite(type)
+        .then( res => {
+          console.log(res);
+        })
+  }
   render() {
     const { types } = this.state ;
     return (
@@ -70,7 +76,7 @@ class productTypes extends React.Component {
 
                       {
                         types.length ?
-                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><UpdateProductType typeId={type._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button></td></tr>) :
+                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><div className="row"><UpdateProductType typeId={type._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(type)} >Add to website</Button></div></td></tr>) :
                             null
                       }
 
@@ -89,6 +95,7 @@ class productTypes extends React.Component {
       </>
     );
   }
+
 
 
 }

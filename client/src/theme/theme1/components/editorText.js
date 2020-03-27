@@ -13,13 +13,13 @@ class EditorText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            editorState: props.editorState,
+            editorState: EditorState.createWithContent(ContentState.createFromText(props.editorState)),
         };
 
     }
 
     handleClickOutside() {
-        this.props.editor(this.state.editorState)
+       this.props.editor(this.state.editorState.getCurrentContent().getPlainText())
     }
 
     onEditorStateChange = (editorState) => {

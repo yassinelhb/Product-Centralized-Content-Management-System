@@ -1,6 +1,7 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-
+const websiteId = '5e7ce3309f0d3737e8980743';
+const layout='5e7ce3309f0d3737e8980744';
 class ProductType {
 
 
@@ -19,6 +20,20 @@ class ProductType {
     create = (type) => {
         return new Promise((resolve, reject) => {
             axios.post(api + `productType`, type)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
+    assignTypeToWebsite = (type) => {
+        return new Promise((resolve, reject) => {
+            const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
+            axios.post(api + `productType/assignTypeToWebsite`, t)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -65,7 +80,30 @@ class ProductType {
 
     };
 
+    getByWebsite = (websiteid) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productType/getByWebsite/`+websiteid)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
+    typesPagesByWebsite = (websiteid) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productType/typesPagesByWebsite/`+websiteid)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
 
 }
 
