@@ -1,4 +1,5 @@
 const Page = require('../models/page.model')
+const Link = require('../models/link.model')
 const Website = require('../models/website.model')
 
 
@@ -16,7 +17,6 @@ exports.getPages = async function (req, res) {
         res.json({ message: err });
     }
 }
-
 
 // get page by Id
 exports.getOnePage = async  (req, res) => {
@@ -79,9 +79,14 @@ exports.updatePage = async  (req, res) => {
 // delete page
 exports.deletePage = async  (req, res) => {
     try {
-        await Link.remove({page: req.params.pageId})
-        const removedPage = await Page.remove({_id: req.params.pageId});
-        res.json(removedPage);
+
+        const removedPage =  await Link.remove({ page : req.params.pageId  }, async function() {
+             await Page.remove({ _id : req.params.pageId  })
+        });
+
+        res.json(removedPage)
+
+
     } catch (err) {
         res.json({message: err});
     }
