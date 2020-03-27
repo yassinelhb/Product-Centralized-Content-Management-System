@@ -16,7 +16,8 @@ import {
     Row,
     Col
 } from "reactstrap";
-
+import { MoviesData, renderMovieTitle } from './country-data';
+import Autocomplete from 'react-autocomplete';
 import ScriptTag from 'react-script-tag';
 import '../../assets/scss/websiteListe';
 import '../../assets/css/WebsiteListe.css';
@@ -74,22 +75,27 @@ class Web_add extends React.Component {
                             </div>
                         </div>
 
-                        <Autocomplete
-                            getItemValue={(item) => item.label}
-                            items={[
-                                { label: 'apple' },
-                                { label: 'banana' },
-                                { label: 'pear' }
-                            ]}
-                            renderItem={(item, isHighlighted) =>
-                                <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                                    {item.label}
-                                </div>
-                            }
-                            value={value}
-                            onChange={(e) => value = e.target.value}
-                            onSelect={(val) => value = val}
+                        <div className="autocomplete-wrapper">
+                            <h3>React Autocomplete Demo</h3>
+                            <Autocomplete
+                                value={this.state.val}
+                                items={MoviesData()}
+                                getItemValue={item => item.title}
+                                shouldItemRender={renderMovieTitle}
+                                renderMenu={item => (
+                                    <div className="dropdown">
+                                        {item}
+                                    </div>
+                                )}
+                                renderItem={(item, isHighlighted) =>
+                                    <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
+                                        {item.title}
+                                    </div>
+                                }
+                                onChange={(event, val) => this.setState({ val })}
+                                onSelect={val => this.setState({ val })}
                             />
+                        </div>
                         <div className="px-1 col-md-3">
                             <div className="form-group"><label>Username</label><input placeholder="Username" type="text"
                                                                                       className="form-control"
