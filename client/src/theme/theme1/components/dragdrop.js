@@ -13,7 +13,8 @@ class Dragdrop extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            category : props.category,
+            page: props.page,
+            page_category : props.page_category,
             best_category : []
         };
 
@@ -29,23 +30,23 @@ class Dragdrop extends React.Component {
     onDrop = (ev, type) => {
 
         let id = ev.dataTransfer.getData("id");
-        let category = this.state.category.filter((cat) => {
-            if (cat.name == id) {
-                cat.type = type;
+        let page_category = this.state.page_category.filter((page) => {
+            if (page.page_name == id) {
+                page.type = type;
             }
-            return cat;
+            return page;
         });
 
         this.setState({
             ...this.state,
-            category
+            page_category
         });
 
 
         if( type === 'done') {
             this.setState({
                 ...this.state,
-                category
+                page_category
             });
         }
     }
@@ -54,33 +55,38 @@ class Dragdrop extends React.Component {
         ev.dataTransfer.setData("id", id);
     }
 
-    bestCategoryChange() {
-        console.log('eefzf')
-        this.props.done(this.state.best_category)
+    bestCategoryChange = (page) => {
+        this.setState({
+            page: {
+                ...this.state.page,
+                best_category: {
+                    ...this.state.best_category,
+                    best_category_list: page
+                }
+            }
+        })
     }
 
 
     render() {
 
-        this.state.best_category = []
-
-        var category = {
+        var page_category = {
             todo: [],
             done: []
         }
 
-        this.state.category.forEach ((cat) => {
-            category[cat.type].push(
-                <div key={cat.name}
-                     onDragStart = {(e) => this.onDragStart(e, cat.name)}
+        this.state.page_category.forEach ((page) => {
+            page_category[page.type].push(
+                <div key={page._id}
+                     onDragStart = {(e) => this.onDragStart(e, page.page_name)}
                      draggable
                      className="draggable">
-                    {cat.name}
+                    {page.page_name}
                 </div>
             );
 
-            if( cat.type === 'done' ) {
-                this.state.best_category.push(cat)
+            if( page.type === 'done' ) {
+                this.bestCategoryChange(page)
             }
 
         });
@@ -89,11 +95,11 @@ class Dragdrop extends React.Component {
 
             <div className="row">
                 <div className="col-md-9">
-                    <div className="best_category" onMouseEnter={ this.bestCategoryChange }
+                    <div className="best_category"
                          onDrop={(e)=>this.onDrop(e, "done")}
                          onDragOver={(ev)=>this.onDragOver(ev)}>
 
-                        {category.done}
+                        {page_category.done}
 
                     </div>
                 </div>
@@ -102,7 +108,7 @@ class Dragdrop extends React.Component {
                          onDragOver={(e)=>this.onDragOver(e)}
                          onDrop={(e)=>{this.onDrop(e, "todo")}}>
                         <span className="task-header">List category</span>
-                        {category.todo}
+                        {page_category.todo}
                     </div>
                 </div>
             </div>

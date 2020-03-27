@@ -1,7 +1,7 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
 const websiteId = '5e7ce3309f0d3737e8980743';
-const layout='5e7ce3309f0d3737e8980744';
+const layout='5e7ce3309f0d3737e8980748';
 class ProductType {
 
 

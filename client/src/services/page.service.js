@@ -56,6 +56,7 @@ class Page {
 
 
     deletePage = (pageId) => {
+        console.log(pageId)
         return new Promise((resolve, reject) => {
             axios.delete(api + `page/` + pageId)
                 .then(res => {

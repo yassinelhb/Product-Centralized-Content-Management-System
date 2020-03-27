@@ -114,6 +114,8 @@ class Pages extends React.Component {
         )
     ) : ''
 
+    console.log( this.state.links )
+
     const links = this.state.links ?
         this.state.links.map((link,index) =>
             <div className="menu-link_item" key={link._id}>

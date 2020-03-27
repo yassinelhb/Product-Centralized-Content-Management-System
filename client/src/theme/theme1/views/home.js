@@ -29,7 +29,7 @@ class Home extends React.Component {
 
                 res.forEach(obj =>
                     obj.type = 'todo'
-                );
+                ),
 
                 this.setState({
                     category : res
