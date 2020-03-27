@@ -2,12 +2,12 @@ import axios from 'axios';
 const api = 'http://localhost:3001/';
 const websiteId = '5e7ce3309f0d3737e8980743';
 const layout='5e7ce3309f0d3737e8980744';
-class ProductType {
+class ProductProperty {
 
 
     getAll = () => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType`)
+            axios.get(api + `productProperty`)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -17,9 +17,9 @@ class ProductType {
         })
 
     };
-    create = (type) => {
+    create = (property) => {
         return new Promise((resolve, reject) => {
-            axios.post(api + `productType`, type)
+            axios.post(api + `productProperty`, property)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -33,7 +33,7 @@ class ProductType {
     assignTypeToWebsite = (type) => {
         return new Promise((resolve, reject) => {
             const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
-            axios.post(api + `productType/assignTypeToWebsite`, t)
+            axios.post(api + `productProperty/assignTypeToWebsite`, t)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -43,9 +43,9 @@ class ProductType {
         })
 
     };
-    update = (type,typeId) => {
+    update = (property,propertyId) => {
         return new Promise((resolve, reject) => {
-            axios.put(api + `productType/`+typeId, type)
+            axios.put(api + `productProperty/`+propertyId, property)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -55,9 +55,9 @@ class ProductType {
         })
 
     };
-    getOneById = (typeId) => {
+    getOneById = (propertyId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType/`+typeId)
+            axios.get(api + `productProperty/`+propertyId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -67,9 +67,9 @@ class ProductType {
         })
 
     };
-    delete = (typeId) => {
+    delete = (propertyId) => {
         return new Promise((resolve, reject) => {
-            axios.delete(api + `productType/`+typeId)
+            axios.delete(api + `productProperty/`+propertyId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -82,7 +82,7 @@ class ProductType {
 
     getByWebsite = (websiteid) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType/getByWebsite/`+websiteid)
+            axios.get(api + `productProperty/getByWebsite/`+websiteid)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -94,7 +94,7 @@ class ProductType {
     };
     typesPagesByWebsite = (websiteid) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType/typesPagesByWebsite/`+websiteid)
+            axios.get(api + `productProperty/typesPagesByWebsite/`+websiteid)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -107,6 +107,6 @@ class ProductType {
 
 }
 
-const instance = new ProductType();
+const instance = new ProductProperty();
 
 export default instance;
