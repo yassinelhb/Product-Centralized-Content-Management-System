@@ -1,6 +1,6 @@
 import React, {Suspense, Fragment} from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-import serviceSite from "../../../services/website.service";
+import servicePage from "../../../services/page.service";
 import "../assets/block.css"
 import SelectLayout from "../select-layout";
 import PageEditor from "../page-editor";
@@ -12,7 +12,7 @@ class BlockEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            website: '',
+            pages: '',
             editor: false,
             page: '',
             pageId: props.match.params.pageId
@@ -20,15 +20,15 @@ class BlockEditor extends React.Component {
     }
 
     componentDidMount() {
-
-        serviceSite.webSite()
+        servicePage.getPage()
             .then( res => {
                 this.setState({
-                    website : res
+                    pages : res
                 });
 
-                if( this.state.pageId) {
-                    this.state.website.pages.filter(page => page._id === this.state.pageId).forEach(page =>
+                if( this.state.pageId ) {
+
+                    this.state.pages.filter(page => page._id === this.state.pageId).forEach(page =>
                         this.setState({
                             page : page
                         })
@@ -49,16 +49,16 @@ class BlockEditor extends React.Component {
     }
 
     render() {
-        const { editor, page, website, pageId }  = this.state
+        const { editor, page, pageId }  = this.state
 
         return (
             <div className="wrapper-editor">
                 {
                     pageId ?
-                        website && ( page ?  <PageEditor page = { page } website={ website } /> : <NotFound/>  )
+                        ( page ?  <PageEditor page = { page } /> : <NotFound/>  )
                         :
-                        website && (
-                            editor  ?  <PageEditor page = { page } website={ website }  /> : <SelectLayout useLayout={ this.handleSelectLayout } website={ website } />
+                        (
+                            editor  ?  <PageEditor page = { page } /> : <SelectLayout useLayout={ this.handleSelectLayout } />
                         )
                 }
             </div>

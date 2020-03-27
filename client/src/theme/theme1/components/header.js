@@ -130,7 +130,7 @@ class Header extends React.Component {
                 </li>
             ) : (
                 <li className="nav-item" key={link._id} >
-                    <Link className="nav-link" to={`/website/`+link.page.layout.layout_name}>
+                    <Link className="nav-link" to={`/website/`+link.page.page_name}>
                         { link.link_text }
                     </Link>
                 </li>

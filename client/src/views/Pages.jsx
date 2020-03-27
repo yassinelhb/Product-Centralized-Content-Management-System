@@ -18,9 +18,6 @@
 */
 /*eslint-disable*/
 import React from "react";
-// react plugin for creating notifications over the dashboard
-import NotificationAlert from "react-notification-alert";
-// reactstrap components
 import {
   UncontrolledAlert,
   Alert,
@@ -34,29 +31,52 @@ import {
 } from "reactstrap";
 import "../assets/css/page.css";
 import { Link} from "react-router-dom";
+import ModalConfirm from "../components/Modal/ModalConfirm";
+import servicePage from "../services/page.service";
 
 
 class Pages extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      page : {}
+      page : '',
+      show : false,
+      pages : ''
     }
   }
 
-  clicke= (page) => {
+  componentDidMount() {
+     servicePage.getPage()
+         .then(res =>
+             this.setState({
+               pages : res
+             })
+         )
+  }
+
+  handleClose = (pageId) => {
     this.setState({
+      show : false,
+      pages: this.state.pages.filter((page) => page._id !== pageId)
+    })
+  }
+
+  removeClick = (page) => {
+    this.setState({
+      show : true,
       page : page
     })
   }
+
   render() {
 
-    const pages = this.props.website.pages &&
-        this.props.website.pages.map((page) =>
+    const { show, page} = this.state
+    const pages = this.state.pages &&
+        this.state.pages.map((page) =>
           <div className="page-list_item" key={page._id}>
             <p className="list-item_title">{ page.page_name }</p>
-            <div className="dropdown item-dropdown" onClick={ () => this.clicke(page)}>
+            <div className="dropdown item-dropdown">
                            <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
                              <i className="nc-icon nc-settings-gear-65"></i>
                            </span>
@@ -65,12 +85,8 @@ class Pages extends React.Component {
                   <i className="nc-icon nc-ruler-pencil"></i>
                   Edit
                 </Link>
-                <a className="dropdown-item" >
-                  <i className="nc-icon nc-caps-small"></i>
-                  Rename
-                </a>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" onClick={ () => this.removeClick(page) }>
                   <i className="nc-icon nc-simple-remove"></i>
                   Remove
                 </a>
@@ -82,7 +98,6 @@ class Pages extends React.Component {
 
     return (
       <>
-
         <div className="content">
           <Row>
             <Col md="12">
@@ -115,6 +130,7 @@ class Pages extends React.Component {
               </Card>
             </Col>
           </Row>
+          <ModalConfirm show = { show } hide = { this.handleClose } page = { page } />
         </div>
       </>
     );

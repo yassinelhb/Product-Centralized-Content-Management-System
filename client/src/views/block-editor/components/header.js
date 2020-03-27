@@ -1,5 +1,5 @@
 import React, {Suspense, Fragment} from 'react';
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link , withRouter } from "react-router-dom";
 
 class Header extends React.Component {
 
@@ -11,22 +11,31 @@ class Header extends React.Component {
         this.props.useLayout()
     }
 
+    savePage = () => {
+        this.props.save()
+    }
+
+    redirectBack(){
+        this.props.history.push('/admin/pages')
+    }
+
+
     render() {
         const { layout, component, page } = this.props
         return (
             <nav className="navbar navbar-expand-md navbar-editor navbar-dark fixed-top">
-                <a className="navbar-brand" href="#">
+                <a className="navbar-brand"  onClick={() => { window.confirm('Some changes are not saved. Are you sure you want to leave this page?') && this.redirectBack() }}>
                     <i className="nc-icon nc-minimal-left"></i>
                 </a>
                 <div className="collapse navbar-collapse" id="navbarCollapse">
                     <ul className="navbar-nav mr-auto">
-                        { component === 'pageEditor' &&  <span>{ page.page_name }</span> }
+                        { component === 'pageEditor' &&  <span>{ page.layout.layout_name }</span> }
                     </ul>
                     <div className="navbar-button mt-md-0">
                         { component === 'pageEditor' ?
                             <>
-                                <button className="btn btn-outline-info" disabled>Preview</button>
-                                <button className="btn btn-info">Save...</button>
+                                <Link className="btn btn-outline-info" disabled={ ! page._id } to={"/website/" + page.page_name }>Preview</Link>
+                                <button className="btn btn-info" onClick={ this.savePage } disabled={ page.page_name === ''}>Save...</button>
                                 <button className="btn toggle-menu">
                                 <i className="nc-icon nc-settings-gear-65"></i>
                                 </button>
@@ -41,4 +50,4 @@ class Header extends React.Component {
 
 }
 
-export default Header;
+export default withRouter(Header);

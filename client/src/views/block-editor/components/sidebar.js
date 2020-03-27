@@ -3,13 +3,38 @@ import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 
 class Sidebar extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.state = {
+            page : props.page,
+        }
     }
 
-    render() {
+    componentWillReceiveProps = (props) => {
+        this.setState({
+            page : props.page,
+        })
+    }
 
-        const { page } = this.props
+    titleChange = (event) => {
+
+        this.setState({
+            errors: {
+                ...this.state.errors,
+                page_name: ''
+            },
+            page: {
+                ...this.state.page,
+                page_name : event.target.value
+            }
+        }, () => {
+            this.props.handle(this.state.page)
+        })
+    }
+
+
+
+    render() {
         return (
             <div className="sidebar-editor">
                 <ul className="nav nav-tabs">
@@ -36,7 +61,7 @@ class Sidebar extends React.Component {
                                     <div className="item-body">
                                         <div className="form-group">
                                             <label>Title</label>
-                                            <input type="text" className="form-control" defaultValue={ page.page_name }/>
+                                            <input type="text" className='form-control' onChange={ this.titleChange } defaultValue={ this.state.page.page_name } />
                                         </div>
                                     </div>
                                 </div>

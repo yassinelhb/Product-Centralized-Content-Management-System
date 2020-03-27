@@ -2,7 +2,7 @@ import React, {Suspense} from 'react';
 import '../css/Style.css';
 import { Link} from "react-router-dom";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import EditorText from "./editorText";
+import EditorText from "../components/editorText";
 import {ContentState, EditorState} from "draft-js";
 
 

@@ -2,21 +2,7 @@ import axios from 'axios';
 const api = 'http://localhost:3001/';
 const side_id = '5e7ce3309f0d3737e8980743'
 
-class website {
-
-
-    webSite = () => {
-        return new Promise((resolve, reject) => {
-            axios.get(api + `website/`+side_id)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-
-    };
+class Page {
 
     category = () => {
         return new Promise((resolve, reject) => {
@@ -28,40 +14,11 @@ class website {
                     reject(error)
                 })
         })
-
     };
 
-    linkSite = (link,type) => {
-        link.site_id = side_id
+    getPage = () => {
         return new Promise((resolve, reject) => {
-            axios.post(api + `website/header/link/`+type, link)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-
-    };
-
-    getThemes = () => {
-        return new Promise((resolve, reject) => {
-            axios.get(api + `theme`)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-
-    };
-
-    addPage = (page) => {
-        page.site_id = side_id
-        return new Promise((resolve, reject) => {
-            axios.post(api + `website/page`, page)
+            axios.get(api + `page/`+ side_id)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -71,10 +28,23 @@ class website {
         })
     }
 
-    savePage = (page) => {
-        page.site_id = side_id
+
+    addPage = (page) => {
+        page.website = side_id
         return new Promise((resolve, reject) => {
-            axios.patch(api + `website/page`, page)
+            axios.post(api + `page`, page)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    }
+
+    editPage = (page) => {
+        return new Promise((resolve, reject) => {
+            axios.patch(api + `page`, page)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -87,7 +57,7 @@ class website {
 
     deletePage = (pageId) => {
         return new Promise((resolve, reject) => {
-            axios.delete(api + `website/page/` + pageId)
+            axios.delete(api + `page/` + pageId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -99,6 +69,6 @@ class website {
 
     }
 
-const instance = new website()
+const instance = new Page()
 
 export default instance;

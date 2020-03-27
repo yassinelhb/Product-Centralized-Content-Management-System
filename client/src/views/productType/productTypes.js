@@ -1,23 +1,5 @@
-/*!
 
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-
+import React, { useState } from "react";
 // reactstrap components
 import {
   Card,
@@ -26,18 +8,24 @@ import {
   CardTitle,
   Table,
   Row,
-  Col
+  Col, Button
 } from "reactstrap";
 import TypeService from "../../services/product/ProductType.service";
+import AddProductType from "./AddProductType";
+import UpdateProductType from "./UpdateProductType";
 
 class productTypes extends React.Component {
+
   constructor() {
     super();
     this.state = {
-      types: []
-    }
+      types: [],
 
+
+    };
   }
+
+
   componentDidMount() {
 
     TypeService.getAll()
@@ -45,6 +33,21 @@ class productTypes extends React.Component {
           this.setState({
             types : res
           });
+        })
+  }
+  deleteHandler(id) {
+    TypeService.delete(id)
+        .then( res => {
+          this.setState({
+            types : this.state.types.filter(t => t._id !== id)
+          });
+        })
+
+  }
+  addToWebsiteHandler(type) {
+    TypeService.assignTypeToWebsite(type)
+        .then( res => {
+          console.log(res);
         })
   }
   render() {
@@ -57,6 +60,7 @@ class productTypes extends React.Component {
               <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Product Types</CardTitle>
+                  <AddProductType/>
                 </CardHeader>
                 <CardBody>
                   <Table responsive>
@@ -64,6 +68,7 @@ class productTypes extends React.Component {
                       <tr>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Actions</th>
 
                       </tr>
                     </thead>
@@ -71,7 +76,7 @@ class productTypes extends React.Component {
 
                       {
                         types.length ?
-                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td></tr>) :
+                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><div className="row"><UpdateProductType typeId={type._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(type)} >Add to website</Button></div></td></tr>) :
                             null
                       }
 
@@ -86,9 +91,13 @@ class productTypes extends React.Component {
             </Col>
           </Row>
         </div>
+
       </>
     );
   }
+
+
+
 }
 
 export default productTypes;

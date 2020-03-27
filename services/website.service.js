@@ -2,12 +2,10 @@ const Website = require('../models/website.model')
 const Page = require('../models/page.model')
 const Link = require('../models/link.model')
 const Layout = require('../models/layout.model')
-const xlsx = require("xlsx")
-
-const fs = require("fs")
 
 
-// get back all the websites
+
+// get all website
 exports.getWebsites = async function (req, res) {
     try {
         const websites = await Website.find();
@@ -17,7 +15,7 @@ exports.getWebsites = async function (req, res) {
     }
 }
 
-// submit a website
+// add website
 exports.addWebsite = async  (req, res) => {
     const website = new Website({
         domain: req.body.domain,
@@ -27,6 +25,7 @@ exports.addWebsite = async  (req, res) => {
         Language: req.body.Language,
         Contry:req.body.Contry ,
         Curreny_sign:req.body.Curreny_sign
+
     });
     try {
         const savedWebsite = await website.save(
@@ -42,52 +41,54 @@ exports.addWebsite = async  (req, res) => {
 const addLayouts = function(layouts,websiteId){
 
     layouts.forEach(async (item, index)=> {
+        item.website = websiteId
         const layout = new Layout(item)
         await layout.save(
               index < 4 &&  addPages(layout,websiteId)
         )
 
-        await Website.updateOne(
-            { _id: websiteId },
-            { $push: { layouts : layout._id }}
-        )
-
     })
 
 }
+
+
 
 const addPages = async  function(layout,websiteId){
 
     const page = new Page({
         page_name : layout.layout_name,
-        layout : layout._id
+        layout : layout._id,
+        website: websiteId
     })
 
-    await page.save(
-        addLinks(page,layout,websiteId)
-    )
+
+    const addedPage = await page.save()
+
+    console.log(addedPage)
+
+    await addLinks(addedPage, websiteId)
 
 }
 
 
 
 
-const addLinks = async function(page, layout, websiteId) {
+const addLinks = async function(page, websiteId) {
 
     const link = new Link({
         link_text: page.page_name,
-        page: page._id
+        page: page._id,
     })
 
     await link.save(
         await Website.updateOne(
             { _id: websiteId },
-            { $push: { pages : page._id , 'header.links' : link._id }}
+            { $push: { 'header.links' : link._id }}
         )
     )
 }
 
-// specific website
+// get website by Id
 exports.getOneWebsite = async  (req, res) => {
     try {
         const website = await Website.findById(req.params.siteId)
@@ -192,4 +193,3 @@ exports.updateLinksHeader = async  (req, res) => {
         res.json({message: err});
     }
 }
-
