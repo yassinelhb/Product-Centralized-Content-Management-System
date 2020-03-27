@@ -1,15 +1,16 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col} from 'reactstrap';
 import TypeService from "../../services/product/ProductType.service";
+import SubTypeService from "../../services/product/ProductSubType.service";
 
-const AddProductType = () => {
+const UpdateProductSubType = (props) => {
 
-
+  const {typeId} =props;
   const [modal, setModal] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(" ");
+  const [description, setDescription] = useState(" ");
 
   const toggle = () => setModal(!modal);
 
@@ -17,15 +18,22 @@ const AddProductType = () => {
     e.preventDefault();
     const data = {"name":name,"description":description};
     console.log(data);
-    TypeService.create(data)
+    SubTypeService.update(data,typeId)
         .then( res => {
           console.log(res);
         })
   };
+  useEffect(() => {
+    SubTypeService.getOneById(typeId)
+        .then( res => {
+          setName(res.name);
+          setDescription(res.description);
+        })
 
+  },[typeId]);
   return (
       <div>
-        <Button color="primary" onClick={toggle}>Add</Button>
+        <Button color="warning" onClick={toggle}>Update</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Add new product type</ModalHeader>
           <form onSubmit={submitHandler}>
@@ -57,7 +65,7 @@ const AddProductType = () => {
 
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" type="submit" >Add</Button>{' '}
+            <Button color="primary" type="submit" >Save</Button>{' '}
             <Button color="secondary" onClick={toggle}>Cancel</Button>
           </ModalFooter>
           </form>
@@ -66,4 +74,4 @@ const AddProductType = () => {
   );
 };
 
-export default AddProductType;
+export default UpdateProductSubType;

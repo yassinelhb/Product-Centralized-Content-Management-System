@@ -1,8 +1,8 @@
 const SubType = require('../models/ProductSubType.model');
 
-// get all Product Types
+// get all Product sub-Types
 exports.getAll =   (req, res) =>{
-    SubType.find()
+    SubType.find().populate('productType').exec()
               .then(subTypes => res.json(subTypes))
               .catch(err => res.status(400).json('Error: ' + err));
 
@@ -12,7 +12,8 @@ exports.getAll =   (req, res) =>{
 exports.create = async  (req, res) => {
     const subType = new SubType({
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        productType:req.body.productType
     });
     try {
         const savedSubType = await subType.save();
@@ -25,7 +26,7 @@ exports.create = async  (req, res) => {
 // get a sub-type by id
 exports.getById = async  (req, res) => {
     try {
-        const type = await SubType.findById(req.params.subTypeId);
+        const type = await SubType.findById(req.params.subTypeId).populate('productType').exec();
         res.json(type);
     } catch (err) {
         res.json({message: err});

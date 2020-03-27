@@ -71,7 +71,7 @@ exports.assignTypeToWebsite = async  (req, res) => {
             await link.save(
                 await Website.updateOne(
                     { _id: req.body.website },
-                    { $push: { pages : s._id , 'header.links' : link._id }}
+                    { $push: {  'header.links' : link._id }}
                 )
             )
         })

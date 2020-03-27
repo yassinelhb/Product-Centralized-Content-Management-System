@@ -32,7 +32,7 @@ class ProductType {
     assignTypeToWebsite = (type) => {
         return new Promise((resolve, reject) => {
             const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
-            axios.post(api + `productType/assignTypeToWebsite`, t)
+            axios.post(api + `productSubType/assignTypeToWebsite`, t)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -44,7 +44,7 @@ class ProductType {
     };
     update = (subType,subTypeId) => {
         return new Promise((resolve, reject) => {
-            axios.put(api + `productType/`+subTypeId, subType)
+            axios.put(api + `productSubType/`+subTypeId, subType)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -56,7 +56,7 @@ class ProductType {
     };
     getOneById = (subTypeId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType/`+subTypeId)
+            axios.get(api + `productSubType/`+subTypeId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -68,7 +68,7 @@ class ProductType {
     };
     delete = (subTypeId) => {
         return new Promise((resolve, reject) => {
-            axios.delete(api + `productType/`+subTypeId)
+            axios.delete(api + `productSubType/`+subTypeId)
                 .then(res => {
                     resolve(res.data);
                 })

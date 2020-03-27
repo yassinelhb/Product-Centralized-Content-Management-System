@@ -28,6 +28,7 @@ import UpgradeToPro from "views/Upgrade.jsx";
 import Pages from "views/Pages.jsx";
 import Component from "views/Component.jsx";
 import productTypes from "views/productType/productTypes";
+import productSubTypes from "./views/productSubType/ProductSubTypes";
 
 var routes = [
   {
@@ -49,6 +50,13 @@ var routes = [
     name: "Product Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
+    layout: "/admin"
+  },
+  {
+    path: "/productSubTypes",
+    name: "Product Sub-Types",
+    icon: "nc-icon nc-single-copy-04",
+    component: productSubTypes,
     layout: "/admin"
   },
   {
