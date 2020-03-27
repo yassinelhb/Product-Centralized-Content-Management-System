@@ -84,37 +84,7 @@ class Pages extends React.Component {
       <>
 
         <div className="content">
-          <Row>
-            <Col md="12">
-              <Card>
-                <CardHeader>
-                  <Row>
-                    <div className="col-auto mr-auto">
-                      <Link className="btn btn-info" to={'/block-editor'}>
-                        Add page
-                      </Link>
-                    </div>
-                    <div className="col-auto toolbar">
-                      <div className="no-border input-group input-search">
-                        <input placeholder="Search..." type="text" className="form-control"/>
-                        <div className="input-group-append">
-                      <span className="input-group-text">
-                        <i className="nc-icon nc-zoom-split"></i>
-                      </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Row>
-                </CardHeader>
-                <CardBody>
 
-                  <div className="pages-page_list">
-                    { pages }
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
         </div>
       </>
     );

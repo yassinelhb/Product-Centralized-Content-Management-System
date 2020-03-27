@@ -117,5 +117,6 @@ var routes = [
     component: UpgradeToPro,
     layout: "/admin"
   }
+
 ];
 export default routes;

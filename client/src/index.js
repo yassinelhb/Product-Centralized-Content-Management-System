@@ -30,6 +30,8 @@ import AdminLayout from "layouts/Admin.jsx";
 import Website from "./views/website/website";
 import BlockEditor from "./views/block-editor/layouts/block-editor";
 import Login from "./views/Login/Login.jsx";
+import register2 from "./views/register/register-freelancer-contentEditor"
+import register from "./views/register/register";
 
 const hist = createBrowserHistory();
 

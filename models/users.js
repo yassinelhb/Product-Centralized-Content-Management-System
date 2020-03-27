@@ -14,15 +14,11 @@ const usersSchema  = new Schema({
     },
     role: {
         type: String,
+    },
+    website: {
+        type: Schema.Types.ObjectId,
+        ref: "website",
         required: true
-    },
-    country: {
-        type: String,
-        require: true
-    },
-    site: {
-        type: String,
-        require: true
     },
     function: {
         type:String,

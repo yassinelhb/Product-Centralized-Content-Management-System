@@ -59,7 +59,7 @@ exports.loginn = async  (req, res , next) => {
     if(token){
     const user = parseToken(token);
     users.findById(user.users._id, function (err , user) {
-        if(err){return res.json({error: "User n'existe pas"});}
+        if(err){return res.json({error: "User n'existe pas2"});}
         if(user){
             res.locals.user = user;
             next();
@@ -70,7 +70,7 @@ exports.loginn = async  (req, res , next) => {
     })
 
     }
-    else{res.json({error: "User n'existe pas"});}
+    else{res.json({error: "vous devez s'authentifier"});}
 
 
 }

@@ -17,63 +17,67 @@ import {Link, Redirect} from "react-router-dom";
 import FormGroup from "reactstrap/es/FormGroup";
 import Label from "reactstrap/es/Label";
 import Input from "reactstrap/es/Input";
-import './Login.css'
+import './Login.css';
+import loginn from "../../services/Login/Login.js"
 class Login extends React.Component {
-    state = {
-        post: {}
+       state = {
+            email:"",
+            password:"",
+           error:"",
+        }
+    handleChange(e) {
+        this.setState({ [e.target.name] : e.target.value });
+    }
+
+    handleSubmit = event =>{
+        event.preventDefault();
+        const user = {
+            email: this.state.email,
+            password: this.state.password,
+        };
+        loginn.log(user)
+            .then( res => {
+
+                if(res.data.error!=null) {
+                    console.log(res.data.error);
+                    this.setState({error: res.data.error})
+                }
+                else{
+                    console.log(res.data);
+                    localStorage.setItem("token", res.data);
+                    window.location.href = "http://localhost:3000/admin/dashboard";
+                }
+            })
     }
     componentDidMount() {
+
 
     }
 
     render() {
+        const { types } = this.state ;
         return(
-            <form className="login-form" onSubmit={(e) => login(e)}>
+            <form className="login-form" onSubmit={this.handleSubmit}>
                 <h1>
-                    <span className="font-weight-bold">Netcapital B.V {this.state.post.error}</span>
+                    <span className="font-weight-bold">Netcapital B.V </span>
                 </h1>
                 <h2 className="text-center">Welcome</h2>
                 <FormGroup>
                     <Label>Email</Label>
-                    <Input type="email" placeholder="Email" id="Email"/>
+                    <Input type="email" placeholder="Email" id="email" name="email" onChange={this.handleChange.bind(this)}/>
                 </FormGroup>
                 <FormGroup>
                     <Label>Password</Label>
-                    <Input type="Password" placeholder="Password" id="Password"/>
+                    <Input type="password" placeholder="password" id="password" name="password" onChange={this.handleChange.bind(this)}/>
                 </FormGroup>
                 <button type="submit" className="btn-lg btn-dark btn-block">Log in</button>
+                <div className="alert-danger">
+                    {this.state.error}
+                </div>
             </form>
+
         );
     }
 }
-function login(e) {
-    e.preventDefault();
-    let request = {
-        email: document.getElementById('Email').value,
-        password: document.getElementById('Password').value,
-    }
-    axios.post('http://localhost:3001/users/',request).then(resp =>{
-        console.log("1///////");
 
-        console.log(resp);
-if(resp.data.error!=null)
-{
-    alert(resp.data.error);
-
-
-}
-else{
-    window.location.href = "http://localhost:3000/admin/dashboard";
-
-
-}
-
-
-    })
-        .catch(error => {
-            console.log("2///////");
-
-            console.log(error);
-        })
-}
 export default Login;
