@@ -48,7 +48,9 @@ exports.update = async  (req, res) => {
     try {
         const updated = await SubType.updateOne(
             { _id: req.params.subTypeId },
-            { $set: { description: req.body.description }}
+            { $set: req.body}
+        ,
+        {new: true, useFindAndModify: false}
         );
         res.json(updated);
     } catch (err) {

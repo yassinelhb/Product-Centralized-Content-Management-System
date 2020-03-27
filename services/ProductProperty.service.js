@@ -50,7 +50,9 @@ exports.update = async  (req, res) => {
     try {
         const updated = await Property.updateOne(
             { _id: req.params.propertyId },
-            { $set: { description: req.body.description }}
+            { $set: req.body}
+            ,
+            {new: true, useFindAndModify: false}
         );
         res.json(updated);
     } catch (err) {

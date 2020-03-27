@@ -25,7 +25,8 @@ const AddProductSubType = (props) => {
     console.log(data);
     SubTypeService.create(data)
         .then( res => {
-props.refreshTable(res);
+props.refreshTable();
+          toggle();
                })
   };
   useEffect(() => {

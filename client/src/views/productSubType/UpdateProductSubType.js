@@ -4,33 +4,41 @@ import React, { useState,useEffect } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col} from 'reactstrap';
 import TypeService from "../../services/product/ProductType.service";
 import SubTypeService from "../../services/product/ProductSubType.service";
+import Label from "reactstrap/es/Label";
 
 const UpdateProductSubType = (props) => {
 
-  const {typeId} =props;
+  const {subTypeId} =props;
   const [modal, setModal] = useState(false);
   const [name, setName] = useState(" ");
   const [description, setDescription] = useState(" ");
-
+    const [types, setTypes] = useState([]);
+    const [typeId, setTypeId] = useState("");
   const toggle = () => setModal(!modal);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const data = {"name":name,"description":description};
+      const data = {name:name,description:description,productType:typeId};
     console.log(data);
-    SubTypeService.update(data,typeId)
+    SubTypeService.update(data,subTypeId)
         .then( res => {
-          console.log(res);
+            props.refreshTable();
+            toggle();
         })
   };
   useEffect(() => {
-    SubTypeService.getOneById(typeId)
+    SubTypeService.getOneById(subTypeId)
         .then( res => {
           setName(res.name);
           setDescription(res.description);
-        })
+            setTypeId(res.productType._id);
+        });
+      TypeService.getAll()
+          .then( res => {
+              setTypes(res)
+          });
 
-  },[typeId]);
+  },[subTypeId]);
   return (
       <div>
         <Button color="warning" onClick={toggle}>Update</Button>
@@ -42,7 +50,7 @@ const UpdateProductSubType = (props) => {
             <FormGroup>
               <label>Name</label>
               <Input
-                  placeholder="Type Name"
+                  placeholder="SubType Name"
                   type="text"
                   name="name"
                   value={name}
@@ -53,7 +61,7 @@ const UpdateProductSubType = (props) => {
             <FormGroup>
               <label>Description</label>
               <Input
-                  placeholder="Type description"
+                  placeholder="SubType description"
                   type="text"
                   name="description"
                   value={description}
@@ -62,6 +70,17 @@ const UpdateProductSubType = (props) => {
               />
             </FormGroup>
 
+              <FormGroup>
+                  <Label for="typeSelect">Product Type</Label>
+                  <Input onChange={e => setTypeId(e.target.value)} type="select" name="type" id="typeSelect">
+
+                      {
+                          types.length ?
+                              types.map(Type => { if(Type._id === typeId){ return <option selected value={Type._id}>{Type.name}</option> } else { return <option value={Type._id}>{Type.name}</option>}}) :
+                              null
+                      }
+                  </Input>
+              </FormGroup>
 
           </ModalBody>
           <ModalFooter>

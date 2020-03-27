@@ -13,6 +13,7 @@ import {
 import SubTypeService from "../../services/product/ProductSubType.service";
 import AddProductSubType from "./AddProductSubType";
 import UpdateProductSubType from "./UpdateProductSubType";
+import TypeService from "../../services/product/ProductType.service";
 
 class productSubTypes extends React.Component {
 
@@ -35,7 +36,7 @@ class productSubTypes extends React.Component {
           });
         })
   }
-  refreshTable = (subtype) => {
+  refreshTable = () => {
     SubTypeService.getAll()
         .then( res => {
           this.setState({
@@ -49,7 +50,7 @@ class productSubTypes extends React.Component {
             subTypes : this.state.subTypes.push(subtype)
           });
 */
-  }
+  };
   deleteHandler(id) {
     SubTypeService.delete(id)
         .then( res => {
@@ -64,6 +65,7 @@ class productSubTypes extends React.Component {
         .then( res => {
           console.log(res);
         })
+
   }
   render() {
     const { subTypes } = this.state ;
@@ -92,7 +94,7 @@ class productSubTypes extends React.Component {
 
                       {
                         subTypes.length ?
-                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType typeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(subType)} >Add to website</Button></div></td></tr>) :
+                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(subType)} >Add to website</Button></div></td></tr>) :
                             null
                       }
 
