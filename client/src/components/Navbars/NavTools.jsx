@@ -42,12 +42,10 @@ class NavTools extends React.Component {
   render() {
     return (
       <div className="nav-tools">
-        <div className="row">
-          <div className="col-md-6">
+        <div className="container">
             <Link to={'/admin/dashboard'} className="nav-item">
               Admin
             </Link>
-          </div>
         </div>
       </div>
     );
