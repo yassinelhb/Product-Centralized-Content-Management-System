@@ -23,70 +23,86 @@ import Register2 from "./register-freelancer-contentEditor";
 import Register3 from "./register-content-coordinator-sales-manages";
 class register extends React.Component {
     state = {
-        error:"bb",
+        error:"",
         sites:[],
         log:"",
     }
     componentDidMount() {
         const token = localStorage.getItem("token");
-        console.log(jwt_decode(token).users.role);
+        console.log(token);
+        if(token != "") {
+            console.log(jwt_decode(token).users.role);
 
-         this.setState({log : jwt_decode(token).users.role })
-        loginn.getAll()
-            .then( res => {
+            this.setState({log: jwt_decode(token).users.role})
+            loginn.getAll()
+                .then(res => {
 
-                this.setState({
-                sites : res
-                });
-                console.log(this.state.sites);
-            })
+                    this.setState({
+                        sites: res
+                    });
+                    console.log(this.state.sites);
+                })
+
+        }
+        else{
+            this.setState({error: "you need to sign in"})
+
+        }
     }
-    handleSubmit = event =>{
-        event.preventDefault();
-        const token = localStorage.getItem("token");
-        console.log(jwt_decode(token).users.role);
 
-    }
 
 
     render() {
-        const { sites } = this.state ;
-        if (this.state.log ==="admin"){
-          return (
-
-              <div className="content">
-                  <Card className="card-user">
-                  <CardHeader>
-                      <CardTitle tag="h5">
-
-                          <Register1/>
-                      </CardTitle>
-                  </CardHeader>
-              </Card>
-                  <Card className="card-user">
-                      <CardHeader>
-                          <CardTitle tag="h5">
-                          <Register2  sites={this.state.sites}/>
-                          </CardTitle>
-                      </CardHeader>
-                  </Card>
-                  <Card className="card-user">
-                      <CardHeader>
-                          <CardTitle tag="h5">
-                        <Register3 sites={this.state.sites}/>
-                         </CardTitle>
-                      </CardHeader>
-                  </Card>
-              </div>
-          )
-        }
+        const {sites} = this.state;
+        if (this.state.error != null) {
+      return(
+                <div className="content">
+                    <div className="alert-danger">
+                        <h1>You need to sign in</h1>
+                    </div>
+                </div>)
+            }
         else {
-            return      <div className="content">
-                          <div className="alert-danger">
-                          <h1>You to be Administrator</h1>
-                          </div>
-                       </div>
+            if (this.state.log === "admin") {
+                return (
+
+                    <div className="content">
+                        <Card className="card-user">
+                            <CardHeader>
+                                <CardTitle tag="h5">
+
+                                    <Register1/>
+                                </CardTitle>
+                            </CardHeader>
+                        </Card>
+                        <Card className="card-user">
+                            <CardHeader>
+                                <CardTitle tag="h5">
+                                    <Register2 sites={this.state.sites}/>
+                                </CardTitle>
+                            </CardHeader>
+                        </Card>
+                        <Card className="card-user">
+                            <CardHeader>
+                                <CardTitle tag="h5">
+                                    <Register3 sites={this.state.sites}/>
+                                </CardTitle>
+                            </CardHeader>
+                        </Card>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="content">
+                    <div className="alert-danger">
+                        <h1>You need to be Administrator</h1>
+                    </div>
+                </div>
+                )
+            }
         }
-    }
+        }
+
+
 }
 export default register;

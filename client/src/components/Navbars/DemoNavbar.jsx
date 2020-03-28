@@ -37,6 +37,8 @@ import {
 } from "reactstrap";
 
 import routes from "routes.js";
+import jwt_decode from "jwt-decode";
+import loginn from "../../services/Login/Login";
 
 class Header extends React.Component {
   constructor(props) {
@@ -44,12 +46,14 @@ class Header extends React.Component {
     this.state = {
       isOpen: false,
       dropdownOpen: false,
-      color: "transparent"
+      color: "transparent",
+      error: "",
     };
     this.toggle = this.toggle.bind(this);
     this.dropdownToggle = this.dropdownToggle.bind(this);
     this.sidebarToggle = React.createRef();
   }
+
   toggle() {
     if (this.state.isOpen) {
       this.setState({
@@ -69,6 +73,11 @@ class Header extends React.Component {
       dropdownOpen: !this.state.dropdownOpen
     });
   }
+  logout = event =>{
+  event.preventDefault();
+    localStorage.setItem("token","");
+    window.location.href = "http://localhost:3000/";
+  };
   getBrand() {
     let brandName = "Default Brand";
     routes.map((prop, key) => {
@@ -96,6 +105,16 @@ class Header extends React.Component {
     }
   }
   componentDidMount() {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if(token != "") {
+      this.setState({error: "log_out"});
+      console.log(this.state.error);
+    }
+    else {
+      this.setState({error: "log_in"});
+      console.log(this.state.error);
+    }
     window.addEventListener("resize", this.updateColor.bind(this));
   }
   componentDidUpdate(e) {
@@ -109,105 +128,208 @@ class Header extends React.Component {
     }
   }
   render() {
-    return (
-      // add or remove classes depending if we are on full-screen-maps page or not
-      <Navbar
-        color={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
-            ? "dark"
-            : this.state.color
-        }
-        expand="lg"
-        className={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
-            ? "navbar-absolute fixed-top"
-            : "navbar-absolute fixed-top " +
-              (this.state.color === "transparent" ? "navbar-transparent " : "")
-        }
-      >
-        <Container fluid>
-          <div className="navbar-wrapper">
-            <div className="navbar-toggle">
-              <button
-                type="button"
-                ref={this.sidebarToggle}
-                className="navbar-toggler"
-                onClick={() => this.openSidebar()}
-              >
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
-              </button>
-            </div>
-            <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
-          </div>
-          <NavbarToggler onClick={this.toggle}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler>
-          <Collapse
-            isOpen={this.state.isOpen}
-            navbar
-            className="justify-content-end"
+    const {sites} = this.state;
+    if (this.state.error === "log_out") {
+      return (
+          // add or remove classes depending if we are on full-screen-maps page or not
+          <Navbar
+              color={
+                this.props.location.pathname.indexOf("full-screen-maps") !== -1
+                    ? "dark"
+                    : this.state.color
+              }
+              expand="lg"
+              className={
+                this.props.location.pathname.indexOf("full-screen-maps") !== -1
+                    ? "navbar-absolute fixed-top"
+                    : "navbar-absolute fixed-top " +
+                    (this.state.color === "transparent" ? "navbar-transparent " : "")
+              }
           >
-            <form>
-              <InputGroup className="no-border">
-                <Input placeholder="Search..." />
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="nc-icon nc-zoom-split" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
-            <Nav navbar>
-              <NavItem>
-                <Link to="#pablo" className="nav-link btn-magnify">
-                  <i className="nc-icon nc-layout-11" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </Link>
-              </NavItem>
-              <Dropdown
-                nav
-                isOpen={this.state.dropdownOpen}
-                toggle={e => this.dropdownToggle(e)}
+            <Container fluid>
+              <div className="navbar-wrapper">
+                <div className="navbar-toggle">
+                  <button
+                      type="button"
+                      ref={this.sidebarToggle}
+                      className="navbar-toggler"
+                      onClick={() => this.openSidebar()}
+                  >
+                    <span className="navbar-toggler-bar bar1"/>
+                    <span className="navbar-toggler-bar bar2"/>
+                    <span className="navbar-toggler-bar bar3"/>
+                  </button>
+                </div>
+                <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
+              </div>
+              <NavbarToggler onClick={this.toggle}>
+                <span className="navbar-toggler-bar navbar-kebab"/>
+                <span className="navbar-toggler-bar navbar-kebab"/>
+                <span className="navbar-toggler-bar navbar-kebab"/>
+              </NavbarToggler>
+              <Collapse
+                  isOpen={this.state.isOpen}
+                  navbar
+                  className="justify-content-end"
               >
-                <DropdownToggle caret nav>
-                  <i className="nc-icon nc-bell-55" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem tag="a">Action</DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+                <form>
+                  <InputGroup className="no-border">
+                    <Input placeholder="Search..."/>
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        <i className="nc-icon nc-zoom-split"/>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+                <Nav navbar>
+                  <NavItem>
+                    <Link to="#pablo" className="nav-link btn-magnify">
+                      <i className="nc-icon nc-layout-11"/>
+                      <p>
+                        <span className="d-lg-none d-md-block">Stats</span>
+                      </p>
+                    </Link>
+                  </NavItem>
+                  <Dropdown
+                      nav
+                      isOpen={this.state.dropdownOpen}
+                      toggle={e => this.dropdownToggle(e)}
+                  >
+                    <DropdownToggle caret nav>
+                      <i className="nc-icon nc-bell-55"/>
+                      <p>
+                        <span className="d-lg-none d-md-block">Some Actions</span>
+                      </p>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag="a">Action</DropdownItem>
+                      <DropdownItem tag="a">Another Action</DropdownItem>
+                      <DropdownItem tag="a">Something else here</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
 
 
-              <NavItem>
-                <Link to="/user" className="nav-link btn-rotate">
-                  <i className="nc-icon nc-settings-gear-65" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Account</span>
-                  </p>
-                </Link>
+                  <NavItem>
+                    <Link to="/user" className="nav-link btn-rotate">
+                      <i className="nc-icon nc-settings-gear-65"/>
+                      <p>
+                        <span className="d-lg-none d-md-block">Account</span>
+                      </p>
+                    </Link>
 
-              </NavItem>
-              <NavItem>
-              <href></href>
-              <href></href>
-              </NavItem>
+                  </NavItem>
+                  <button type="submit" onClick={this.logout}
+                          className='btn btn-primary btn-small login-button btn-icon-text'>logout
+                  </button>
 
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
+
+                </Nav>
+              </Collapse>
+            </Container>
+          </Navbar>
+      );
+    }
+    else{
+      return (
+          <Navbar
+              color={
+                this.props.location.pathname.indexOf("full-screen-maps") !== -1
+                    ? "dark"
+                    : this.state.color
+              }
+              expand="lg"
+              className={
+                this.props.location.pathname.indexOf("full-screen-maps") !== -1
+                    ? "navbar-absolute fixed-top"
+                    : "navbar-absolute fixed-top " +
+                    (this.state.color === "transparent" ? "navbar-transparent " : "")
+              }
+          >
+            <Container fluid>
+              <div className="navbar-wrapper">
+                <div className="navbar-toggle">
+                  <button
+                      type="button"
+                      ref={this.sidebarToggle}
+                      className="navbar-toggler"
+                      onClick={() => this.openSidebar()}
+                  >
+                    <span className="navbar-toggler-bar bar1"/>
+                    <span className="navbar-toggler-bar bar2"/>
+                    <span className="navbar-toggler-bar bar3"/>
+                  </button>
+                </div>
+                <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
+              </div>
+              <NavbarToggler onClick={this.toggle}>
+                <span className="navbar-toggler-bar navbar-kebab"/>
+                <span className="navbar-toggler-bar navbar-kebab"/>
+                <span className="navbar-toggler-bar navbar-kebab"/>
+              </NavbarToggler>
+              <Collapse
+                  isOpen={this.state.isOpen}
+                  navbar
+                  className="justify-content-end"
+              >
+                <form>
+                  <InputGroup className="no-border">
+                    <Input placeholder="Search..."/>
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        <i className="nc-icon nc-zoom-split"/>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+                <Nav navbar>
+                  <NavItem>
+                    <Link to="#pablo" className="nav-link btn-magnify">
+                      <i className="nc-icon nc-layout-11"/>
+                      <p>
+                        <span className="d-lg-none d-md-block">Stats</span>
+                      </p>
+                    </Link>
+                  </NavItem>
+                  <Dropdown
+                      nav
+                      isOpen={this.state.dropdownOpen}
+                      toggle={e => this.dropdownToggle(e)}
+                  >
+                    <DropdownToggle caret nav>
+                      <i className="nc-icon nc-bell-55"/>
+                      <p>
+                        <span className="d-lg-none d-md-block">Some Actions</span>
+                      </p>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem tag="a">Action</DropdownItem>
+                      <DropdownItem tag="a">Another Action</DropdownItem>
+                      <DropdownItem tag="a">Something else here</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+
+
+                  <NavItem>
+                    <Link to="/user" className="nav-link btn-rotate">
+                      <i className="nc-icon nc-settings-gear-65"/>
+                      <p>
+                        <span className="d-lg-none d-md-block">Account</span>
+                      </p>
+                    </Link>
+
+                  </NavItem>
+                  <button type="submit" onClick={this.logout}
+                          className='btn btn-primary btn-small login-button btn-icon-text'>log In
+                  </button>
+
+
+                </Nav>
+              </Collapse>
+            </Container>
+          </Navbar>
+      )
+    }
   }
 }
 

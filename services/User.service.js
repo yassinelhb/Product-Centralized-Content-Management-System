@@ -54,7 +54,6 @@ exports.login = async  (req, res) => {
         }
     })
 }
-
 exports.loginn = async  (req, res , next) => {
     const token = req.headers.authorization;
     if(token){
@@ -75,6 +74,7 @@ exports.loginn = async  (req, res , next) => {
 
 
 }
+
 function parseToken(token) {
     return jwt.verify(token.split(' ')[1],'secret');
     
