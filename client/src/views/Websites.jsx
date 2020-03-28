@@ -64,7 +64,6 @@ deleteRow  ( web_id){
    		});
 }
 
-
   render() {
     return (
       <>
@@ -100,9 +99,11 @@ deleteRow  ( web_id){
                                      <h1>Sitewebs</h1>
                                                                       {this.state.websites.map(Website =>
                                                                       <Container>
-                                                                        <Row> <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-                                                                                     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-                                                                                     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+                                                                        <Row>
+                                                                         <Link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+
+                                                                              <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+                                                                              <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
                                                                           <Col>
                                                                         <div className="page-list_item" key={Website.id} >
                                                                          <div id="products" class="row list-group">
