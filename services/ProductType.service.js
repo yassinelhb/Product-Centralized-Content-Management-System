@@ -72,7 +72,7 @@ exports.assignTypeToWebsite = async  (req, res) => {
                 page: s._id
             });
        //    const categoryLayout = await Layout.find({website:req.body.website,layout_name:'category'});
-           const subCategoryLayout = await Layout.findOne({website:req.body.website,layout_name:'sub-category'}).then().catch();
+           const subCategoryLayout = await Layout.findOne({website:req.body.website,layout_name:'subcategory'}).then().catch();
             console.log(req.body.website);
            console.log(subCategoryLayout);
            await  SubType.find({productType:req.body.productType})
