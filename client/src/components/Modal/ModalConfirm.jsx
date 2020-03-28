@@ -18,7 +18,7 @@
 */
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import serviceSite from "../../services/website.service";
+import servicePage from "../../services/page.service";
 
 const customStyles = {
   content : {
@@ -39,8 +39,10 @@ class ModalConfirm extends React.Component {
     }
     removeClick = (page) => {
 
-        serviceSite.deletePage(page._id)
-            .then(() => {
+        console.log(page)
+        servicePage.deletePage(page._id)
+            .then((res) => {
+                console.log(res)
                 this.props.hide(page._id)
             })
     }
