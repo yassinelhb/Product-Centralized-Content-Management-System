@@ -30,6 +30,7 @@ import Component from "views/Component.jsx";
 import register from "views/register/register.jsx"
 import Login from "views/Login/Login.jsx";
 import productTypes from "views/productType/productTypes";
+import productSubTypes from "./views/productSubType/ProductSubTypes";
 
 var routes = [
   {
@@ -58,6 +59,13 @@ var routes = [
     name: "Product Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
+    layout: "/admin"
+  },
+  {
+    path: "/productSubTypes",
+    name: "Product Sub-Types",
+    icon: "nc-icon nc-single-copy-04",
+    component: productSubTypes,
     layout: "/admin"
   },
   {

@@ -1,8 +1,9 @@
 const SubType = require('../models/ProductSubType.model');
+const Page = require('../models/page.model');
 
-// get all Product Types
+// get all Product sub-Types
 exports.getAll =   (req, res) =>{
-    SubType.find()
+    SubType.find().populate('productType').exec()
               .then(subTypes => res.json(subTypes))
               .catch(err => res.status(400).json('Error: ' + err));
 
@@ -12,7 +13,8 @@ exports.getAll =   (req, res) =>{
 exports.create = async  (req, res) => {
     const subType = new SubType({
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        productType:req.body.productType
     });
     try {
         const savedSubType = await subType.save();
@@ -25,7 +27,7 @@ exports.create = async  (req, res) => {
 // get a sub-type by id
 exports.getById = async  (req, res) => {
     try {
-        const type = await SubType.findById(req.params.subTypeId);
+        const type = await SubType.findById(req.params.subTypeId).populate('productType').exec();
         res.json(type);
     } catch (err) {
         res.json({message: err});
@@ -47,7 +49,9 @@ exports.update = async  (req, res) => {
     try {
         const updated = await SubType.updateOne(
             { _id: req.params.subTypeId },
-            { $set: { description: req.body.description }}
+            { $set: req.body}
+        ,
+        {new: true, useFindAndModify: false}
         );
         res.json(updated);
     } catch (err) {
@@ -65,4 +69,16 @@ exports.assignType = async  (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
+};
+// get  Product Sub Types pages by website
+exports.getPagesByWebsite =   (req, res) =>{
+    Page.find({website:req.params.websiteId,type:"subCategory"}).populate('productTypePage').exec()
+        .then(pages => {
+
+            res.json(pages);
+
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+
 };

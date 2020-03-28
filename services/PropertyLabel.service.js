@@ -49,7 +49,9 @@ exports.update = async  (req, res) => {
     try {
         const updated = await Label.updateOne(
             { _id: req.params.labelId },
-            { $set: { label: req.body.label }}
+            { $set: req.body}
+            ,
+            {new: true, useFindAndModify: false}
         );
         res.json(updated);
     } catch (err) {
