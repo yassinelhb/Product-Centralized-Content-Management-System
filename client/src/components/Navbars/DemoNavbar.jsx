@@ -199,8 +199,8 @@ class Header extends React.Component {
 
               </NavItem>
               <NavItem>
-              <href>Login</href>
-              <href>register</href>
+              <href></href>
+              <href></href>
               </NavItem>
 
             </Nav>

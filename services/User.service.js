@@ -22,8 +22,9 @@ exports.register = async  (req, res) => {
                 password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
                 role: req.body.role,
                 country: req.body.country,
-                site: req.body.site,
-                function: req.body.function
+                website: req.body.website,
+                function: req.body.function,
+                Statut: "activated"
             });
             User.save((err, User) => {
                 if (err) res.json(err);
@@ -36,7 +37,7 @@ else {
     }
     })
     }
-    else {  res.json({error : " You cant"})}
+    else {  res.json({error : " You don't have permission "})}
 }
 
 exports.login = async  (req, res) => {
@@ -59,13 +60,13 @@ exports.loginn = async  (req, res , next) => {
     if(token){
     const user = parseToken(token);
     users.findById(user.users._id, function (err , user) {
-        if(err){return res.json({error: "User n'existe pas2"});}
+        if(err){return res.json({error: "Error"});}
         if(user){
             res.locals.user = user;
             next();
         }
         else {
-            return res.json({error: "User n'existe pas 3"});
+            return res.json({error: "Error"});
         }
     })
 

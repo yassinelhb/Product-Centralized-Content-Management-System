@@ -5,14 +5,16 @@ import {Button, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader, La
 import TypeService from "../../services/product/ProductType.service";
 import jwt_decode from "jwt-decode";
 import loginn from "../../services/Login/Login";
-
+import register from "../../services/User/register.js";
 const Register2 = ({sites}) => {
 
 
     const [modal, setModal] = useState(false);
-    const [Email, setemail] = useState("");
+    const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [role, setrole] = useState("");
+    const [website, setwebsite] = useState("");
+    const [functionn, setfunctionn] = useState("");
 
     const toggle = () => setModal(!modal);
     const changeHandler = (e) => {
@@ -21,7 +23,13 @@ const Register2 = ({sites}) => {
     };
 
     const submitHandler = (e) => {
-
+        e.preventDefault();
+        const token = localStorage.getItem("token");
+        const data = {"email":email,"password":password, "role":role,"website":website,"function":functionn, "token":token};
+        console.log(data);
+        register.register(data).then( res => {
+            console.log(res);
+        })
     };
 
 
@@ -33,47 +41,50 @@ const Register2 = ({sites}) => {
                 <form className="register-page" onSubmit={submitHandler}>
                     <ModalBody>
                         <FormGroup>
-                            <Label>First Name                  </Label>
-                            <Input type="email" class="form-control"  placeholder="Email" id="email" name="email" />
+                            <label>Email</label>
+                            <Input
+                                placeholder="Type Email"
+                                type="text"
+                                name="email"
+                                value={email}
+                                onChange={e => setemail(e.target.value)}
+
+                            />
                         </FormGroup>
+
                         <FormGroup>
-                            <Label>last name</Label>
-                            <Input type="email"  className="form-control" placeholder="Email" id="email" name="email" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Email</Label>
-                            <Input type="email" placeholder="Email" id="email" name="email" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Password</Label>
-                            <Input type="password" placeholder="password" id="password" name="password"/>
+                            <label>Password</label>
+                            <Input
+                                placeholder="Type Password"
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={e => setpassword(e.target.value)}
+
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label>role</Label>
-                            <select id="inputState" className="form-control">
+                            <select name="role" value={role}  onChange={e => setrole(e.target.value)} className="form-control">
                                 <option selected>Choose...</option>
                                 <option>Freelancer</option>
                                 <option>Content Editor</option>
-                                <option>Content coordinator</option>
-                                <option>Content director</option>
-                                <option>Sales manager</option>
-                                <option>Administrator</option>
                             </select>
                         </FormGroup>
                         <FormGroup>
                             <Label>site</Label>
-                            <select id="inputState" className="form-control">
+                            <select name="website" value={website}  onChange={e => setwebsite(e.target.value)} className="form-control">
                                 <option selected>Choose...</option>
-                                {sites.map(site => <option>{site.a}</option>)}
+                                {sites.map(site => <option value={site._id}>{site.a}</option>)}
                             </select>
 
                         </FormGroup>
                         <FormGroup>
                             <Label>function</Label>
-                            <select id="inputState" className="form-control">
+                            <select name="functionn" value={functionn}  onChange={e => setfunctionn(e.target.value)} className="form-control">
                                 <option selected>Choose...</option>
-                                <option>Blog</option>
-                                <option>Product</option>
+                                <option>Blog  Editor</option>
+                                <option>Product Page Editor</option>
                             </select>
                         </FormGroup>
 

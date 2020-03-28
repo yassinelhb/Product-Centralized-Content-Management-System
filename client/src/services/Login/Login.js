@@ -23,21 +23,7 @@ class login {
         })
 
     };
-    register = (token) => {
-        return new Promise((resolve, reject) => {
-            console.log("aaa");
-            console.log(token);
-            axios.post(api + `users/register` , null ,
-            { headers: {'x-access-token': token}})
-                .then(res => {
-                    resolve(res);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        })
 
-    };
     getAll = () => {
         return new Promise((resolve, reject) => {
             axios.get(api + `website`)

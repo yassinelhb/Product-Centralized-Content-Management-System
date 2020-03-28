@@ -51,7 +51,7 @@ class register extends React.Component {
 
     render() {
         const { sites } = this.state ;
-        if (this.state.log ==="31"){
+        if (this.state.log ==="admin"){
           return (
 
               <div className="content">
@@ -73,7 +73,7 @@ class register extends React.Component {
                   <Card className="card-user">
                       <CardHeader>
                           <CardTitle tag="h5">
-                        <Register3/>
+                        <Register3 sites={this.state.sites}/>
                          </CardTitle>
                       </CardHeader>
                   </Card>

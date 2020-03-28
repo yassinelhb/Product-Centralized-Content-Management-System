@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import {Button, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import register from "../../services/User/register.js";
 import TypeService from "../../services/product/ProductType.service";
 
 const Register1 = () => {
@@ -9,7 +10,7 @@ const Register1 = () => {
 
 
     const [modal, setModal] = useState(false);
-    const [Email, setemail] = useState("");
+    const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [role, setrole] = useState("");
 
@@ -17,7 +18,15 @@ const Register1 = () => {
     const changeHandler = (e) => {
         e.target.name = e.target.value;
     };
+    const submitHandler = (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem("token");
+        const data = {"email":email,"password":password, "role":role, "token":token};
+        register.register(data).then( res => {
+            console.log(res);
+        })
 
+    };
 
 
     return (
@@ -25,7 +34,7 @@ const Register1 = () => {
             <Button color="primary" onClick={toggle}>Add new Administrator/Content director</Button>
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Add new user</ModalHeader>
-                <form >
+                <form onSubmit={submitHandler} >
                     <ModalBody>
 
 
@@ -34,8 +43,8 @@ const Register1 = () => {
                             <Input
                                 placeholder="Type Email"
                                 type="text"
-                                name="Email"
-                                value={Email}
+                                name="email"
+                                value={email}
                                 onChange={e => setemail(e.target.value)}
 
                             />
@@ -54,7 +63,7 @@ const Register1 = () => {
                         </FormGroup>
                         <FormGroup>
                             <label>Role</label>
-                            <select id="inputState" className="form-control">
+                            <select name="role" value={role}  onChange={e => setrole(e.target.value)}  className="form-control">
                                 <option selected>Choose...</option>
                                 <option>Content director</option>
                                 <option>Administrator</option>
