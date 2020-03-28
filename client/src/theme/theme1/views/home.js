@@ -22,7 +22,20 @@ class Home extends React.Component {
 
     }
 
+    componentDidMount() {
 
+        servicePage.category()
+            .then(res => {
+
+                res.forEach(obj =>
+                    obj.type = 'todo'
+                ),
+
+                this.setState({
+                    category : res
+                })
+            })
+    }
 
     bestCategoryChange = (category) => {
         this.setState({
