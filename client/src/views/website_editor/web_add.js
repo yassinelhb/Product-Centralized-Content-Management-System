@@ -1,8 +1,7 @@
 import React, {Suspense, Fragment} from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-import Category from "../../theme/theme1/views/category";
-import Header from "../block-editor/components/header";
-import Sidebar from "../block-editor/components/sidebar";
+
+
 import {
     Button,
     Card,
@@ -17,11 +16,47 @@ import {
     Col
 } from "reactstrap";
 import { MoviesData, renderMovieTitle } from './country-data';
+import { LanguageData, LanguageTitle } from './language-data';
+import { CurrencyData, CurrencyTitle } from './currency-data';
 import Autocomplete from 'react-autocomplete';
 import ScriptTag from 'react-script-tag';
 import '../../assets/scss/websiteListe';
 import '../../assets/css/WebsiteListe.css';
 class Web_add extends React.Component {
+    state = { name :"", val: '' , lang:''  , Currency:'' , About:{},images:{} ,theme:{} };
+
+    addRow ()
+    {
+        fetch('http://localhost:3001/website/', {
+            method: 'POST',
+
+            body: JSON.stringify({
+                "domain":
+                    ".dz",
+                "logo_pic": "assets/img/"+this.state.images,
+                "site_name": this.state.name ,
+                "theme": this.state.theme,
+                "header": {
+                    "header_name": "",
+                    "description": "",
+                    "links":[
+
+                    ]
+                },
+                "pages": [ "5e755ddc43ab62db9213ac07"
+                ],
+
+
+                "layouts": [],
+                "ads_banners": [],
+                "Language": "fr",
+                "Contry": "fr",
+                "Curreny_sign" : "wwwwwwwwww",
+                "date": "11/17/2017"
+            })
+        })
+    }
+
     Styleherder= ()=>{
         return{
 
@@ -45,15 +80,17 @@ class Web_add extends React.Component {
 
 
 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+        <Link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+    <Link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+
 
 
 
@@ -71,93 +108,176 @@ class Web_add extends React.Component {
                                                                                                 placeholder="Website"
                                                                                                 type="text"
                                                                                                 className="form-control"
-                                                                                                value="Creative Code Inc."/>
+                                                                                          value={this.state.name}/>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="autocomplete-wrapper">
-                            <h3>React Autocomplete Demo</h3>
-                            <Autocomplete
-                                value={this.state.val}
-                                items={MoviesData()}
-                                getItemValue={item => item.title}
-                                shouldItemRender={renderMovieTitle}
-                                renderMenu={item => (
-                                    <div className="dropdown">
-                                        {item}
-                                    </div>
-                                )}
-                                renderItem={(item, isHighlighted) =>
-                                    <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
-                                        {item.title}
-                                    </div>
-                                }
-                                onChange={(event, val) => this.setState({ val })}
-                                onSelect={val => this.setState({ val })}
-                            />
-                        </div>
-                        <div className="px-1 col-md-3">
-                            <div className="form-group"><label>Username</label><input placeholder="Username" type="text"
-                                                                                      className="form-control"
-                                                                                      value="michael23"/></div>
-                        </div>
-                        <div className="pl-1 col-md-4">
-                            <div className="form-group"><label htmlFor="exampleInputEmail1">Email address</label><input
-                                placeholder="Email" type="email" className="form-control"/></div>
-                        </div>
-                    </div>
+
                     <div className="row">
-                        <div className="pr-1 col-md-6">
-                            <div className="form-group"><label>First Name</label><input placeholder="Company"
-                                                                                        type="text"
-                                                                                        className="form-control"
-                                                                                        value="Chet"/></div>
+                        <Col>
+                        <div  className="pr-1 col-md-5">
+                            <div className="form-group">
+                                <div className="autocomplete-wrapper">
+                                    <label>Country name</label>
+                                    <Autocomplete
+                                        value={this.state.val}
+                                        items={MoviesData()}
+                                        getItemValue={item => item.name}
+                                        shouldItemRender={renderMovieTitle}
+                                        renderMenu={item => (
+                                            <div className="dropdown">
+                                                {item}
+                                            </div>
+                                        )}
+                                        renderItem={(item, isHighlighted) =>
+                                            <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
+                                                {item.name}
+                                            </div>
+                                        }
+                                        onChange={(event, val) => this.setState({ val })}
+                                        onSelect={val => this.setState({ val })}
+                                    />
+                                </div>
+                            </div>
+
+
+
                         </div>
-                        <div className="pl-1 col-md-6">
-                            <div className="form-group"><label>Last Name</label><input placeholder="Last Name"
-                                                                                       type="text"
-                                                                                       className="form-control"
-                                                                                       value="Faker"/></div>
-                        </div>
+                    </Col>
+
+                        <Col>
+                            <div  className="pr-1 col-md-5">
+                                <div className="form-group">
+                                    <div className="autocomplete-wrapper">
+                                        <label>Language</label>
+                                        <Autocomplete
+                                            value={this.state.lang}
+                                            items={LanguageData()}
+                                            getItemValue={item => item.name}
+                                            shouldItemRender={LanguageTitle}
+                                            renderMenu={item => (
+                                                <div className="dropdown">
+                                                    {item}
+                                                </div>
+                                            )}
+                                            renderItem={(item, isHighlighted) =>
+                                                <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
+                                                    {item.name}
+                                                </div>
+                                            }
+                                            onChange={(event, lang) => this.setState({ lang })}
+                                            onSelect={lang => this.setState({ lang })}
+                                        />
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </Col>
+                        <Col>
+                            <div  className="pr-1 col-md-5">
+                                <div className="form-group">
+                                    <div className="autocomplete-wrapper">
+                                        <label>Currency-sign</label>
+                                        <Autocomplete
+                                            value={this.state.Currency}
+                                            items={CurrencyData()}
+                                            getItemValue={item => item.name}
+                                            shouldItemRender={CurrencyTitle}
+                                            renderMenu={item => (
+                                                <div className="dropdown">
+                                                    {item}
+                                                </div>
+                                            )}
+                                            renderItem={(item, isHighlighted) =>
+                                                <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
+                                                    {item.name}
+                                                </div>
+                                            }
+                                            onChange={(event, Currency) => this.setState({ Currency })}
+                                            onSelect={Currency => this.setState({ Currency })}
+                                        />
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </Col>
+
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <div className="form-group"><label>Address</label><input placeholder="Home Address"
-                                                                                     type="text"
-                                                                                     className="form-control"
-                                                                                     value="Melbourne, Australia"/></div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="pr-1 col-md-4">
-                            <div className="form-group"><label>City</label><input placeholder="City" type="text"
-                                                                                  className="form-control"
-                                                                                  value="Melbourne"/></div>
-                        </div>
-                        <div className="px-1 col-md-4">
-                            <div className="form-group"><label>Country</label><input placeholder="Country" type="text"
-                                                                                     className="form-control"
-                                                                                     value="Australia"/></div>
-                        </div>
-                        <div className="pl-1 col-md-4">
-                            <div className="form-group"><label>Postal Code</label><input placeholder="ZIP Code"
-                                                                                         type="number"
-                                                                                         className="form-control"/></div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="form-group"><label>About Me</label><textarea className="form-control">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
+                            <div className="form-group"><label>About Site</label><textarea value={this.state.About} className="form-control">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
                             </div>
                         </div>
                     </div>
+
                     <div className="field" align="left">
                         <h3>Upload your images</h3>
-                        <input type="file" id="files" name="files[]" multiple/>
+                        <input value={this.state.images} type="file" id="files" name="files[]" multiple/>
                     </div>
+
+
+                    <Link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"
+                          id="bootstrap-css"/>
+
+
+
+                        <div>
+                        <a className="btn btn-primary" role="button" href="#model-id" data-toggle="modal">Theme select </a>
+                        <br/>
+            </div>
+            <div tabIndex="-1" className="modal fade" id="model-id" role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button className="close" aria-hidden="true" type="button" data-dismiss="modal">×</button>
+                        </div>
+                        <Link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"
+                              id="bootstrap-css"/>
+                            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+                            <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+                            <div class="container">
+                            <div className="selected-item">
+                                <p>You Selected theme : <span>...</span></p>
+                            </div>
+
+                            <div className="dropdown">
+                                <span className="selLabel">Select theme</span>
+                                <input value={this.state.theme}  type="hidden" name="cd-dropdown"/>
+                                    <ul className="dropdown-list">
+                                        <li data-value="1">
+                                            <span>Theme1</span>
+                                        </li>
+                                        <li data-value="2">
+                                            <span>Theme2</span>
+                                        </li>
+                                        <li data-value="3">
+                                            <span>theme3</span>
+                                        </li>
+
+                                    </ul>
+                            </div>
+                    </div>
+                        <div className="modal-footer">
+                            <button className="btn" aria-hidden="true" data-dismiss="modal">Close</button>
+                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
                     <div className="row">
                         <div className="update ml-auto mr-auto">
-                            <button type="submit" className="btn-round btn btn-primary">Update Profile</button>
+                            <button type="submit" className="btn-round btn btn-primary">Add</button>
                         </div>
                     </div>
                 </form>
