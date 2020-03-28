@@ -1,4 +1,5 @@
 const SubType = require('../models/ProductSubType.model');
+const Page = require('../models/page.model');
 
 // get all Product sub-Types
 exports.getAll =   (req, res) =>{
@@ -68,4 +69,16 @@ exports.assignType = async  (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
+};
+// get  Product Sub Types pages by website
+exports.getPagesByWebsite =   (req, res) =>{
+    Page.find({website:req.params.websiteId,type:"subCategory"}).populate('productTypePage').exec()
+        .then(pages => {
+
+            res.json(pages);
+
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+
 };
