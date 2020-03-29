@@ -46,6 +46,8 @@ exports.update = async  (req, res) => {
         const updated = await Product.updateOne(
             { _id: req.params.productId },
             { $set: req.body}
+            ,
+            {new: true, useFindAndModify: false}
         );
         res.json(updated);
     } catch (err) {

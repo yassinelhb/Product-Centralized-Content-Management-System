@@ -27,7 +27,10 @@ import UserPage from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
 import Pages from "views/Pages.jsx";
 import Component from "views/Component.jsx";
+import register from "views/register/register.jsx"
+import Login from "views/Login/Login.jsx";
 import productTypes from "views/productType/productTypes";
+import productSubTypes from "./views/productSubType/ProductSubTypes";
 
 var routes = [
   {
@@ -35,6 +38,13 @@ var routes = [
     name: "Dashboard",
     icon: "nc-icon nc-bank",
     component: Dashboard,
+    layout: "/admin"
+  },
+  {
+    path: "/register",
+    name: "register",
+    icon: "nc-icon nc-bank",
+    component: register,
     layout: "/admin"
   },
   {
@@ -49,6 +59,13 @@ var routes = [
     name: "Product Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
+    layout: "/admin"
+  },
+  {
+    path: "/productSubTypes",
+    name: "Product Sub-Types",
+    icon: "nc-icon nc-single-copy-04",
+    component: productSubTypes,
     layout: "/admin"
   },
   {
@@ -108,5 +125,6 @@ var routes = [
     component: UpgradeToPro,
     layout: "/admin"
   }
+
 ];
 export default routes;

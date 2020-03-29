@@ -30,10 +30,10 @@ class Home extends React.Component {
                 res.forEach(page => {
                     if ( page.layout.layout_name === 'category' ) {
                         if (this.state.page.best_category?.best_category_list) {
-                           const exist = this.state.page.best_category.best_category_list.find((item) => item._id == page._id);
-                           if( ! exist ) {
-                               page_category.push(page)
-                           }
+                            const exist = this.state.page.best_category.best_category_list.find((item) => item._id == page._id);
+                            if( ! exist ) {
+                                page_category.push(page)
+                            }
                         } else {
                             page_category.push(page)
                         }
@@ -157,7 +157,7 @@ class Home extends React.Component {
                     this.setState({
                         page : res
                     })
-                 )
+                )
 
         } else {
             this.props.handle(this.state.page)
@@ -170,11 +170,11 @@ class Home extends React.Component {
         const { page, page_category , best_category_list_edit, toggle_btn } = this.state
 
         const best_category_text = this.state.best_category_text_edit ?
-                <EditorText editorState = { page.best_category?.best_category_text ? page.best_category.best_category_text : '' } editor = {this.editorBestCategoryText} />
-                :
-                <h1 className="best_category_text" onClick={ this.handleBestCategoryText }>
-                     { page.best_category?.best_category_text  ? page.best_category.best_category_text : 'Title of best category'  }
-                </h1>
+            <EditorText editorState = { page.best_category?.best_category_text ? page.best_category.best_category_text : '' } editor = {this.editorBestCategoryText} />
+            :
+            <h1 className="best_category_text" onClick={ this.handleBestCategoryText }>
+                { page.best_category?.best_category_text  ? page.best_category.best_category_text : 'Title of best category'  }
+            </h1>
 
 
         const best_category_desc = this.state.best_category_desc_edit ?
@@ -184,39 +184,39 @@ class Home extends React.Component {
                 { page.best_category?.best_category_desc ? page.best_category.best_category_desc : 'Description of best category' }
             </p>
 
-            const toggle = <div className="toggle_btn">
-                    {
-                        best_category_list_edit &&
-                        <span className="icon_btn" onClick={this.editButtonClick}>
+        const toggle = <div className="toggle_btn">
+            {
+                best_category_list_edit &&
+                <span className="icon_btn" onClick={this.editButtonClick}>
                              <i className="nc-icon nc-check-2" onClick={this.saveButtonClick}></i>
                         </span>
-                    }
-                    {
-                        best_category_list_edit === false && toggle_btn &&
-                        <span className="icon_btn" onClick={this.editButtonClick}>
+            }
+            {
+                best_category_list_edit === false && toggle_btn &&
+                <span className="icon_btn" onClick={this.editButtonClick}>
                             <i className="nc-icon nc-ruler-pencil"></i>
                         </span>
-                    }
-                </div>
+            }
+        </div>
 
         const best_category_list =  page.best_category?.best_category_list &&
-                                            page.best_category.best_category_list.map(page =>
-                                                <div className="col-md-3" key={ page._id}>
-                                                    {
-                                                        best_category_list_edit ?
-                                                            <p className="best_category_item">
-                                                                { page.page_name}
-                                                                <span className="toggle_icon" onClick={ () => this.removeCategory(page) }>
+            page.best_category.best_category_list.map(page =>
+                <div className="col-md-3" key={ page._id}>
+                    {
+                        best_category_list_edit ?
+                            <p className="best_category_item">
+                                { page.page_name}
+                                <span className="toggle_icon" onClick={ () => this.removeCategory(page) }>
                                                                     <i className="nc-icon nc-simple-remove"></i>
                                                                 </span>
-                                                             </p>
-                                                            :
-                                                            <Link className="best_category_item" to={ '/website/' +page.page_name}>
-                                                                { page.page_name }
-                                                            </Link>
-                                                    }
-                                                </div>
-                                            )
+                            </p>
+                            :
+                            <Link className="best_category_item" to={ '/website/' +page.page_name}>
+                                { page.page_name }
+                            </Link>
+                    }
+                </div>
+            )
 
         return (
             <>
@@ -229,9 +229,9 @@ class Home extends React.Component {
                                 <div className="col-md-9">
                                     { toggle }
                                     <div className={ best_category_list?.length && best_category_list_edit === false ? '' : 'best_category_border'}>
-                                      <div className="row">
-                                          { best_category_list }
-                                      </div>
+                                        <div className="row">
+                                            { best_category_list }
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="col-md-3">

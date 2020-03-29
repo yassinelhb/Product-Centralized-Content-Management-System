@@ -1,32 +1,26 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
-const usersSchema  = new Schema({
-    email: {
+const BlogSchema  = new Schema({
+    Title: {
         type: String,
         required: true,
-        unique: true
     },
-    password: {
+    Description: {
         type: String,
         required: true
     },
-    role: {
+    Image: {
         type: String,
-
+        required: true
     },
     website: {
         type: Schema.Types.ObjectId,
         ref: "website",
     },
     Statut: {
-         type: String,
-    },
-    function: {
-        type:String,
-        require: true
+        type: String,
     }
 })
-//d
-module.exports = mongoose.model('users' , usersSchema)
+
+module.exports = mongoose.model('Blog' , BlogSchema)

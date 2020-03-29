@@ -21,5 +21,6 @@ router.put('/:subTypeId', SubTypeService.update);
 
 // assign a type to a sub-type
 router.put('/assignType/:subTypeId', SubTypeService.assignType);
-
+// get a type by id
+router.get('/pagesByWebsite/:websiteId', SubTypeService.getPagesByWebsite);
 module.exports = router;
