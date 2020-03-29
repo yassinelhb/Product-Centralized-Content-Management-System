@@ -39,7 +39,6 @@ class ModalConfirm extends React.Component {
     }
     removeClick = (page) => {
 
-        console.log(page)
         servicePage.deletePage(page._id)
             .then((res) => {
                 console.log(res)

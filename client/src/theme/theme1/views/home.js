@@ -184,6 +184,21 @@ class Home extends React.Component {
                 { page.best_category?.best_category_desc ? page.best_category.best_category_desc : 'Description of best category' }
             </p>
 
+            const toggle = <div className="toggle_btn">
+                    {
+                        best_category_list_edit &&
+                        <span className="icon_btn" onClick={this.editButtonClick}>
+                             <i className="nc-icon nc-check-2" onClick={this.saveButtonClick}></i>
+                        </span>
+                    }
+                    {
+                        best_category_list_edit === false && toggle_btn &&
+                        <span className="icon_btn" onClick={this.editButtonClick}>
+                            <i className="nc-icon nc-ruler-pencil"></i>
+                        </span>
+                    }
+                </div>
+
         const best_category_list =  page.best_category?.best_category_list &&
                                             page.best_category.best_category_list.map(page =>
                                                 <div className="col-md-3" key={ page._id}>
@@ -212,6 +227,7 @@ class Home extends React.Component {
                         <div className="best_category_list">
                             <div className="row">
                                 <div className="col-md-9">
+                                    { toggle }
                                     <div className={ best_category_list?.length && best_category_list_edit === false ? '' : 'best_category_border'}>
                                       <div className="row">
                                           { best_category_list }
@@ -223,20 +239,6 @@ class Home extends React.Component {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="toggle_btn">
-                            {
-                                best_category_list_edit &&
-                                <button className="btn btn-info"
-                                        onClick={this.saveButtonClick}>Save</button>
-                            }
-                            {
-                                best_category_list_edit === false && toggle_btn &&
-                                    <button className="btn btn-info"
-                                            onClick={this.editButtonClick}>Edit</button>
-                            }
-                        </div>
-
                     </div>
                 </div>
             </>
