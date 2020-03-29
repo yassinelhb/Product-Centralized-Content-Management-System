@@ -7,24 +7,41 @@ import TypeService from "../../services/product/ProductType.service";
 
 const Register1 = () => {
 
-
-
     const [modal, setModal] = useState(false);
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
+    const [password2, setpassword2] = useState("");
     const [role, setrole] = useState("");
+    const [error, seterror] = useState("");
+    const [succes, setsucces] = useState("");
 
+    const a="";
     const toggle = () => setModal(!modal);
     const changeHandler = (e) => {
         e.target.name = e.target.value;
     };
     const submitHandler = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem("token");
-        const data = {"email":email,"password":password, "role":role, "token":token};
-        register.register(data).then( res => {
-            console.log(res);
-        })
+        console.log(password);
+        console.log(password2);
+        if(password===password2) {
+            const token = localStorage.getItem("token");
+            const data = {"email": email, "password": password, "role": role, "token": token};
+            register.register(data).then(res => {
+                if(res.data.error!=null){
+                    seterror(res.data.error);
+                }
+                else{
+                    console.log(res);
+                    setsucces('User add succes');
+                }
+            })
+        }
+        else{
+            seterror('password dont match');
+
+            console.log(error);
+        }
 
     };
 
@@ -39,7 +56,7 @@ const Register1 = () => {
 
 
                         <FormGroup>
-                            <label>Email</label>
+                            <label>Email </label>
                             <Input
                                 placeholder="Type Email"
                                 type="text"
@@ -62,6 +79,17 @@ const Register1 = () => {
                             />
                         </FormGroup>
                         <FormGroup>
+                            <label>Confirm Password</label>
+                            <Input
+                                placeholder="Type Password"
+                                type="password"
+                                name="password2"
+                                value={password2}
+                                onChange={e => setpassword2(e.target.value)}
+
+                            />
+                        </FormGroup>
+                        <FormGroup>
                             <label>Role</label>
                             <select name="role" value={role}  onChange={e => setrole(e.target.value)}  className="form-control">
                                 <option selected>Choose...</option>
@@ -69,6 +97,12 @@ const Register1 = () => {
                                 <option>Administrator</option>
                             </select>
                         </FormGroup>
+                        <div className="alert-danger">
+                            {error}
+                        </div>
+                        <div className="alert-primary">
+                            {succes}
+                        </div>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" type="submit" >Add</Button>{' '}
