@@ -43,7 +43,7 @@ const UpdateProductSubType = (props) => {
       <div>
         <Button color="warning" onClick={toggle}>Update</Button>
         <Modal isOpen={modal} toggle={toggle} >
-          <ModalHeader toggle={toggle}>Add new product type</ModalHeader>
+          <ModalHeader toggle={toggle}>Update product sub-type</ModalHeader>
           <form onSubmit={submitHandler}>
           <ModalBody>
 

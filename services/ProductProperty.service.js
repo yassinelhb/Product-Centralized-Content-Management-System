@@ -3,7 +3,7 @@ const Property = require('../models/ProductProperty.model');
 // get all Product properties
 exports.getAll =   (req, res) =>{
 
-      Property.find()
+      Property.find().populate('subType').exec()
               .then(propertyies => res.json(propertyies))
               .catch(err => res.status(400).json('Error: ' + err));
 

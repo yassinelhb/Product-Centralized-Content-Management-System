@@ -29,6 +29,7 @@ import Pages from "views/Pages.jsx";
 import Component from "views/Component.jsx";
 import productTypes from "views/productType/productTypes";
 import productSubTypes from "./views/productSubType/ProductSubTypes";
+import productProperties from "./views/productProperty/productProperties";
 
 var routes = [
   {
@@ -57,6 +58,13 @@ var routes = [
     name: "Product Sub-Types",
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
+    layout: "/admin"
+  },
+  {
+    path: "/productProperties",
+    name: "Product Properties",
+    icon: "nc-icon nc-single-copy-04",
+    component: productProperties,
     layout: "/admin"
   },
   {
