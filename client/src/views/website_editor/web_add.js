@@ -25,37 +25,7 @@ import '../../assets/css/WebsiteListe.css';
 class Web_add extends React.Component {
     state = { name :"", val: '' , lang:''  , Currency:'' , About:{},images:{} ,theme:{} };
 
-    addRow ()
-    {
-        fetch('http://localhost:3001/website/', {
-            method: 'POST',
 
-            body: JSON.stringify({
-                "domain":
-                    ".dz",
-                "logo_pic": "assets/img/"+this.state.images,
-                "site_name": this.state.name ,
-                "theme": this.state.theme,
-                "header": {
-                    "header_name": "",
-                    "description": "",
-                    "links":[
-
-                    ]
-                },
-                "pages": [ "5e755ddc43ab62db9213ac07"
-                ],
-
-
-                "layouts": [],
-                "ads_banners": [],
-                "Language": "fr",
-                "Contry": "fr",
-                "Curreny_sign" : "wwwwwwwwww",
-                "date": "11/17/2017"
-            })
-        })
-    }
 
     Styleherder= ()=>{
         return{
@@ -97,7 +67,7 @@ class Web_add extends React.Component {
 
 
 
-    <div className="col-md-8">
+    <div className="col-md-8" >
         <div className="card-user card">
             <div className="card-header"><h5 className="card-title">Add Website</h5></div>
             <div className="card-body">
@@ -108,7 +78,7 @@ class Web_add extends React.Component {
                                                                                                 placeholder="Website"
                                                                                                 type="text"
                                                                                                 className="form-control"
-                                                                                          value={this.state.name}/>
+                                                                                         />
                             </div>
                         </div>
                     </div>
@@ -210,14 +180,14 @@ class Web_add extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <div className="form-group"><label>About Site</label><textarea value={this.state.About} className="form-control">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
+                            <div className="form-group"><label>About Site</label><textarea  className="form-control">Oh so, your weak rhyme You doubt I'll bother, reading into it</textarea>
                             </div>
                         </div>
                     </div>
 
                     <div className="field" align="left">
                         <h3>Upload your images</h3>
-                        <input value={this.state.images} type="file" id="files" name="files[]" multiple/>
+                        <input type="file" id="files" name="files[]" multiple/>
                     </div>
 
 
@@ -249,7 +219,7 @@ class Web_add extends React.Component {
 
                             <div className="dropdown">
                                 <span className="selLabel">Select theme</span>
-                                <input value={this.state.theme}  type="hidden" name="cd-dropdown"/>
+                                <input  type="hidden" name="cd-dropdown"/>
                                     <ul className="dropdown-list">
                                         <li data-value="1">
                                             <span>Theme1</span>
@@ -258,12 +228,14 @@ class Web_add extends React.Component {
                                             <span>Theme2</span>
                                         </li>
                                         <li data-value="3">
-                                            <span>theme3</span>
+                                            <span>Theme3</span>
                                         </li>
+
 
                                     </ul>
                             </div>
                     </div>
+                        <br/><br/><br/><br/>
                         <div className="modal-footer">
                             <button className="btn" aria-hidden="true" data-dismiss="modal">Close</button>
                             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>

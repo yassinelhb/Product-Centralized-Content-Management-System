@@ -33,7 +33,9 @@ import productTypes from "views/productType/productTypes";
 import productSubTypes from "./views/productSubType/ProductSubTypes";
 import productProperties from "./views/productProperty/productProperties";
 
+import Ads_banner from "./views/Ads_banner/Ads_banner";
 var routes = [
+
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -76,6 +78,22 @@ var routes = [
     component: productProperties,
     layout: "/admin"
   },
+
+  {
+
+    path: "/Websites",
+    name: "Websites",
+    icon: "nc-icon nc-globe",
+    component: Websites,
+    layout: "/admin"
+  },
+  {
+    path: "/Ads_banner",
+    name: "Ads_banner",
+    icon: "nc-icon nc-calendar-60",
+    component: Ads_banner,
+    layout: "/admin"
+  },
   {
     path: "/component",
     name: "Component",
@@ -83,13 +101,7 @@ var routes = [
     component: Component,
     layout: "/admin"
   },
-  {
-    path: "/Websites",
-    name: "Websites",
-    icon: "nc-icon nc-globe",
-    component: Websites,
-    layout: "/admin"
-  },
+
   {
     path: "/maps",
     name: "Maps",
@@ -123,14 +135,6 @@ var routes = [
     name: "Typography",
     icon: "nc-icon nc-caps-small",
     component: Typography,
-    layout: "/admin"
-  },
-  {
-    pro: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "nc-icon nc-spaceship",
-    component: UpgradeToPro,
     layout: "/admin"
   }
 

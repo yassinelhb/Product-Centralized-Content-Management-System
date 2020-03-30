@@ -17,9 +17,7 @@ exports.addAds_banner = async  (req, res) => {
         Ads_banner_name: req.body.Ads_banner_name,
         description: req.body.description,
         Ads_img: req.body.Ads_img,
-        Ads_begin_date: req.body.Ads_begin_date,
-        Ads_finish_date: req.body.Ads_finish_date,
-        Premium_ads: req.body.Premium_ads
+        Valide_ads: req.body.Premium_ads
     });
     try {
         const savedAds_banner= await ads_banner.save();
