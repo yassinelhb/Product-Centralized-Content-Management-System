@@ -99,6 +99,8 @@ class Pages extends React.Component {
     return (
       <>
         <div className="content">
+
+
           <Row>
             <Col md="12">
               <Card>
@@ -131,6 +133,7 @@ class Pages extends React.Component {
             </Col>
           </Row>
           <ModalConfirm show = { show } hide = { this.handleClose } page = { page } />
+>>>>>>> 7f8ff62b88be3e53c912b43021754a760cdc7d19
         </div>
       </>
     );
