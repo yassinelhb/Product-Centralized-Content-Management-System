@@ -21,6 +21,10 @@ const PageSchema  = new Schema({
         ref: "Website",
         required: true
     },
+    productType: {
+        type: Schema.Types.ObjectId,
+        ref: "ProductType",
+    },
 
 }, {strict: false});
 

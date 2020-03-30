@@ -15,7 +15,6 @@ const Register1 = () => {
     const [error, seterror] = useState("");
     const [succes, setsucces] = useState("");
 
-    const a="";
     const toggle = () => setModal(!modal);
     const changeHandler = (e) => {
         e.target.name = e.target.value;

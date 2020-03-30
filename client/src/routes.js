@@ -43,7 +43,7 @@ var routes = [
   {
     path: "/register",
     name: "register",
-    icon: "nc-icon nc-bank",
+    icon: "nc-icon nc-single-02",
     component: register,
     layout: "/admin"
   },
