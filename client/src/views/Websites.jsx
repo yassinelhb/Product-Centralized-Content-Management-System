@@ -100,10 +100,7 @@ deleteRow  ( web_id){
                                                                       {this.state.websites.map(Website =>
                                                                       <Container>
                                                                         <Row>
-                                                                         <Link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
 
-                                                                              <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-                                                                              <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
                                                                           <Col>
                                                                         <div className="page-list_item" key={Website.id} >
                                                                          <div id="products" class="row list-group">
@@ -124,7 +121,7 @@ deleteRow  ( web_id){
                                                                                                                                 </div>
 
 
-                                                                                                                                     <div className="dropdown item-dropdown" onClick={ () => this.clicke(Website)}>
+                                                                                                                                     <div className="dropdowne item-dropdown" onClick={ () => this.clicke(Website)}>
                                                                                                                                                                <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
                                                                                                                                                                  <i className="nc-icon nc-settings-gear-65"></i>
                                                                                                                                                                </span>
