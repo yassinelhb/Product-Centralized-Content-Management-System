@@ -48,13 +48,15 @@ class register extends React.Component {
             this.setState({error: "you need to sign in"})
 
         }
+        console.log(this.state.error);
+
     }
 
 
 
     render() {
         const {sites} = this.state;
-        if (this.state.error != null) {
+        if (this.state.error != "") {
       return(
                 <div className="content">
                     <div className="alert-danger">

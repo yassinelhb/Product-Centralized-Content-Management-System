@@ -64,11 +64,11 @@ class Login extends React.Component {
                 <h2 className="text-center">Welcome</h2>
                 <FormGroup>
                     <Label>Email</Label>
-                    <Input type="email" placeholder="Email" id="email" name="email" onChange={this.handleChange.bind(this)}/>
+                    <Input type="email" placeholder="Email" required id="email" name="email" onChange={this.handleChange.bind(this)}/>
                 </FormGroup>
                 <FormGroup>
                     <Label>Password</Label>
-                    <Input type="password" placeholder="password" id="password" name="password" onChange={this.handleChange.bind(this)}/>
+                    <Input type="password" required placeholder="password" id="password" name="password" onChange={this.handleChange.bind(this)}/>
                 </FormGroup>
                 <button type="submit" className="btn-lg btn-dark btn-block">Log in</button>
                 <div className="alert-danger">

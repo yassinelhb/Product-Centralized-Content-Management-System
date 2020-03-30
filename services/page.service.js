@@ -6,13 +6,14 @@ const Website = require('../models/website.model')
 // get all pages
 exports.getPages = async function (req, res) {
     try {
-        const pages = await Page.find({ website : req.params.siteId }).populate('layout').populate({
+        const pages = await Page.find({ website : req.params.siteId }).populate('layout').populate('productType').populate({
             path: 'website',
             populate: {
                 path: 'theme'
             }
         })
         res.json(pages)
+
     } catch (err) {
         res.json({ message: err });
     }
