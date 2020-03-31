@@ -16,7 +16,6 @@ class Header extends React.Component {
         }
     }
 
-
     editButtonClick = () => {
         this.setState({
             edit: !this.state.edit

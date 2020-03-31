@@ -82,3 +82,17 @@ exports.getPagesByWebsite =   (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
+
+
+
+// get  Product Types pages by website
+exports.getSubTypesPagesByType =   (req, res) =>{
+    Page.find({ "productTypePage" :req.params.typeId })
+        .then(pages => {
+
+            res.json(pages);
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+
+};

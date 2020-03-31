@@ -280,13 +280,22 @@ body {
     position: absolute;
     right: 25px;
     top: 8px;
-
 }
 
 .sub_category_left .sub_category_list .sub_category_item {
     position: relative;
     padding: 15px;
     cursor: pointer;
+    display: block;
+    color: #2c2c2c;
+    text-decoration: none;
+}
+
+.sub_category_left .sub_category_list .sub_category_item_editor {
+    position: relative;
+    padding: 15px;
+    display: block;
+    color: #2c2c2c;
 }
 
 .sub_category_left .sub_category_list .sub_category_item .custom-checkbox {
@@ -299,13 +308,22 @@ body {
     padding-right: 0;
 }
 .center-column .toolbar_filter {
-    padding: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 50px;
     border: 1px solid #E1E1E1;
     margin: 0;
 }
 
-.center-column .toolbar_filter .filter_sort .sort_text {
-    padding-right: 15px;
+.center-column .toolbar_filter .editor_input {
+    display: inline-block;
+    width: auto;
+}
+
+
+
+.center-column .toolbar_filter .filter_sort select {
+    margin-left: 15px;
 }
 
 .product_list .product_list_item {
@@ -387,6 +405,11 @@ body {
 
 
 
+/* editor input */
+
+.editor_input {
+    padding: 0.75rem 0.75rem
+}
 
 
 
@@ -411,8 +434,7 @@ body {
 
 .check_icon {
     position: absolute;
-    top: 5px;
-    left: 0;
+    top: 2px;
     height: 20px;
     width: 20px;
     background-color: #eee;
