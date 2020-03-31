@@ -21,14 +21,14 @@ import { Modal, Button } from "react-bootstrap";
 import servicePage from "../../services/page.service";
 
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
 };
 
 class ModalConfirm extends React.Component {
@@ -47,33 +47,33 @@ class ModalConfirm extends React.Component {
     }
 
     handleClose = () => {
-       this.props.hide()
+        this.props.hide()
     }
 
-  render() {
-    const { show, page } = this.props
-    return (
-        <Modal show={show}
-              size="md"
-              centered
-              onHide={ this.handleClose }
-        >
-            <Modal.Header closeButton>
-                <Modal.Title>Confirm</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>You are sure you want remove this page ?</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={ this.handleClose}>
-                    Close
-                </Button>
-                <Button variant="info" onClick={ () => this.removeClick(page) }>
-                    Remove
-                </Button>
-            </Modal.Footer>
-        </Modal>
+    render() {
+        const { show, page } = this.props
+        return (
+            <Modal show={show}
+                   size="md"
+                   centered
+                   onHide={ this.handleClose }
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>You are sure you want remove this page ?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={ this.handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="info" onClick={ () => this.removeClick(page) }>
+                        Remove
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-    );
-  }
+        );
+    }
 }
 
 export default ModalConfirm;

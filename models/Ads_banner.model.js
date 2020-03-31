@@ -15,17 +15,8 @@ const Ads_bannerSchema  = new Schema({
         type: String,
         required: true
     },
-    Ads_begin_date: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    Ads_finish_date: {
-        type: Date,
-        required: true,
-        default: null
-    },
-    Premium_ads: {
+
+   Valide_ads: {
         type: Boolean,
         required: true,
     }

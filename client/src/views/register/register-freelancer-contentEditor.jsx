@@ -12,26 +12,42 @@ const Register2 = ({sites}) => {
     const [modal, setModal] = useState(false);
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
+    const [password2, setpassword2] = useState("");
     const [role, setrole] = useState("");
     const [website, setwebsite] = useState("");
     const [functionn, setfunctionn] = useState("");
+    const [error, seterror] = useState("");
+    const [succes, setsucces] = useState("");
 
     const toggle = () => setModal(!modal);
     const changeHandler = (e) => {
         console.log(sites);
         e.target.name = e.target.value;
     };
-
     const submitHandler = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem("token");
-        const data = {"email":email,"password":password, "role":role,"website":website,"function":functionn, "token":token};
-        console.log(data);
-        register.register(data).then( res => {
-            console.log(res);
-        })
-    };
+        console.log(password);
+        console.log(password2);
+        if(password===password2) {
+            const token = localStorage.getItem("token");
+            const data = {"email":email,"password":password, "role":role,"website":website,"function":functionn, "token":token};
+            register.register(data).then(res => {
+                if(res.data.error!=null){
+                    seterror(res.data.error);
+                }
+                else{
+                    console.log(res);
+                    setsucces('User add succes');
+                }
+            })
+        }
+        else{
+            seterror('password dont match');
 
+            console.log(error);
+        }
+
+    };
 
     return (
         <div>
@@ -64,6 +80,17 @@ const Register2 = ({sites}) => {
                             />
                         </FormGroup>
                         <FormGroup>
+                            <label>Confirm Password</label>
+                            <Input
+                                placeholder="Type Password"
+                                type="password"
+                                name="password2"
+                                value={password2}
+                                onChange={e => setpassword2(e.target.value)}
+
+                            />
+                        </FormGroup>
+                        <FormGroup>
                             <Label>role</Label>
                             <select name="role" value={role}  onChange={e => setrole(e.target.value)} className="form-control">
                                 <option selected>Choose...</option>
@@ -87,7 +114,12 @@ const Register2 = ({sites}) => {
                                 <option>Product Page Editor</option>
                             </select>
                         </FormGroup>
-
+                        <div className="alert-danger">
+                            {error}
+                        </div>
+                        <div className="alert-primary">
+                            {succes}
+                        </div>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" type="submit" >Add</Button>{' '}
