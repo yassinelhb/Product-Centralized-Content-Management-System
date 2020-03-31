@@ -4,20 +4,20 @@ import { Link} from "react-router-dom";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
-import serviceSubType from '../../../services/product/ProductSubType.service'
+import serviceSubType from "../../../services/product/ProductSubType.service";
 import EditorInputText from "../components/editorInputText";
 
 
 
-class Category extends React.Component {
+class Subcategory extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             editor: props.editor,
-            page : props.page,
-            edit_intro_category_text: false,
-            subcategory_page : '',
+            page: props.page,
+            subcategory_page: '',
+            edit_intro_subcategory_text: false,
             edit_title_subcategory: '',
             edit_subcategory: false,
             save_subcategory: false,
@@ -26,7 +26,7 @@ class Category extends React.Component {
     }
 
     componentDidMount() {
-        serviceSubType.getSubTypePageByType(this.state.page._id)
+        serviceSubType.getSubTypePageByType(this.state.page.productTypePage._id)
             .then( res =>
                 this.setState({
                     subcategory_page : res
@@ -46,6 +46,23 @@ class Category extends React.Component {
         })
     }
 
+    handleIntroSubcategoryText = () => {
+        this.setState({
+            edit_intro_subcategory_text : true
+        })
+    }
+
+    editorIntroSubcategoryText = (intro_subcategory_text) => {
+        this.setState({
+            page: {
+                ...this.state.page,
+                intro_subcategory_text: intro_subcategory_text
+            },
+            edit_intro_subcategory_text: false
+        })
+
+        this.savePage()
+    }
 
     handleTitleSubcategory = (subcategory) => {
         this.setState({
@@ -120,24 +137,7 @@ class Category extends React.Component {
     }
 
 
-    handleIntroCategoryText = () => {
-        this.setState({
-            edit_intro_category_text : true
-        })
-    }
 
-
-    editorIntroCategoryText = (intro_category_text) => {
-        this.setState({
-            page: {
-                ...this.state.page,
-                intro_category_text: intro_category_text
-            },
-            edit_intro_category_text: false
-        })
-
-        this.savePage()
-    }
 
     editSubcategoryClick = () => {
         this.setState({
@@ -169,39 +169,39 @@ class Category extends React.Component {
 
     render() {
 
-        const { page, subcategory_page, edit_intro_category_text, edit_subcategory, save_subcategory, edit_title_subcategory, setting_variable } = this.state
+        const { page, subcategory_page, edit_intro_subcategory_text, edit_subcategory, save_subcategory, edit_title_subcategory, setting_variable } = this.state
 
         const toggle_subcategory =
 
-            edit_subcategory && save_subcategory === false ?
+                     edit_subcategory && save_subcategory === false ?
 
-                <div className="toggle_btn">
+                         <div className="toggle_btn">
                             <span className="icon_btn" onClick={this.editSubcategoryClick}>
                                 <i className="nc-icon nc-ruler-pencil"></i>
                             </span>
-                </div>
-                :
-                save_subcategory &&
-                <div className="toggle_btn">
+                        </div>
+                        :
+                        save_subcategory &&
+                         <div className="toggle_btn">
                              <span className="icon_btn" onClick={this.saveSubcategoryClick}>
                                  <i className="nc-icon nc-check-2"></i>
                              </span>
-                </div>
+                         </div>
 
 
 
-        const intro_category_text = edit_intro_category_text ?
-            <EditorText editorState = { page.intro_category_text ? page.intro_category_text : page.productType.description } editor = {this.editorIntroCategoryText} />
+        const intro_subcategory_text = edit_intro_subcategory_text ?
+            <EditorText editorState = { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description } editor = {this.editorIntroSubcategoryText} />
             :
-            <p className="category_text" onClick={ this.handleIntroCategoryText }>
-                { page.intro_category_text ? page.intro_category_text : page.productType.description }
+            <p className="category_text" onClick={ this.handleIntroSubcategoryText }>
+                { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description }
             </p>
 
         const subcategory = subcategory_page &&
 
             subcategory_page.map( subcategory =>
                 save_subcategory === false ?
-                    <Link className="sub_category_item" to={`/website/` + page.page_name + `/`+ subcategory.page_name } key={subcategory._id}>
+                    <Link className="sub_category_item" to={`/website/` + page.productTypePage.page_name + `/`+ subcategory.page_name } key={subcategory._id}>
                         <label className="custom-checkbox">
                             <input type="checkbox" defaultChecked={ subcategory._id === page._id }/>
                             <span className="check_icon"></span>
@@ -220,11 +220,12 @@ class Category extends React.Component {
                     </div>
             )
 
-
         return (
            <div className="container">
                <div className="breadcrumb">
                    <Link to={'/'} className="navigation_page"> Home </Link>
+                   <span className="navigation_pipe">/</span>
+                   <Link to={'/website/' + page.productTypePage.page_name } className="navigation_page"> { page.productTypePage.page_name } </Link>
                    <span className="navigation_pipe">/</span>
                    <span className="navigation_page"> { page.page_name } </span>
                </div>
@@ -233,7 +234,7 @@ class Category extends React.Component {
                        { page.page_name }
                    </h1>
 
-                   { intro_category_text }
+                   { intro_subcategory_text }
 
                </div>
                <div className="row">
@@ -241,7 +242,7 @@ class Category extends React.Component {
                        <div className="sub_category_left" onMouseLeave={ () => this.mouseLeaveHandle() } onMouseEnter={ () => this.mouseEnterHandle() }>
                            <div className="category_title">
                                <span className="category_title_text">
-                                   { page.page_name }
+                                   { page.productTypePage.page_name }
                                </span>
                                { toggle_subcategory }
                            </div>
@@ -252,25 +253,25 @@ class Category extends React.Component {
                    </div>
                    <div className="center-column col-xs-12 col-sm-9">
                        <div className="toolbar_filter row">
-                           <div className=" mr-auto">
-                               {
-                                   setting_variable === 'results_total_number' ?
-                                       <EditorInputText editorState = { page.results_total_number ? page.results_total_number : '' } editor = { this.editorResultTotalNumber } />
-                                       :
-                                       <span className="product_count" onClick={ () => this.handleSettingVariable('results_total_number') } >4 { page.results_total_number ? page.results_total_number : 'products' }</span>
-                               }
-                           </div>
-                           <div className="filter_sort">
-                               {
-                                   setting_variable === 'sort_word'  ?
-                                       <EditorInputText editorState = { page.sort_word ? page.sort_word : '' } editor = { this.editorSortWord } />
-                                       :
-                                       <span className="sort_text" onClick={ () => this.handleSettingVariable('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
-                               }
-                               <select>
-                                   <option>------- ---</option>
-                               </select>
-                           </div>
+                            <div className=" mr-auto">
+                                {
+                                    setting_variable === 'results_total_number' ?
+                                        <EditorInputText editorState = { page.results_total_number ? page.results_total_number : '' } editor = { this.editorResultTotalNumber } />
+                                        :
+                                        <span className="product_count" onClick={ () => this.handleSettingVariable('results_total_number') } >4 { page.results_total_number ? page.results_total_number : 'products' }</span>
+                                }
+                            </div>
+                            <div className="filter_sort">
+                                {
+                                    setting_variable === 'sort_word'  ?
+                                        <EditorInputText editorState = { page.sort_word ? page.sort_word : '' } editor = { this.editorSortWord } />
+                                        :
+                                        <span className="sort_text" onClick={ () => this.handleSettingVariable('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
+                                }
+                                <select>
+                                    <option>------- ---</option>
+                                </select>
+                            </div>
                        </div>
                        <div className="product_list">
                            <div className="product_list_item">
@@ -410,4 +411,4 @@ class Category extends React.Component {
     }
 }
 
-export default Category;
+export default Subcategory;

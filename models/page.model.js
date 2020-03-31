@@ -25,6 +25,14 @@ const PageSchema  = new Schema({
         type: Schema.Types.ObjectId,
         ref: "ProductType",
     },
+    productSubType: {
+        type: Schema.Types.ObjectId,
+        ref: "ProductSubType",
+    },
+    productTypePage: {
+        type: Schema.Types.ObjectId,
+        ref: "Page",
+    }
 
 }, {strict: false});
 

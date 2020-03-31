@@ -6,7 +6,12 @@ const Website = require('../models/website.model')
 // get all pages
 exports.getPages = async function (req, res) {
     try {
-        const pages = await Page.find({ website : req.params.siteId }).populate('layout').populate('productType').populate({
+        const pages = await Page.find({ website : req.params.siteId })
+            .populate('layout')
+            .populate('productType')
+            .populate('productSubType')
+            .populate('productTypePage')
+            .populate({
             path: 'website',
             populate: {
                 path: 'theme'
@@ -63,7 +68,8 @@ exports.updatePage = async  (req, res) => {
                 { _id: req.body._id },
                 { $set: req.body },
                 {new: true, useFindAndModify: false}
-            ).populate('layout')
+            ).populate('layout').populate('productType').populate('productSubType')
+                .populate('productTypePage')
 
             res.json(updatedPage);
         } else {

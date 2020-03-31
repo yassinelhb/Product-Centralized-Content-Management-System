@@ -1,7 +1,7 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const websiteId = '5e70c6b0a2ad2d38a47e8ccd';
-const layout='5e76426f402b071f78fcc05d';
+const websiteId = '5e7ce3309f0d3737e8980743';
+const layout='5e81caecd4c74a0194841974';
 class ProductType {
 
 
@@ -94,6 +94,20 @@ class ProductType {
     PagesByWebsite = (websiteid) => {
         return new Promise((resolve, reject) => {
             axios.get(api + `productSubType/pagesByWebsite/`+websiteid)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
+
+    getSubTypePageByType = (pageId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productSubType/subtypesPagesByType/` + pageId)
                 .then(res => {
                     resolve(res.data);
                 })

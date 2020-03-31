@@ -4,18 +4,6 @@ const side_id = '5e7ce3309f0d3737e8980743'
 
 class Page {
 
-    category = () => {
-        return new Promise((resolve, reject) => {
-            axios.get(api + `productType`)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-    };
-
     getPage = () => {
         return new Promise((resolve, reject) => {
             axios.get(api + `page/`+ side_id)
@@ -67,6 +55,7 @@ class Page {
                 })
         })
     }
+
 
     }
 
