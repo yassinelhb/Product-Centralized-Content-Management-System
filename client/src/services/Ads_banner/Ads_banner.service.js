@@ -17,6 +17,8 @@ class Ads_banner {
         })
 
     };
+
+
     create = (property) => {
         return new Promise((resolve, reject) => {
             axios.post(api + `ads_banner`, property)

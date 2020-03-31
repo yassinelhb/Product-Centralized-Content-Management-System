@@ -32,6 +32,7 @@ import Login from "views/Login/Login.jsx";
 import productTypes from "views/productType/productTypes";
 import productSubTypes from "./views/productSubType/ProductSubTypes";
 import Ads_banner from "./views/Ads_banner/Ads_banner";
+import Web from "./views/website_editor/Website";
 var routes = [
 
   {
@@ -73,7 +74,7 @@ var routes = [
     path: "/Websites",
     name: "Websites",
     icon: "nc-icon nc-globe",
-    component: Websites,
+    component: Web,
     layout: "/admin"
   },
   {

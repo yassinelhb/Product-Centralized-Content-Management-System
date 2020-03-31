@@ -17,6 +17,6 @@ router.get('/:Ads_bannerId', Ads_bannerService.getOneAds_banner);
 router.delete('/:Ads_bannerId', Ads_bannerService.deleteAds_banner);
 
 // update a Ads_banner by Id
-router.patch('/:Ads_bannerId', Ads_bannerService.updateAds_banner);
+router.put('/:Ads_bannerId', Ads_bannerService.updateAds_banner);
 
 module.exports = router;
