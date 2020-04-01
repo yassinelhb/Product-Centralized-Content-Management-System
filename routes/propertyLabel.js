@@ -10,6 +10,8 @@ router.get('/', LabelService.getAll);
 // create a new label
 router.post('/', LabelService.create);
 
+// create many new label
+router.post('/createMany', LabelService.createMany);
 // get a label by id
 router.get('/:labelId', LabelService.getById);
 

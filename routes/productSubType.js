@@ -6,7 +6,8 @@ var SubTypeService = require('../services/ProductSubType.service');
 
 // get all Sub-Types
 router.get('/', SubTypeService.getAll);
-
+// get all Sub-Types by product Type
+router.get('/byType/:typeId', SubTypeService.getByType);
 // create a new sub-type
 router.post('/', SubTypeService.create);
 

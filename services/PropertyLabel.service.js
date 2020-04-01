@@ -23,6 +23,16 @@ exports.create = async  (req, res) => {
         res.json({message: err});
     }
 };
+// create many new Labels
+exports.createMany = async  (req, res) => {
+
+    try {
+        const saved = await Label.collection.insert(req.body);
+        res.json(saved);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
 
 // get a label by id
 exports.getById = async  (req, res) => {
