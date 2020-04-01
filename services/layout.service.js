@@ -15,3 +15,23 @@ exports.getLayout = async function (req, res) {
         res.json({ message: err });
     }
 }
+
+
+// add layout
+exports.addLayout = async  (req, res) => {
+
+    try {
+        const exist = await Layout.find({ website : req.body.website, layout_name : req.body.layout_name }).count()
+
+        if (exist === 0) {
+            const addedLayout = await Layout.create(req.body);
+            res.json(addedLayout);
+        } else {
+            res.json({message: 'Layout already exist'})
+        }
+
+
+    } catch (err) {
+        res.json({message: err});
+    }
+}

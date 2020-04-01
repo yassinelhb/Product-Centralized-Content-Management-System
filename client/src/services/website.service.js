@@ -3,7 +3,55 @@ const api = 'http://localhost:3001/';
 const side_id = '5e7ce3309f0d3737e8980743'
 
 class website {
+    getAll = () => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `website`)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
+    getOneById = (propertyId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `website/`+propertyId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+    delete = (propertyId) => {
+        return new Promise((resolve, reject) => {
+            axios.delete(api + `website/`+propertyId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
+    create = (property) => {
+        return new Promise((resolve, reject) => {
+            axios.post(api + `website`, property)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
 
     webSite = () => {
         return new Promise((resolve, reject) => {

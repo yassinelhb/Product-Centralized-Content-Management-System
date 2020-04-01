@@ -18,6 +18,7 @@ const Ads_bannerSchema  = new Schema({
 
    Valide_ads: {
         type: Boolean,
+        default: true,
         required: true,
     }
 

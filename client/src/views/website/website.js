@@ -47,7 +47,10 @@ class Website extends React.Component {
         const { pages, website } = this.state
         const router = pages &&
              pages.map((page) =>
-                  <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                  page.layout.layout_name === 'subcategory' ?
+                      <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                      :
+                      <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
              )
 
 

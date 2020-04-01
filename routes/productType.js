@@ -18,11 +18,13 @@ router.delete('/:typeId', ProductTypeService.delete);
 
 // update a product type
 router.put('/:typeId', ProductTypeService.update);
+
 // create a new product type
 router.post('/assignTypeToWebsite', ProductTypeService.assignTypeToWebsite);
 // get a type by id
 router.get('/getByWebsite/:websiteId', ProductTypeService.getByWebsite);
 // get a type by id
 router.get('/typesPagesByWebsite/:websiteId', ProductTypeService.getTypesPagesByWebsite);
+
 
 module.exports = router;
