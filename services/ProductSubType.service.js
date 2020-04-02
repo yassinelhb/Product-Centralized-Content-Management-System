@@ -8,7 +8,13 @@ exports.getAll =   (req, res) =>{
               .catch(err => res.status(400).json('Error: ' + err));
 
 };
+// get all Product sub-Types
+exports.getByType =   (req, res) =>{
+    SubType.find({productType:req.params.typeId}).populate('productType').exec()
+        .then(subTypes => res.json(subTypes))
+        .catch(err => res.status(400).json('Error: ' + err));
 
+};
 // create a new  sub-type
 exports.create = async  (req, res) => {
     const subType = new SubType({

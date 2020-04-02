@@ -67,10 +67,7 @@ exports.assignTypeToWebsite = async  (req, res) => {
     const saved = await Page.create(req.body)
         .then(async (s)=>{
             await  res.json(s);
-            const link = new Link({
-                link_text: s.page_name,
-                page: s._id
-            });
+
        //    const categoryLayout = await Layout.find({website:req.body.website,layout_name:'category'});
            const subCategoryLayout = await Layout.findOne({website:req.body.website,layout_name:'subcategory'}).then().catch();
             console.log(req.body.website);
@@ -101,30 +98,15 @@ exports.assignTypeToWebsite = async  (req, res) => {
 
                 })
                 .catch(err => res.status(400).json('Error: ' + err));
-            await link.save(
-                await Website.updateOne(
-                    { _id: req.body.website },
-                    { $push: {  'header.links' : link._id }}
-                )
-            )
+
         })
         .catch(err => res.status(400).json('Error: ' + err));
 };
 const addPage = async function(body) {
     const saved = await Page.create(body)
-        .then(async (s)=>{
+        .then( (s)=>{
 
-            const link = new Link({
-                link_text: s.page_name,
-                page: s._id
-            });
 
-            await link.save(
-                await Website.updateOne(
-                    { _id: body.website },
-                    { $push: {  'header.links' : link._id }}
-                )
-            );
             return s;
         })
         .catch();

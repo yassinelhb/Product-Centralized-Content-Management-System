@@ -66,6 +66,18 @@ class ProductType {
         })
 
     };
+    getByType = (typeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productSubType/byType/`+typeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
     delete = (subTypeId) => {
         return new Promise((resolve, reject) => {
             axios.delete(api + `productSubType/`+subTypeId)

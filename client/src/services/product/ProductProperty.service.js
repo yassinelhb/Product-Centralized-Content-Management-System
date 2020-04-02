@@ -17,6 +17,18 @@ class ProductProperty {
         })
 
     };
+    getBySubType = (subTypeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productProperty/bySubType/`+subTypeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
     create = (property) => {
         return new Promise((resolve, reject) => {
             axios.post(api + `productProperty`, property)
@@ -29,7 +41,18 @@ class ProductProperty {
         })
 
     };
+    createMany = (labels) => {
+        return new Promise((resolve, reject) => {
+            axios.post(api + `propertyLabel/createMany`, labels)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
     assignTypeToWebsite = (type) => {
         return new Promise((resolve, reject) => {
             const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
