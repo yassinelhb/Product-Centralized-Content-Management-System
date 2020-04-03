@@ -18,6 +18,7 @@ exports.register = async  (req, res) => {
     users.findOne({ email: req.body.email }).then(user => {
         if (!user) {
             const User = new users({
+                username: req.body.username,
                 email: req.body.email,
                 password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
                 role: req.body.role,
