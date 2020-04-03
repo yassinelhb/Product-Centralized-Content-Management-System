@@ -1,5 +1,5 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
-import Img from 'react-image';
+
 import React, {useEffect, useState} from 'react';
 import {Button, Modal , ModalHeader, ModalBody, ModalFooter, FormGroup,Input, Col} from 'reactstrap';
 
@@ -16,7 +16,7 @@ import Label from "reactstrap/es/Label";
 
 import TypeService from "../../services/product/ProductType.service";
 
-const myComponent = () => <Img src="https://www.example.com/foo.jpg" />
+
 
 const AddWebsite = (props) => {
 
@@ -39,14 +39,7 @@ const AddWebsite = (props) => {
     const [ss, setSS] = useState("");
 
     const toggle = () => setModal(!modal);
-    const  Styleimage= ()=>{
-        return{
-            padding: '5px',
 
-            width: '150px',
-
-        }
-    };
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -56,7 +49,29 @@ const AddWebsite = (props) => {
             "theme" :themeId,
             "Language" :Language,
             "Contry" :Contry,
-            "Curreny_sign" :Curreny_sign
+            "Curreny_sign" :Curreny_sign,
+            "layouts": [
+                {
+                    "layout_name": "home",
+                    "layout_img": "home.png"
+                },
+                {
+                    "layout_name": "index",
+                    "layout_img": "index.png"
+                },
+                {
+                    "layout_name": "category",
+                    "layout_img": "category.png"
+                },
+                {
+                    "layout_name": "detail",
+                    "layout_img": "detail.png"
+                },
+                {
+                    "layout_name": "help",
+                    "layout_img": "help.png"
+                }
+            ]
         } ;
         console.log(data);
         Web_serv.create(data)

@@ -1,0 +1,64 @@
+
+#ads {
+    padding-top: 100px;
+    padding-bottom: 65px;
+}
+
+.container {
+    position: relative;
+}
+
+
+.banner {
+    background: #7699C8C6;
+    padding: 20px;
+    height: 200px;
+    width: 180px;
+    position: absolute;
+}
+.banner.top  {
+    top: 20px;
+    right: 20px;
+}
+.banner.bottom {
+    top: 220px;
+    right: 20px;
+}
+
+/*** Media Queries ***/
+@media screen and (min-width: 1367px) {
+    .threshold {
+        margin: 0 auto;
+        width: 1366px;
+    }
+
+
+
+    .banner {
+        height: 300px;
+        width: 180px;
+    }
+    .banner.top  {
+        top: 0;
+        left: 0;
+    }
+    .banner.bottom {
+        top: 0;
+        right: 0;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .content { margin: 20px; }
+
+    .banner {
+        margin: 20px;
+        width: auto;
+        height: auto;
+
+        position: static;
+        top: auto;
+        right: auto;
+        left: auto;
+    }
+}

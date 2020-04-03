@@ -12,10 +12,18 @@ import {
 import Web_serv from "../../services/website.service";
 import AddWebsite from "./AddWebsite";
 import UpdateWebsite from "./UpdateWebsite";
-import UpdateProductType from "../productType/UpdateProductType";
 
+import UpdateProductType from "../productType/UpdateProductType";
+import UpdateProductSubType from "../productSubType/UpdateProductSubType";
+import Session from 'react-session-api'
 
 class Website extends React.Component {
+
+          Webselected (obj) {
+           sessionStorage.setItem('webselect' ,JSON.stringify(obj));
+              window.location.reload(false);
+    }
+
     Styleimage= ()=>{
         return{
             padding: '5px',
@@ -85,12 +93,16 @@ class Website extends React.Component {
                                     <AddWebsite refreshTable={this.refreshTable}/>
                                 </CardHeader>
                                 <CardBody>
+
                                     <Table responsive>
                                         <thead className="text-primary">
                                         <tr>
                                             <th>Name</th>
                                             <th>Contry</th>
+                                            <th>Language</th>
+                                            <th>Curreny_sign</th>
                                             <th>Image</th>
+
                                             <th>Actions</th>
 
                                         </tr>
@@ -99,13 +111,19 @@ class Website extends React.Component {
 
                                         {
                                             website.length ?
-                                                website.map(website => <tr key={website._id}> <td>{website.site_name}</td><td>{website.Contry}</td>
+                                                website.map(website => <tr key={website._id}> <td>{website.site_name}</td><td>{website.Contry}</td><td>{website.Language}</td><td>{website.Curreny_sign}</td>
+
                                                     <td>
 
                                                         <img className="group list-group-image" style={this.Styleimage()}
                                                              src={require("assets/img/" + website.logo_pic)}/>
                                                     </td>
-                                                    <td><div className="row"> <Button color="danger"  onClick={() =>this.deleteHandler(website._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(website)} >Add to website</Button></div></td></tr>) :
+                                                    <td> <div className="row"><button
+                                                        className="btn btn-sm btn-success"
+                                                        onClick={(e) => this.Webselected(website)}>
+                                                        Select to update
+                                                    </button> <UpdateWebsite refreshTable={this.refreshTable} webId={website._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(website._id)} >Delete</Button>
+                                                        </div></td></tr>) :
                                                 null
                                         }
 

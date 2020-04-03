@@ -46,12 +46,13 @@ class Website extends React.Component {
     render() {
         const { pages, website } = this.state
         const router = pages &&
-             pages.map((page) =>
-                  page.layout.layout_name === 'subcategory' ?
-                      <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-                      :
-                      <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-             )
+            pages.map((page) =>
+                page.layout.layout_name === 'subcategory' ?
+                    <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                    :
+                    <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+            )
+
 
 
 
@@ -59,11 +60,11 @@ class Website extends React.Component {
             <div className="wrapper">
                 <NavTools/>
                 <Suspense fallback={<div>Loading ...</div>}>
-                    {  website.header && pages ? this.loadHeader() : ''}
+                    {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>
                 <div className="wrapper-content">
                     <Suspense fallback={<div>Loading ...</div>}>
-                      { router }
+                        { router }
                     </Suspense>
                 </div>
             </div>
