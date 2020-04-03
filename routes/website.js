@@ -18,7 +18,7 @@ router.get('/:siteId', WebsiteService.getOneWebsite)
 router.delete('/:siteId', WebsiteService.deleteWebsite)
 
 // update a website
-router.patch('/:siteId', WebsiteService.updateWebsite)
+router.put('/:siteId', WebsiteService.updateWebsite)
 
 // update links of header
 router.post('/header/link/:type', WebsiteService.updateLinksHeader)

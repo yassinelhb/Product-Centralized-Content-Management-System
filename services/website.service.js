@@ -132,7 +132,20 @@ exports.updateWebsite = async  (req, res) => {
     try {
         const updatedWebsite = await Website.updateOne(
             { _id: req.params.siteId },
-            { $set: { theme: req.body.theme }}
+            { $set:
+                    {
+                        theme: req.body.theme,
+                        Contry: req.body.Contry,
+                        Curreny_sign: req.body.Curreny_sign,
+                        Language: req.body.Language,
+                        site_name: req.body.site_name,
+                        logo_pic: req.body.logo_pic,
+                        domain: req.body.domain,
+
+                    }
+
+
+            }
         );
         res.json(updatedWebsite);
     } catch (err) {

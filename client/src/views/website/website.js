@@ -4,6 +4,9 @@ import serviceSite from '../../services/website.service'
 import servicePage from '../../services/page.service'
 import Category from "../../theme/theme1/views/category";
 import NavTools from "../../components/Navbars/NavTools";
+import Ads from "../../components/Ads/Ads"
+import Chatbots from "../../components/chatbot/chatbot"
+import ChatBot from 'react-simple-chatbot';
 
 
 class Website extends React.Component {
@@ -46,26 +49,30 @@ class Website extends React.Component {
     render() {
         const { pages, website } = this.state
         const router = pages &&
-             pages.map((page) =>
-                  page.layout.layout_name === 'subcategory' ?
-                      <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-                      :
-                      <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-             )
+            pages.map((page) =>
+                page.layout.layout_name === 'subcategory' ?
+                    <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                    :
+                    <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+            )
+
 
 
 
          return (
             <div className="wrapper">
                 <NavTools/>
+                <Ads/>
                 <Suspense fallback={<div>Loading ...</div>}>
-                    {  website.header && pages ? this.loadHeader() : ''}
+                    {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>
                 <div className="wrapper-content">
                     <Suspense fallback={<div>Loading ...</div>}>
-                      { router }
+                        { router }
                     </Suspense>
                 </div>
+                <Chatbots/>
+
             </div>
         );
     }

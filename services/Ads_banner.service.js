@@ -53,10 +53,13 @@ exports.updateAds_banner = async  (req, res) => {
     try {
         const updatedAds_banner = await Ads_banner.updateOne(
             { _id: req.params.Ads_bannerId },
-            { $set: {Ads_banner_name: req.body.Ads_banner_name,
+            { $set: {
+                     Ads_banner_name: req.body.Ads_banner_name,
                     description: req.body.description,
                     Ads_img: req.body.Ads_img,
-                    Valide_ads: req.body.Valide_ads }}
+                    Valide_ads: req.body.Valide_ads
+                     }
+            }
         );
         res.json(updatedAds_banner);
     } catch (err) {

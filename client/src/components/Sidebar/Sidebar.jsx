@@ -21,21 +21,42 @@ import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-
+import Web from '../../views/website_editor/Website'
 import logo from "logo.svg";
+import Session from 'react-session-api';
+
+
+// or
 
 var ps;
 
 class Sidebar extends React.Component {
+
+
+ image= "no.png"
+   name ="No Site selected"
   constructor(props) {
     super(props);
+
     this.activeRoute.bind(this);
     this.sidebar = React.createRef();
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data)
+    if(this.data!= null){this.image = this.data.logo_pic}
+    if(this.data!= null){this.name = this.data.site_name}
+
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
+
+  Styleimage= ()=>{
+    return{
+      padding: '5px',
+      width: '150px',
+    }
+  };
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.sidebar.current, {
@@ -69,7 +90,14 @@ class Sidebar extends React.Component {
             href="https://www.creative-tim.com"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            <spam>
+              website selected  :<br/>
+              {this.name} <br/>
+              <img className="group list-group-image" style={this.Styleimage()}
+                   src={require('assets/img/'+this.image)}/>
+
+            </spam>
+
           </a>
         </div>
         <div className="sidebar-wrapper" ref={this.sidebar}>
