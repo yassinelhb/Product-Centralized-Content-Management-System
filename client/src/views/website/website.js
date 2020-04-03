@@ -5,6 +5,7 @@ import servicePage from '../../services/page.service'
 import Category from "../../theme/theme1/views/category";
 import NavTools from "../../components/Navbars/NavTools";
 import Ads from "../../components/Ads/Ads"
+import Chatbots from "../../components/chatbot/chatbot"
 import ChatBot from 'react-simple-chatbot';
 
 
@@ -70,56 +71,8 @@ class Website extends React.Component {
                         { router }
                     </Suspense>
                 </div>
-                <ChatBot
-                    steps={[
+                <Chatbots/>
 
-                        {
-                            id: '1',
-                            message: 'What is your name?',
-                            trigger: '2',
-                        },
-                        {
-                            id: '2',
-                            user: true,
-                            trigger: '3',
-                        },
-                        {
-                            id: '3',
-                            message: 'Hi {previousValue}, nice to meet you!',
-                            trigger: '4',
-                        },
-
-                        {
-                            id: '4',
-                            message: 'What ur occupation?',
-                            trigger: '5',
-                        },
-                        {
-                            id: '5',
-                            options: [
-                                { value: 1, label: 'student', trigger: '6' },
-                                { value: 2, label: 'businessman', trigger: '7' },
-                                { value: 3, label: 'normal employee', trigger: '8' },
-                            ],
-                        },
-                        {
-                            id: '6',
-                            message: 'you are a student, so  we have some wonderful bank offer that can give u many advantage',
-                            end: true,
-                        },
-                        {
-                            id: '7',
-                            message: 'you are a businessman,  great so  we have some Special bank offer that can give u many advantage',
-                            end: true,
-                        },
-                        {
-                            id: '8',
-                            message: 'you are a normal employee ,  so  we have some Special bank offer that can help and give u many advantage',
-                            end: true,
-                        },
-
-                    ]}
-                />
             </div>
         );
     }
