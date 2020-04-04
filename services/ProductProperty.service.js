@@ -71,3 +71,11 @@ exports.assignSubType = async  (req, res) => {
         res.json({message: err});
     }
 };
+// get all Product properties
+exports.getAllBySubType =    (req, res) =>{
+
+    Property.find({ subType: req.params.subTypeId }).populate('subType').exec()
+        .then(propertyies => res.json(propertyies))
+        .catch(err => res.status(400).json('Error: ' + err));
+
+};

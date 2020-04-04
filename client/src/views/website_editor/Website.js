@@ -9,23 +9,31 @@ import {
     Row,
     Col, Button
 } from "reactstrap";
-import Ads_serv from "../../services/Ads_banner/Ads_banner.service";
-import AddAds_banner from "./AddAds_banner";
-import UpdateAds_banner from "./UpdateAds_banner";
+import Web_serv from "../../services/website.service";
+import AddWebsite from "./AddWebsite";
+import UpdateWebsite from "./UpdateWebsite";
+
 import UpdateProductType from "../productType/UpdateProductType";
+import UpdateProductSubType from "../productSubType/UpdateProductSubType";
+import Session from 'react-session-api'
 
+class Website extends React.Component {
 
-class Ads_banner extends React.Component {
+          Webselected (obj) {
+           sessionStorage.setItem('webselect' ,JSON.stringify(obj));
+              window.location.reload(false);
+    }
+
     Styleimage= ()=>{
         return{
-        padding: '5px',
-        width: '150px',
+            padding: '5px',
+            width: '150px',
         }
     };
     constructor() {
         super();
         this.state = {
-            ads_banner: [],
+            website: [],
 
 
         };
@@ -34,18 +42,18 @@ class Ads_banner extends React.Component {
 
     componentDidMount() {
 
-        Ads_serv.getAll()
+        Web_serv.getAll()
             .then( res => {
                 this.setState({
-                    ads_banner : res
+                    website : res
                 });
             })
     }
     refreshTable = () => {
-        Ads_serv.getAll()
+        Web_serv.getAll()
             .then( res => {
                 this.setState({
-                    ads_banner : res
+                    website : res
                 });
             });
         /*
@@ -57,23 +65,23 @@ class Ads_banner extends React.Component {
     */
     };
     deleteHandler(id) {
-        Ads_serv.delete(id)
+        Web_serv.delete(id)
             .then( res => {
                 this.setState({
-                    ads_banner : this.state.ads_banner.filter(t => t._id !== id)
+                    website : this.state.website.filter(t => t._id !== id)
                 });
             })
 
     }
     addToWebsiteHandler(type) {
-        Ads_serv.assignTypeToWebsite(type)
+        Web_serv.assignTypeToWebsite(type)
             .then( res => {
                 console.log(res);
             })
 
     }
     render() {
-        const { ads_banner } = this.state ;
+        const { website } = this.state ;
         return (
             <>
                 <div className="content">
@@ -81,16 +89,20 @@ class Ads_banner extends React.Component {
                         <Col md="12">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle tag="h4">Ads_banners</CardTitle>
-                                    <AddAds_banner refreshTable={this.refreshTable}/>
+                                    <CardTitle tag="h4">website</CardTitle>
+                                    <AddWebsite refreshTable={this.refreshTable}/>
                                 </CardHeader>
                                 <CardBody>
+
                                     <Table responsive>
                                         <thead className="text-primary">
                                         <tr>
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <th>Contry</th>
+                                            <th>Language</th>
+                                            <th>Curreny_sign</th>
                                             <th>Image</th>
+
                                             <th>Actions</th>
 
                                         </tr>
@@ -98,14 +110,20 @@ class Ads_banner extends React.Component {
                                         <tbody>
 
                                         {
-                                            ads_banner.length ?
-                                                ads_banner.map(ads_banner => <tr key={ads_banner._id}> <td>{ads_banner.Ads_banner_name}</td><td>{ads_banner.description}</td>
+                                            website.length ?
+                                                website.map(website => <tr key={website._id}> <td>{website.site_name}</td><td>{website.Contry}</td><td>{website.Language}</td><td>{website.Curreny_sign}</td>
+
                                                     <td>
 
-                                                    <img className="group list-group-image" style={this.Styleimage()}
-                                                         src={require("assets/img/" + ads_banner.Ads_img)}/>
+                                                        <img className="group list-group-image" style={this.Styleimage()}
+                                                             src={require("assets/img/" + website.logo_pic)}/>
                                                     </td>
-                                                    <td><div className="row"><UpdateAds_banner refreshTable={this.refreshTable} typeId={ads_banner._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(ads_banner._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(ads_banner)} >Add to website</Button></div></td></tr>) :
+                                                    <td> <div className="row"><button
+                                                        className="btn btn-sm btn-success"
+                                                        onClick={(e) => this.Webselected(website)}>
+                                                        Select to update
+                                                    </button> <UpdateWebsite refreshTable={this.refreshTable} webId={website._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(website._id)} >Delete</Button>
+                                                        </div></td></tr>) :
                                                 null
                                         }
 
@@ -129,4 +147,4 @@ class Ads_banner extends React.Component {
 
 }
 
-export default Ads_banner;
+export default Website;

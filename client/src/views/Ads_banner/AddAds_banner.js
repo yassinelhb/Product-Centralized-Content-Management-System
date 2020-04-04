@@ -4,10 +4,9 @@ import React, {useEffect, useState} from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col} from 'reactstrap';
 import Ads_serv from "../../services/Ads_banner/Ads_banner.service";
 
-import Label from "reactstrap/es/Label";
-import {Link} from "react-router-dom";
 import '../../assets/scss/websiteListe';
 import '../../assets/css/Ads.css';
+
 
 
 const AddAds_banner = (props) => {
@@ -24,14 +23,16 @@ const AddAds_banner = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const data = {Ads_banner_name:Ads_banner_name,description:description,Ads_img:Ads_img , Valide_ads :Valide_ads} ;
+        const data = {"Ads_banner_name":Ads_banner_name,"description":description,"Ads_img":Ads_img , "Valide_ads" :Valide_ads} ;
         console.log(data);
         Ads_serv.create(data)
             .then( res => {
                 props.refreshTable();
-                toggle();
+                toggle(); console.log("okkkk");
             })
     };
+
+
 
 
     return (
@@ -67,9 +68,9 @@ const AddAds_banner = (props) => {
                         <FormGroup>
                             <label>Valide_ads</label>
 
-                            <select id="cars" name="Valide_ads">
-                                <option value="true"  onChange={e => setValide_ads(e.target.value)}>True</option>
-                                <option value="false"  onChange={e => setValide_ads(e.target.value)}>False</option>
+                            <select id="cars"  value={Valide_ads} name="Valide_ads" onChange={e => setValide_ads(e.target.value)}>
+                                <option value="true"  >True</option>
+                                <option value="false"  >False</option>
 
                             </select>
                         </FormGroup>
@@ -78,24 +79,14 @@ const AddAds_banner = (props) => {
                         <FormGroup >
 
 
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label>Upload Image</label>
-                                        <div className="input-group">
-            <span className="input-group-btn">
-                <span className="btn btn-default btn-file">
-                    Browse… <input type="file" id="imgInp"/>
-                </span>
-            </span>
+
                                             <input type="text" name="Ads_img"
                                                    value={Ads_img}
                                                    onChange={e => setAds_img(e.target.value)}
-                                                   className="form-control" readOnly/>
+                                                   className="form-control" />
 
-                                        </div>
-                                        <img id='img-upload'/>
-                                    </div>
-                                </div>
+
+
                         </FormGroup>
 
 

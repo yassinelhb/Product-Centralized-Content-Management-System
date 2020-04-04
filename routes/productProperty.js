@@ -6,7 +6,8 @@ var PropertyService = require('../services/ProductProperty.service');
 
 // get all properties
 router.get('/', PropertyService.getAll);
-
+// get all properties bysubType
+router.get('/bySubType/:subTypeId', PropertyService.getAllBySubType);
 // create a new property
 router.post('/', PropertyService.create);
 
