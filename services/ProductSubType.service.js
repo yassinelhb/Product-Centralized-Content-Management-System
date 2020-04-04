@@ -1,7 +1,7 @@
 const SubType = require('../models/ProductSubType.model');
 const Page = require('../models/page.model');
 
-// get all Product sub-Types
+// get all Detail sub-Types
 exports.getAll =   (req, res) =>{
     SubType.find().populate('productType').exec()
               .then(subTypes => res.json(subTypes))
@@ -70,7 +70,7 @@ exports.assignType = async  (req, res) => {
         res.json({message: err});
     }
 };
-// get  Product Sub Types pages by website
+// get  Detail Sub Types pages by website
 exports.getPagesByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId,type:"subCategory"}).populate('productTypePage').exec()
         .then(pages => {
@@ -85,7 +85,7 @@ exports.getPagesByWebsite =   (req, res) =>{
 
 
 
-// get  Product Types pages by website
+// get  Detail Types pages by website
 exports.getSubTypesPagesByType =   (req, res) =>{
     Page.find({ "productTypePage" :req.params.typeId })
         .then(pages => {

@@ -11,7 +11,9 @@ class Index extends React.Component {
 
     render() {
         return (
-            <h1>Index</h1>
+            <div className="">
+                <h1>fzefze</h1>
+            </div>
         );
     }
 }

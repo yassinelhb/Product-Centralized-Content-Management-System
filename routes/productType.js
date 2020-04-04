@@ -4,7 +4,7 @@ var ProductTypeService = require('../services/ProductType.service');
 
 
 
-// get all Product Types
+// get all Detail Types
 router.get('/', ProductTypeService.getAllTypes);
 
 // create a new product type

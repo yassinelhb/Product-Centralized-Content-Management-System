@@ -2,11 +2,11 @@ import axios from 'axios';
 const api = 'http://localhost:3001/';
 const side_id = '5e7ce3309f0d3737e8980743'
 
-class Page {
+class Theme {
 
-    getPage = () => {
+    getTheme = () => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `page/`+ side_id)
+            axios.get(api + `theme`)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -17,10 +17,9 @@ class Page {
     }
 
 
-    addPage = (page) => {
-        page.website = side_id
+    addTheme = (data) => {
         return new Promise((resolve, reject) => {
-            axios.post(api + `page`, page)
+            axios.post(api + `theme`, data,{ headers: { "Content-Type": "multipart/form-data" } })
                 .then(res => {
                     resolve(res.data);
                 })
@@ -30,24 +29,9 @@ class Page {
         })
     }
 
-    editPage = (page) => {
-
+    editTheme = (data) => {
         return new Promise((resolve, reject) => {
-            axios.patch(api + `page`, page)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-    }
-
-
-    deletePage = (pageId) => {
-        console.log(pageId)
-        return new Promise((resolve, reject) => {
-            axios.delete(api + `page/` + pageId)
+            axios.patch(api + `theme`, data,{ headers: { "Content-Type": "multipart/form-data" } })
                 .then(res => {
                     resolve(res.data);
                 })
@@ -58,8 +42,34 @@ class Page {
     }
 
 
+    deleteTheme = (themeId) => {
+        return new Promise((resolve, reject) => {
+            axios.delete(api + `theme/` + themeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
     }
 
-const instance = new Page()
+    checkUsedTheme = (themeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `theme/check/` + themeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    }
+
+    check
+
+    }
+
+const instance = new Theme()
 
 export default instance;
