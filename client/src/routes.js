@@ -35,6 +35,7 @@ import productProperties from "./views/productProperty/productProperties";
 
 import Ads_banner from "./views/Ads_banner/Ads_banner";
 import Web from "./views/website_editor/Website";
+import Users from "./views/Users/Users.jsx"
 var routes = [
 
   {
@@ -49,6 +50,13 @@ var routes = [
     name: "register",
     icon: "nc-icon nc-single-02",
     component: register,
+    layout: "/admin"
+  },
+  {
+    path: "/Users",
+    name: "Users",
+    icon: "nc-icon nc-single-02",
+    component: Users,
     layout: "/admin"
   },
   {

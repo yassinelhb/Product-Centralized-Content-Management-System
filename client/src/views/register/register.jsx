@@ -65,7 +65,7 @@ class register extends React.Component {
                 </div>)
             }
         else {
-            if (this.state.log === "admin") {
+            if (this.state.log === "Administrator") {
                 return (
 
                     <div className="content">

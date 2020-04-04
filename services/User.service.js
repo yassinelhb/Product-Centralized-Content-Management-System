@@ -1,20 +1,40 @@
-const users = require('../models/users')
+const users = require('../models/users');
 var bcrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
 
-exports.getuser = async function (req, res) {
-    try {
-        const User = await users.find();
-        res.json(User)
-    } catch (err) {
-        res.json({ message: err });
+exports.getuser = async  (req, res)=>
+{
+
+    const user = res.locals.user;
+    if (user != null) {
+        if (user.role === "Administrator") {
+            try {
+                const User = users.find().populate('website').then(user => res.json(user));
+            } catch (err) {
+                res.json({message: err});
+            }
+
+
+        } else {
+            res.json({error: " You don't have permission "})
+
+        }
+
     }
+    else
+        {
+            res.json({error: " You need to sign in"})
+        }
+
+
+
+
 }
 
 exports.register = async  (req, res) => {
     const user = res.locals.user;
     console.log(user);
-    if(user.role==="admin"){
+    if(user.role==="Administrator"){
     users.findOne({ email: req.body.email }).then(user => {
         if (!user) {
             const User = new users({
@@ -57,24 +77,27 @@ exports.login = async  (req, res) => {
 }
 exports.loginn = async  (req, res , next) => {
     const token = req.headers.authorization;
-    if(token){
+    console.log(token);
+    try {
+    if(token != null){
     const user = parseToken(token);
     users.findById(user.users._id, function (err , user) {
-        if(err){return res.json({error: "Error"});}
-        if(user){
+        if (err) {
+            return res.json({error: "Error"});
+        }
+        if (user) {
             res.locals.user = user;
             next();
         }
-        else {
-            return res.json({error: "Error"});
-        }
     })
+    }
+    }catch(err){
+            return res.json({error: "You need to sign in"});
+
+        }
 
     }
-    else{res.json({error: "vous devez s'authentifier"});}
 
-
-}
 
 function parseToken(token) {
     return jwt.verify(token.split(' ')[1],'secret');
