@@ -1,6 +1,6 @@
 const Property = require('../models/ProductProperty.model');
 
-// get all Product properties
+// get all Detail properties
 exports.getAll =   (req, res) =>{
 
       Property.find().populate('subType').exec()

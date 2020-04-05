@@ -190,14 +190,6 @@ class Header extends React.Component {
                             { btn_setting }
 
                         </ul>
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <a className="nav-link" href="{{ url('/login') }}">Login</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="{{ url('/register') }}">Register</a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
 

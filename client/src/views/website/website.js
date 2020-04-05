@@ -60,7 +60,7 @@ class Website extends React.Component {
 
 
          return (
-            <div className="wrapper">
+            <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>
                 <NavTools/>
                 <Ads/>
                 <Suspense fallback={<div>Loading ...</div>}>
