@@ -24,7 +24,8 @@ exports.addWebsite = async  (req, res) => {
         theme: req.body.theme,
         Language: req.body.Language,
         Contry:req.body.Contry ,
-        Curreny_sign:req.body.Curreny_sign
+        Curreny_sign:req.body.Curreny_sign,
+        ads_banners :null
 
     });
     try {
@@ -206,3 +207,21 @@ exports.updateLinksHeader = async  (req, res) => {
         res.json({message: err});
     }
 }
+
+
+// update a website ads banner
+exports.updateWebsite_ads = async  (req, res) => {
+    try {
+        const updateWebsite_ads = await Website.updateOne(
+            { _id: req.params.siteId },
+            { $set:
+                    {
+                        ads_banners: req.body.ads_banners,
+                    }
+            }
+        );
+        res.json(updateWebsite_ads);
+    } catch (err) {
+        res.json({message: err});
+    }
+};

@@ -1,6 +1,14 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const side_id = '5e7ce3309f0d3737e8980743'
+//const side_id = '5e7ce3309f0d3737e8980743'
+
+let side_id ='';
+let datas =sessionStorage.getItem('webselect');
+let web = JSON.parse(datas);
+if (web!=null){
+    side_id = web._id;
+}
+
 
 class Page {
 

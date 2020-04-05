@@ -23,5 +23,7 @@ router.put('/:siteId', WebsiteService.updateWebsite)
 // update links of header
 router.post('/header/link/:type', WebsiteService.updateLinksHeader)
 
+// update  website ads
+router.put('/web_ads/:siteId', WebsiteService.updateWebsite_ads)
 
 module.exports = router;

@@ -19,6 +19,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Table,
+  Row,
+  Col, Button
+} from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 import Web from '../../views/website_editor/Website'
@@ -33,15 +42,15 @@ var ps;
 class Sidebar extends React.Component {
 
 
- image= "no.png"
-   name ="No Site selected"
-  constructor(props) {
+    image= "no.png"
+    name ="No Site selected"
+     constructor(props) {
     super(props);
 
     this.activeRoute.bind(this);
     this.sidebar = React.createRef();
-    let data =sessionStorage.getItem('webselect');
-    this.data = JSON.parse(data)
+    let data = sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
     if(this.data!= null){this.image = this.data.logo_pic}
     if(this.data!= null){this.name = this.data.site_name}
 
@@ -50,6 +59,12 @@ class Sidebar extends React.Component {
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
+  Stylebutton= ()=>{
+    return{
+      padding:'5px',
+      background : 'red'
+    }
+  };
 
   Styleimage= ()=>{
     return{
@@ -57,6 +72,11 @@ class Sidebar extends React.Component {
       width: '150px',
     }
   };
+ clickclear() {
+  sessionStorage.clear();
+   window.location.reload(false);
+}
+
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.sidebar.current, {
@@ -87,7 +107,7 @@ class Sidebar extends React.Component {
             </div>
           </a>
           <a
-            href="https://www.creative-tim.com"
+
             className="simple-text logo-normal"
           >
             <spam>
@@ -97,6 +117,7 @@ class Sidebar extends React.Component {
                    src={require('assets/img/'+this.image)}/>
 
             </spam>
+            <Button style={this.Stylebutton()}  color="danger"  onClick={() =>this.clickclear()}></Button>
 
           </a>
         </div>

@@ -19,7 +19,7 @@ import Session from 'react-session-api'
 
 class Website extends React.Component {
 
-          Webselected (obj) {
+    Webselected (obj) {
            sessionStorage.setItem('webselect' ,JSON.stringify(obj));
               window.location.reload(false);
     }

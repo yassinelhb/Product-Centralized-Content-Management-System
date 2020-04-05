@@ -16,9 +16,21 @@ import UpdateProductSubType from "./UpdateProductSubType";
 import TypeService from "../../services/product/ProductType.service";
 
 class productSubTypes extends React.Component {
+  buttonstyle= (e)=>{
+    return{
+      "display":e
+    }
+  };
 
+  etat ='none';
   constructor() {
     super();
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
+    if(this.data != null )
+    {
+      this.etat=''
+    }
     this.state = {
       subTypes: [],
 
@@ -94,7 +106,7 @@ class productSubTypes extends React.Component {
 
                       {
                         subTypes.length ?
-                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(subType)} >Add to website</Button></div></td></tr>) :
+                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button><Button color="success" style={this.buttonstyle(this.etat) } onClick={() =>this.addToWebsiteHandler(subType)} >Add to website</Button></div></td></tr>) :
                             null
                       }
 

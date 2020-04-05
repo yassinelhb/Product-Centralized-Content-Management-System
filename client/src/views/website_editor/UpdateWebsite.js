@@ -53,6 +53,7 @@ const UpdateWebsite = (props) => {
         Web_serv.update(data,webId)
             .then( res => {
                 props.refreshTable();
+                window.location.reload(false);
                 toggle();
             })
     };

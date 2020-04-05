@@ -1,7 +1,16 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const websiteId = '5e7ce3309f0d3737e8980743';
-const layout='5e7ce3309f0d3737e8980744';
+//const websiteId = '5e7ce3309f0d3737e8980743';
+//const layout='5e7ce3309f0d3737e8980744';
+let layout;
+let websiteId ='';
+let datas =sessionStorage.getItem('webselect');
+let web = JSON.parse(datas);
+if (web!=null){
+     websiteId = web._id;
+}
+
+
 class ProductProperty {
 
 
@@ -54,6 +63,15 @@ class ProductProperty {
 
     };
     assignTypeToWebsite = (type) => {
+
+
+        axios.get(`layout/findby/`+websiteId).then(resp => {
+
+            console.log(resp.data);
+            layout =resp.data._id;
+        });
+
+
         return new Promise((resolve, reject) => {
             const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
             axios.post(api + `productProperty/assignTypeToWebsite`, t)
