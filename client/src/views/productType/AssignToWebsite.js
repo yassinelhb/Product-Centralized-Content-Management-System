@@ -8,8 +8,17 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import index from "react-chartjs-2";
 const AssignToWebsite = (props) => {
 
-    const {typeId} =props;
+    const buttonstyle= (e)=>{
+        return{
+            "display":e
+        }
+    };
 
+    let hidden  = 'none'
+    let data =sessionStorage.getItem('webselect');
+    if(data!=null)
+    {  hidden = ''}
+    const {typeId} =props;
   const [modal, setModal] = useState(false);
 
   const [subTypeIndex, setIndex] = useState(0);
@@ -19,6 +28,7 @@ const AssignToWebsite = (props) => {
   const next = () => setIndex(subTypeIndex + 1);
 
   const submitHandler = (e) => {
+
     e.preventDefault();
     PropertyService.createMany(labels)
        .then( res => {
@@ -67,7 +77,7 @@ const AssignToWebsite = (props) => {
   },[typeId,subTypeIndex]);
   return (
       <div>
-        <Button color="primary" onClick={toggle}>Assign to website</Button>
+        <Button color="primary" onClick={toggle}   style={buttonstyle(hidden) } >Assign to website</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign to website</ModalHeader>
           <form onSubmit={submitHandler}>

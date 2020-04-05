@@ -7,6 +7,7 @@ const Layout = require('../models/layout.model');
 const Product = require('../models/Product.model');
 
 // get all Products
+
 exports.getAll =   (req, res) =>{
 
     Product.find().populate('subType')

@@ -10,13 +10,13 @@ router.get('/', ThemeService.getThemes);
 // submit a theme
 router.post('/', ThemeService.addTheme);
 
-// specific theme
-router.get('/:themeId', ThemeService.getOneTheme)
-
 // delete theme
 router.delete('/:themeId', ThemeService.deleteTheme)
 
+// check used theme
+router.get('/check/:themeId', ThemeService.checkUsedTheme)
+
 // update a theme
-router.patch('/:themeId', ThemeService.updateTheme)
+router.patch('/', ThemeService.updateTheme)
 
 module.exports = router;

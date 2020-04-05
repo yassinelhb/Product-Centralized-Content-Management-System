@@ -10,9 +10,10 @@ import {
     Col, Button
 } from "reactstrap";
 import Ads_serv from "../../services/Ads_banner/Ads_banner.service";
+import web_serv from "../../services/website.service";
 import AddAds_banner from "./AddAds_banner";
 import UpdateAds_banner from "./UpdateAds_banner";
-import UpdateProductType from "../productType/UpdateProductType";
+import SubTypeService from "../../services/product/ProductSubType.service";
 
 
 class Ads_banner extends React.Component {
@@ -22,11 +23,56 @@ class Ads_banner extends React.Component {
         width: '150px',
         }
     };
+      border ='solid'
+      banner_update =""
+    Styleborder= (e)=>{
+
+        if(e==this.banner_update){ return{
+            border : this.border
+        }}
+        else
+        {return{
+            background :''  }
+
+        }
+    };
+    Stylesacane= (e)=>{
+        if(e==true){ return{
+            background :'#96F70A'
+
+        }}
+        else
+        {return{
+            background :'#F1130D'  }
+
+        }
+    };
+    buttonstyle= (e)=>{
+        return{
+           "display":e
+        }
+    };
+
+     etat ='none';
+     side_id ='';
+     id_banner=' '
+
+
     constructor() {
         super();
+
+        let data =sessionStorage.getItem('webselect');
+        this.data = JSON.parse(data);
+
+        if(this.data != null )
+        {
+            this.etat=''
+            this.side_id = this.data._id;
+            this.banner_update = this.data.ads_banners;
+
+        }
         this.state = {
             ads_banner: [],
-
 
         };
     }
@@ -42,6 +88,7 @@ class Ads_banner extends React.Component {
             })
     }
     refreshTable = () => {
+        alert ( this.banner_update )
         Ads_serv.getAll()
             .then( res => {
                 this.setState({
@@ -65,13 +112,23 @@ class Ads_banner extends React.Component {
             })
 
     }
-    addToWebsiteHandler(type) {
-        Ads_serv.assignTypeToWebsite(type)
+
+    addToWebsiteHandler(ads) {
+        const data = {"ads_banners":ads._id } ;
+        console.log(data);
+        web_serv.update_ads(data,this.side_id)
+        this.banner_update=  ads._id;
+
+        Ads_serv.getAll()
             .then( res => {
-                console.log(res);
-            })
+                this.setState({
+                    ads_banner : res
+                });
+            });
+
 
     }
+
     render() {
         const { ads_banner } = this.state ;
         return (
@@ -99,13 +156,13 @@ class Ads_banner extends React.Component {
 
                                         {
                                             ads_banner.length ?
-                                                ads_banner.map(ads_banner => <tr key={ads_banner._id}> <td>{ads_banner.Ads_banner_name}</td><td>{ads_banner.description}</td>
-                                                    <td>
+                                                ads_banner.map(ads_banner => <tr key={ads_banner._id}> <td style={this.Stylesacane(ads_banner.Valide_ads)}>{ads_banner.Ads_banner_name}</td><td style={this.Styleborder(ads_banner._id)}>{ads_banner.description}</td>
+                                                    <td >
 
                                                     <img className="group list-group-image" style={this.Styleimage()}
                                                          src={require("assets/img/" + ads_banner.Ads_img)}/>
                                                     </td>
-                                                    <td><div className="row"><UpdateAds_banner refreshTable={this.refreshTable} typeId={ads_banner._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(ads_banner._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(ads_banner)} >Add to website</Button></div></td></tr>) :
+                                                    <td><div className="row"><UpdateAds_banner refreshTable={this.refreshTable} typeId={ads_banner._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(ads_banner._id)} >Delete</Button><Button color="success"  style={this.buttonstyle(this.etat)} onClick={() =>this.addToWebsiteHandler(ads_banner)} >Add to website</Button></div></td></tr>) :
                                                 null
                                         }
 
