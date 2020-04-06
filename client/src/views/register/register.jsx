@@ -172,7 +172,7 @@ class register extends React.Component {
                                 <Label>site</Label>
                                 <select name="website"  className="form-control" onChange={this.handleChange.bind(this)}>
                                 <option selected>Choose...</option>
-                                {sites.map(site => <option value={site._id}>{site.a}</option>)}
+                                {sites.map(site => <option value={site._id}>{site.site_name}</option>)}
                                 </select>
 
 
