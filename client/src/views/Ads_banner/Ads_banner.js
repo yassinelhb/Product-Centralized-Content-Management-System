@@ -88,7 +88,7 @@ class Ads_banner extends React.Component {
             })
     }
     refreshTable = () => {
-        alert ( this.banner_update )
+
         Ads_serv.getAll()
             .then( res => {
                 this.setState({

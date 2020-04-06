@@ -8,6 +8,7 @@ import TypeService from "../../services/product/ProductType.service";
 const Register1 = () => {
 
     const [modal, setModal] = useState(false);
+    const [username, setusername] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [password2, setpassword2] = useState("");
@@ -25,7 +26,7 @@ const Register1 = () => {
         console.log(password2);
         if(password===password2) {
             const token = localStorage.getItem("token");
-            const data = {"email": email, "password": password, "role": role, "token": token};
+            const data = {"username": username,"email": email, "password": password, "role": role, "token": token};
             register.register(data).then(res => {
                 if(res.data.error!=null){
                     seterror(res.data.error);
@@ -52,7 +53,17 @@ const Register1 = () => {
                 <ModalHeader toggle={toggle}>Add new user</ModalHeader>
                 <form onSubmit={submitHandler} >
                     <ModalBody>
+                        <FormGroup>
+                            <label>User Name </label>
+                            <Input
+                                placeholder="Type user name"
+                                type="text"
+                                name="username"
+                                value={username}
+                                onChange={e => setusername(e.target.value)}
 
+                            />
+                        </FormGroup>
 
                         <FormGroup>
                             <label>Email </label>

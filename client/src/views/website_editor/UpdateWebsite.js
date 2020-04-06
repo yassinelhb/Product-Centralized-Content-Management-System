@@ -30,6 +30,7 @@ const UpdateWebsite = (props) => {
     const [layout, setlayout] = useState([]);
     const [Language, setLanguage] = useState("");
     const [Contry, setContry] = useState("");
+    const [reserve, setreserve] = useState("");
 
     const [Curreny_sign, setCurreny_sign] = useState("");
     const [ss, setSS] = useState("");
@@ -39,16 +40,18 @@ const UpdateWebsite = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
+
         const data = {"domain":domain,
-            "logo_pic":logo_pic,
+            "logo_pic":logo_pic.split(/(\\|\/)/g).pop(),
             "site_name":site_name ,
             "theme" :themeId,
             "Language" :Language,
             "Contry" :Contry,
-
             "Curreny_sign" :Curreny_sign,
             "layouts":layout
         } ;
+        if(logo_pic === "")
+        {data.logo_pic=reserve.split(/(\\|\/)/g).pop()}
         console.log(data);
         Web_serv.update(data,webId)
             .then( res => {
@@ -61,7 +64,7 @@ const UpdateWebsite = (props) => {
         Web_serv.getOneById(webId)
             .then( res => {
                 setdomain(res.domain);
-                setlogo_pic(res.logo_pic);
+                setreserve(res.logo_pic)
                 setsite_name(res.site_name);
                 setLanguage(res.Language);
                 setContry(res.Contry);
@@ -194,7 +197,8 @@ const UpdateWebsite = (props) => {
 
                         <FormGroup >
                             <label>Logo</label>
-                            <input type="text" name="Ads_img"
+                            <input value={logo_pic} hidden/>
+                            <input type="file"
                                    value={logo_pic}
                                    onChange={e => setlogo_pic(e.target.value)}
                                    className="form-control" />
