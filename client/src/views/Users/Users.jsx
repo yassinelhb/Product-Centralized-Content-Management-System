@@ -12,6 +12,10 @@ import {
 import user from "../../services/User/user";
 import UpdateProductType from "../productType/UpdateProductType";
 import EditUser from "./EditUser";
+import loginn from "../../services/Login/Login.js";
+import Input from "reactstrap/es/Input";
+import FormGroup from "reactstrap/es/FormGroup";
+
 
 
 class Users extends React.Component {
@@ -19,14 +23,27 @@ class Users extends React.Component {
     constructor() {
         super();
         this.state = {
+            sites:[],
             userss: [],
+            search:'',
 
 
         };
     }
+    handleChange(e) {
+        this.setState({ [e.target.name] : e.target.value });
+    }
         componentDidMount(){
             const token = localStorage.getItem("token");
+            loginn.getAll()
+                .then(res => {
 
+
+                    this.setState({
+                        sites: res
+                    });
+                    console.log(this.state.sites);
+                });
             user.getAll(token)
                 .then( res => {
                     this.setState({
@@ -37,7 +54,11 @@ class Users extends React.Component {
         }
 
     render() {
-        const { userss } = this.state ;
+        let userss  = this.state.userss.filter(
+            (users) => {
+                return users.username.indexOf(this.state.search) !== -1;
+            }
+        ) ;
 
         return(
 
@@ -48,6 +69,14 @@ class Users extends React.Component {
                         <Card>
                             <CardHeader>
                                 <CardTitle tag="h4">Users</CardTitle>
+                                <Input
+                                    placeholder="Search "
+                                    type="text"
+                                    name="search"
+                                    required
+                                    onChange={this.handleChange.bind(this)}
+
+                                />
                             </CardHeader>
                             <CardBody>
                                 <Table responsive>
@@ -77,18 +106,25 @@ class Users extends React.Component {
                                                             <td>{users.website.a}</td>:<td>____</td>
 
                                                     }
-                                                    <td>{users.role}</td>
+                                                    {
+                                                        users.function ?
+
+                                                            <td>{users.function}</td>:<td>____</td>
+
+                                                    }
                                                     {users.Statut==="activated" &&
-                                                        <td> {users.Statut}  </td>
+                                                    <td> <Button color="success" >{users.Statut}</Button>  </td>
 
                                                     }
                                                     {users.Statut==="desactivated" &&
-                                                    <td> {users.Statut}  </td>
+                                                    <td> <Button color="danger" >{users.Statut}</Button> </td>
 
 
 
                                                     }
-                                                    <td><EditUser typeId={users._id}/></td>
+
+
+                                                    <td><EditUser  typeId={users._id} userss={this.state.sites}/></td>
 
 
 

@@ -98,7 +98,34 @@ exports.loginn = async  (req, res , next) => {
 
     }
 
+exports.update = async  (req, res) => {
+    try {
+        const updated = await users.updateOne(
+            { _id: req.params.id },
+            { $set: {
+                    username:req.body.username,
+                    email:req.body.email,
+                    password:bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
+                    website:req.body.website,
+                    Statut:req.body.Statut,
 
+                }},
+
+            {new: true, useFindAndModify: false}
+        );
+        res.json(updated);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
+exports.getById = async  (req, res) => {
+    try {
+        const user  = await users.findById(req.params.id);
+        res.json(user);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
 function parseToken(token) {
     return jwt.verify(token.split(' ')[1],'secret');
     

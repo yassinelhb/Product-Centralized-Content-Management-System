@@ -22,6 +22,30 @@ class user{
         })
 
     };
+    getOneById = (typeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `users/`+typeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+    update = (type,typeId) => {
+        return new Promise((resolve, reject) => {
+            axios.put(api + `users/`+typeId, type)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
 }
 
 const instance = new user();
