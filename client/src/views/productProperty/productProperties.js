@@ -18,9 +18,20 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import UpdateProductProperty from "./UpdateProductProperty";
 import AddProductProperty from "./AddProductProperty";
 class productProperties extends React.Component {
-
+  buttonstyle= (e)=>{
+    return{
+      "display":e
+    }
+  };
+  etat ='none';
   constructor(props) {
     super(props);
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
+    if(this.data != null )
+    {
+      this.etat=''
+    }
     this.state = {
       properties: [],
 
@@ -93,7 +104,7 @@ class productProperties extends React.Component {
                         properties.length ?
                             properties.map(property => <tr key={property._id}> <td>{property.name}</td><td>{property.description}</td><td>{property.type}</td>
                               <td><ul>{property.subType.length ? property.subType.map(subtype => <li> {subtype.name} </li> )  : null}</ul></td>
-                              <td><div className="row"><UpdateProductProperty refreshTable={this.refreshTable} propertyId={property._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(property._id)} >Delete</Button><Button color="success"  onClick={() =>this.addToWebsiteHandler(property)} >Add to website</Button></div></td></tr>) :
+                              <td><div className="row"><UpdateProductProperty refreshTable={this.refreshTable} propertyId={property._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(property._id)} >Delete</Button><Button color="success" style={this.buttonstyle(this.etat)} onClick={() =>this.addToWebsiteHandler(property)} >Add to website</Button></div></td></tr>) :
                             null
                       }
 

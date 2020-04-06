@@ -1,6 +1,6 @@
 const Product = require('../models/Product.model');
 
-// get all Product
+// get all Detail
 exports.getAll =   (req, res) =>{
 
     Product.find()

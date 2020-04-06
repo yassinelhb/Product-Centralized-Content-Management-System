@@ -4,7 +4,7 @@
 * Paper Dashboard React - v1.1.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
+* Detail Page: https://www.creative-tim.com/product/paper-dashboard-react
 * Copyright 2019 Creative Tim (https://www.creative-tim.com)
 
 * Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
@@ -26,6 +26,7 @@ import Maps from "views/Map.jsx";
 import UserPage from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
 import Pages from "views/Pages.jsx";
+import Theme from "views/Themes/theme";
 import Component from "views/Component.jsx";
 import register from "views/register/register.jsx"
 import Login from "views/Login/Login.jsx";
@@ -67,22 +68,29 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/themes",
+    name: "Theme",
+    icon: "nc-icon nc-single-copy-04",
+    component: Theme,
+    layout: "/admin"
+  },
+  {
     path: "/productTypes",
-    name: "Product Types",
+    name: "Detail Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
     layout: "/admin"
   },
   {
     path: "/productSubTypes",
-    name: "Product Sub-Types",
+    name: "Detail Sub-Types",
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
     layout: "/admin"
   },
   {
     path: "/productProperties",
-    name: "Product Properties",
+    name: "Detail Properties",
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
     layout: "/admin"

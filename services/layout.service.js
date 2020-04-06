@@ -16,6 +16,22 @@ exports.getLayout = async function (req, res) {
     }
 }
 
+// get One layout by id and name
+exports.getOneLayout = async function (req, res) {
+    try {
+        const layout = await Layout.find({ website : req.params.siteId, layout_name:'Category' }).populate({
+            path: 'website',
+            populate: {
+                path: 'theme'
+            }
+        });
+        res.json(layout)
+    } catch (err) {
+        res.json({ message: err });
+    }
+}
+
+
 
 // add layout
 exports.addLayout = async  (req, res) => {

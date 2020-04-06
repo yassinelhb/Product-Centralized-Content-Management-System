@@ -6,24 +6,142 @@
 body {
     font-family: Arima;
 }
-.navbar {
+.wrapper-theme2 .navbar {
     background: #0b5334;
 }
-.navbar-light .navbar-nav .nav-link {
+.wrapper-theme2 .navbar-light .navbar-nav .nav-link {
     color: #afafaf !important;
 }
 
-.navbar-light .navbar-nav .nav-link:hover {
+.wrapper-theme2 .navbar-light .navbar-nav .nav-link:hover {
     color: #ffffff !important;
 }
 
-.navbar-light .navbar-nav .active>.nav-link,
-.navbar-light .navbar-nav .nav-link.active,
-.navbar-light .navbar-nav .nav-link.show,
-.navbar-light .navbar-nav .show>.nav-link {
+.wrapper-theme2 .navbar-light .navbar-nav .active>.nav-link,
+.wrapper-theme2 .navbar-light .navbar-nav .nav-link.active,
+.wrapper-theme2 .navbar-light .navbar-nav .nav-link.show,
+.wrapper-theme2 .navbar-light .navbar-nav .show>.nav-link {
     color: #ffffff ;
 }
 
-.navbar .navbar-brand img {
+.wrapper-theme2 .navbar .navbar-brand img {
     width: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* breadcrumb */
+
+.wrapper-theme2 .breadcrumb {
+    color: #5e5e5e;
+    background: transparent;
+    padding: 25px 0;
+    justify-content: center;
+
+}
+
+.wrapper-theme2 .breadcrumb a.navigation_page {
+    text-decoration: none;
+    color: #0b5334;
+}
+
+.wrapper-theme2 .breadcrumb .navigation_pipe {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+
+
+/* product page */
+
+.wrapper-theme2 .content_product {
+    margin-bottom: 70px;
+}
+
+.wrapper-theme2 .content_product .product_header {
+    border: 1px solid #E1E1E1;
+}
+
+.wrapper-theme2 .content_product .product_header .product_img img{
+    width: 100%;
+}
+
+.wrapper-theme2 .content_product .product_header .product_title {
+    font-size: 25px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+.wrapper-theme2 .content_product .product_prop {
+    margin-top: 70px;
+}
+
+.wrapper-theme2 .content_product .product_prop .product_prop_title {
+    font-size: 20px;
+}
+
+.wrapper-theme2 .content_product .product_prop .table_prop {
+    border: 1px solid #E1E1E1;
+}
+
+.wrapper-theme2 .content_product .product_prop .table_prop tbody th {
+    padding: 15px;
+    color: #5e5e5e;
+}
+
+.wrapper-theme2 .content_product .product_desc {
+    margin-top: 70px;
+}
+
+.wrapper-theme2 .content_product .product_desc .product_desc_title {
+    font-size: 19px;
+    margin-top: 15px;
+}
+
+.wrapper-theme2 .content_product .product_desc .product_desc_parag {
+    color: #5e5e5e;
+    font-size: 16px;
+    line-height: 32px;
+}
+
+
+
+
+
+
+
+
+/* color primary , secondary */
+
+.wrapper-theme2 .btn {
+    text-transform: none;
+    font-weight: normal;
+    font-size: medium;
+}
+
+.wrapper-theme2 .btn-primary {
+    background: #0b5334;
+}
+
+.wrapper-theme2 .btn-primary:hover, .btn-primary:focus {
+    background: #0b5334 !important;
+}
+
+.wrapper-theme2 .bg-primary {
+    background: #0b5334 !important;
+    color: #FFFFFF !important;
+}
+
+.wrapper-theme2 .bg-secondary {
+    background: #E1E1E1 !important;
+    color: #2c2c2c !important;
 }

@@ -44,7 +44,7 @@ const AddWebsite = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
         const data = {"domain":domain,
-            "logo_pic":logo_pic,
+            "logo_pic":logo_pic.split(/(\\|\/)/g).pop(),
             "site_name":site_name ,
             "theme" :themeId,
             "Language" :Language,
@@ -180,7 +180,7 @@ const AddWebsite = (props) => {
                             getItemValue={item => item.name}
                             shouldItemRender={CurrencyTitle}
                             renderMenu={item => (
-                                <div className="dropdown">
+                                <div className="dropdown" type="select">
                                     {item}
                                 </div>
                             )}
@@ -208,13 +208,15 @@ const AddWebsite = (props) => {
                             </Input>
                         </FormGroup>
 
-                        <FormGroup >
-                            <label>Logo</label>
-                            <input type="text" name="Ads_img"
+                        <FormGroup  action="upload.php">
+                            <label> click to update the Website Logo</label>
+
+                            <input type="file" accept=".jpg, .jpeg, .png" name="Ads_img"
                                    value={logo_pic}
                                    onChange={e => setlogo_pic(e.target.value)}
                                    className="form-control" />
                         </FormGroup>
+
 
 
 

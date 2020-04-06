@@ -5,7 +5,7 @@ const Link = require('../models/link.model');
 const SubType = require('../models/ProductSubType.model');
 const Layout = require('../models/layout.model');
 
-// get all Product Types
+// get all Detail Types
 exports.getAllTypes =   (req, res) =>{
    ProductType.find()
               .then(productTypes => res.json(productTypes))
@@ -111,7 +111,7 @@ const addPage = async function(body) {
         })
         .catch();
 };
-// get  Product Types by website
+// get  Detail Types by website
 exports.getByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId,type:"category"})
         .then(pages => {
@@ -132,7 +132,7 @@ exports.getByWebsite =   (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
-// get  Product Types pages by website
+// get  Detail Types pages by website
 exports.getTypesPagesByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId,type:"category"})
         .then(pages => {

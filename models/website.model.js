@@ -39,12 +39,12 @@ const WebsiteSchema = new Schema({
             }
         ],
     },
-    ads_banners: [
+    ads_banners:
         {
             type: Schema.Types.ObjectId,
             ref: "Ads_banner"
         }
-    ],
+    ,
     Language: {
         type: String,
         required: true
