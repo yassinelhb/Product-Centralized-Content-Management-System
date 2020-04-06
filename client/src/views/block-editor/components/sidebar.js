@@ -7,6 +7,7 @@ class Sidebar extends React.Component {
         super(props);
         this.state = {
             page : props.page,
+            imagePreviewUrl: '',
         }
     }
 
@@ -16,16 +17,56 @@ class Sidebar extends React.Component {
         })
     }
 
-    titleChange = (event) => {
+    handleImageChange = (e) => {
+
+        e.preventDefault()
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        if (file) {
+
+            if ( file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/gif' ) {
+                reader.onloadend = () => {
+                    this.setState({
+                        page: {
+                            ...this.state.page,
+                            page_img: file
+                        },
+                        imagePreviewUrl: reader.result,
+                        errors: {
+                            ...this.state.errors,
+                            page_img: ''
+                        },
+                    });
+                }
+
+                reader.readAsDataURL(file)
+            }
+            else {
+                this.setState({
+                    errors: {
+                        ...this.state.errors,
+                        page_img: 'Image (Files allowed: png jpg jpeg)'
+                    }
+                })
+            }
+        }
+
+
+    }
+
+
+    handleChange = (event) => {
 
         this.setState({
             errors: {
                 ...this.state.errors,
-                page_name: ''
+                [event.target.name] : ''
             },
             page: {
                 ...this.state.page,
-                page_name : event.target.value
+                [event.target.name] : event.target.value
             }
         }, () => {
             this.props.handle(this.state.page)
@@ -35,6 +76,7 @@ class Sidebar extends React.Component {
 
 
     render() {
+        const { page, imagePreviewUrl} = this.state
         return (
             <div className="sidebar-editor">
                 <ul className="nav nav-tabs">
@@ -61,7 +103,7 @@ class Sidebar extends React.Component {
                                     <div className="item-body">
                                         <div className="form-group">
                                             <label>Title</label>
-                                            <input type="text" className='form-control' onChange={ this.titleChange } defaultValue={ this.state.page.page_name } />
+                                            <input type="text" className='form-control' name='page_name' onChange={ this.handleChange } defaultValue={ page.page_name } />
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +111,7 @@ class Sidebar extends React.Component {
                             <div className="config_item">
                                 <div className="item_title" data-toggle="collapse" href="#collapse2">
                                     <p className="item-title_text">
-                                        Setting Variable
+                                        Content Variable
                                     </p>
                                     <span className="item-title_toggle">
                                         <i className="nc-icon nc-minimal-down"></i>
@@ -77,9 +119,23 @@ class Sidebar extends React.Component {
                                 </div>
                                 <div id="collapse2" className="collapse show" data-parent="#sidebar-config">
                                     <div className="item-body">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <div className="form-group">
+                                            <label>Image</label>
+                                            <div className="input_file">
+                                                <input type="file" className="form-control"  accept=".png, .jpg, .jpeg" onChange={ this.handleImageChange } />
+                                                <div className="file_preview">
+                                                    {
+                                                        imagePreviewUrl ?
+                                                            <img src={imagePreviewUrl} />
+                                                            :
+                                                            page.page_img ?
+                                                                <img src={ require('../../../assets/img/page/'+ page.page_img)} />
+                                                                :
+                                                                <p className="input_text">Drag your files here or click in this area</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -16,12 +16,9 @@ class Category extends React.Component {
         this.state = {
             editor: props.editor,
             page : props.page,
-            edit_intro_category_text: false,
             subcategory_page : '',
-            edit_title_subcategory: '',
-            edit_subcategory: false,
-            save_subcategory: false,
-            setting_variable: '',
+            editor_text : '',
+            alert: ''
         }
     }
 
@@ -34,122 +31,24 @@ class Category extends React.Component {
             )
     }
 
-    mouseEnterHandle = () => {
+    handleTextClick = (editor_text) => {
         this.setState({
-            edit_subcategory: true
+            editor_text: editor_text
         })
     }
 
-    mouseLeaveHandle = () => {
-        this.setState({
-            edit_subcategory: false
-        })
-    }
-
-
-    handleTitleSubcategory = (subcategory) => {
-        this.setState({
-            edit_title_subcategory: subcategory
-        })
-    }
-
-    editorTitleSubcategory = (title_subcategory) => {
-
-        this.setState({
-            edit_title_subcategory: {
-                ...this.state.edit_title_subcategory,
-                page_name: title_subcategory
-            }
-        })
-
-        this.saveChangeTitle(this.state.edit_title_subcategory)
-
-    }
-
-    saveChangeTitle(subcategory) {
-
-        servicePage.editPage(subcategory)
-            .then(() => {
-                const subcategory_page = [...this.state.subcategory_page]
-                const index = subcategory_page.findIndex(page => page._id === subcategory._id)
-                subcategory_page[index] = subcategory
-
-                this.setState({
-                    subcategory_page: subcategory_page,
-                    page: {
-                        ...this.state.page,
-                        page_name: this.state.page._id === subcategory._id ? subcategory.page_name : this.state.page.page_name
-                    },
-                    edit_title_subcategory: ''
-                })
-
-            })
-    }
-
-    handleSettingVariable = (variable_edit) => {
-        this.setState({
-            setting_variable: variable_edit
-        })
-    }
-
-    editorResultTotalNumber = (results_total_number) => {
+    handleTextChange = (text) => {
+        const event = this.state.page[this.state.editor_text] !== text
 
         this.setState({
             page: {
                 ...this.state.page,
-                results_total_number: results_total_number
+                [this.state.editor_text] : text
             },
-            setting_variable: ''
+            editor_text: ''
         })
 
-        this.savePage()
-    }
-
-    editorSortWord = (sort_word) => {
-
-        this.setState({
-            page: {
-                ...this.state.page,
-                sort_word: sort_word
-            },
-            setting_variable: ''
-        })
-
-        this.savePage()
-
-    }
-
-
-    handleIntroCategoryText = () => {
-        this.setState({
-            edit_intro_category_text : true
-        })
-    }
-
-
-    editorIntroCategoryText = (intro_category_text) => {
-        this.setState({
-            page: {
-                ...this.state.page,
-                intro_category_text: intro_category_text
-            },
-            edit_intro_category_text: false
-        })
-
-        this.savePage()
-    }
-
-    editSubcategoryClick = () => {
-        this.setState({
-            edit_subcategory: false,
-            save_subcategory: true
-        })
-    }
-
-    saveSubcategoryClick = () => {
-        this.setState({
-            save_subcategory: false
-        })
+        event && this.savePage()
     }
 
     savePage() {
@@ -157,9 +56,16 @@ class Category extends React.Component {
             servicePage.editPage(this.state.page)
                 .then(res =>
                     this.setState({
-                        page : res
+                        page : res,
+                        alert : 'Page saved ...'
                     })
                 )
+
+            setTimeout(() =>{
+                this.setState({
+                    alert: ''
+                })
+            },2000)
 
         } else {
             this.props.handle(this.state.page)
@@ -169,54 +75,23 @@ class Category extends React.Component {
 
     render() {
 
-        const { page, subcategory_page, edit_intro_category_text, edit_subcategory, save_subcategory, edit_title_subcategory, setting_variable } = this.state
+        const { page, subcategory_page, editor_text, alert } = this.state
 
-        const toggle_subcategory =
-
-            edit_subcategory && save_subcategory === false ?
-
-                <div className="toggle_btn">
-                            <span className="icon_btn" onClick={this.editSubcategoryClick}>
-                                <i className="nc-icon nc-ruler-pencil"></i>
-                            </span>
-                </div>
-                :
-                save_subcategory &&
-                <div className="toggle_btn">
-                             <span className="icon_btn" onClick={this.saveSubcategoryClick}>
-                                 <i className="nc-icon nc-check-2"></i>
-                             </span>
-                </div>
-
-
-
-        const intro_category_text = edit_intro_category_text ?
-            <EditorText editorState = { page.intro_category_text ? page.intro_category_text : page.productType.description } editor = {this.editorIntroCategoryText} />
+        const intro_category_text = editor_text === 'intro_category_text' ?
+            <EditorText editorState = { page.intro_category_text ? page.intro_category_text : page.productType.description } editor = {this.handleTextChange} />
             :
-            <p className="category_text" onClick={ this.handleIntroCategoryText }>
+            <p className="category_text" onClick={ () => this.handleTextClick('intro_category_text') }>
                 { page.intro_category_text ? page.intro_category_text : page.productType.description }
             </p>
 
         const subcategory = subcategory_page &&
 
             subcategory_page.map( subcategory =>
-                save_subcategory === false ?
-                    <Link className="sub_category_item" to={`/website/` + page.page_name + `/`+ subcategory.page_name } key={subcategory._id}>
-                        <label className="custom-checkbox">
-                            <input type="checkbox" defaultChecked={ subcategory._id === page._id }/>
-                            <span className="check_icon"></span>
-                        </label>
-                        <span className="sub_category_item_text">{ subcategory.page_name }</span>
-                    </Link>
-                    :
-                    <div className="sub_category_item_editor" key={subcategory._id}>
-                        {
-                            edit_title_subcategory._id === subcategory._id ?
-                                <EditorInputText editorState = { subcategory.page_name } editor = { this.editorTitleSubcategory } />
-                                :
-                                <span className="sub_category_item_text" onClick={ () => this.handleTitleSubcategory(subcategory) }> { subcategory.page_name }</span>
-                        }
-
+                    <div className="col-sm-6 col-md-3" key={subcategory._id}>
+                        <Link className="list_subcategory_item" to={`/website/` + page.page_name + `/`+ subcategory.page_name }>
+                            <img className="subcategory_item_img" src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png')  }/>
+                            <h2 className="subcategory_item_title">{ subcategory.page_name }</h2>
+                        </Link>
                     </div>
             )
 
@@ -236,175 +111,19 @@ class Category extends React.Component {
                    { intro_category_text }
 
                </div>
-               <div className="row">
-                   <div className="left-column col-xs-12 col-sm-3">
-                       <div className="sub_category_left" onMouseLeave={ () => this.mouseLeaveHandle() } onMouseEnter={ () => this.mouseEnterHandle() }>
-                           <div className="category_title">
-                               <span className="category_title_text">
-                                   { page.page_name }
-                               </span>
-                               { toggle_subcategory }
-                           </div>
-                           <div className="sub_category_list">
-                               { subcategory }
-                           </div>
-                       </div>
-                   </div>
-                   <div className="center-column col-xs-12 col-sm-9">
-                       <div className="toolbar_filter row">
-                           <div className=" mr-auto">
-                               {
-                                   setting_variable === 'results_total_number' ?
-                                       <EditorInputText editorState = { page.results_total_number ? page.results_total_number : '' } editor = { this.editorResultTotalNumber } />
-                                       :
-                                       <span className="product_count" onClick={ () => this.handleSettingVariable('results_total_number') } >4 { page.results_total_number ? page.results_total_number : 'products' }</span>
-                               }
-                           </div>
-                           <div className="filter_sort">
-                               {
-                                   setting_variable === 'sort_word'  ?
-                                       <EditorInputText editorState = { page.sort_word ? page.sort_word : '' } editor = { this.editorSortWord } />
-                                       :
-                                       <span className="sort_text" onClick={ () => this.handleSettingVariable('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
-                               }
-                               <select>
-                                   <option>------- ---</option>
-                               </select>
-                           </div>
-                       </div>
-                       <div className="product_list">
-                           <div className="product_list_item">
-                               <div className="col-sm-3 product_item_img">
-                                   <img src={ require('../../../assets/img/logo.png') }/>
-                               </div>
-                               <div className="col-sm-9 product_item_info">
-                                   <div className="product_item_header">
-                                       <h2 className="product_item_title">
-                                           Product 1
-                                       </h2>
-                                       <a className="btn_more bg-primary">More info</a>
-                                   </div>
-                                   <p className="product_item_desc">
-                                       Le Lorem Ipsum est simplemefvfdvnt du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
-                                   </p>
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 1
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 2
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 3
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                           <div className="product_list_item">
-                               <div className="col-sm-3 product_item_img">
-                                   <img src={ require('../../../assets/img/logo.png') }/>
-                               </div>
-                               <div className="col-sm-9 product_item_info">
-                                   <div className="product_item_header">
-                                       <h2 className="product_item_title">
-                                           Product 1
-                                       </h2>
-                                       <a className="btn_more bg-primary">More info</a>
-                                   </div>
-                                   <p className="product_item_desc">
-                                       Le Lorem Ipsum est simplemefvfdvnt du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
-                                   </p>
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 1
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 2
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 3
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                           <div className="product_list_item">
-                               <div className="col-sm-3 product_item_img">
-                                   <img src={ require('../../../assets/img/logo.png') }/>
-                               </div>
-                               <div className="col-sm-9 product_item_info">
-                                   <div className="product_item_header">
-                                       <h2 className="product_item_title">
-                                           Product 1
-                                       </h2>
-                                       <a className="btn_more bg-secondary">More info</a>
-                                   </div>
-                                   <p className="product_item_desc">
-                                       Le Lorem Ipsum est simplemefvfdvnt du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500,
-                                   </p>
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 1
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 2
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                       <div className="product_prop">
-                                           <span className="prop_title">
-                                               Property 3
-                                           </span>
-                                           <span className="prop_info">
-                                               Property
-                                           </span>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div className="more_product">
-                           <span className="btn_more">More product</span>
-                       </div>
+               <div className="category_list_subcategory">
+                   <div className="row">
+                       { subcategory }
                    </div>
                </div>
+
+               {
+                   alert &&
+                   <div className="alert_saved">
+                       <span> { alert } </span>
+                   </div>
+               }
+
            </div>
         );
     }

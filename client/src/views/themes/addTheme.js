@@ -86,7 +86,7 @@ class AddTheme extends React.Component {
 
   }
 
-  onSubmit = async (e) => {
+  saveTheme = async (e) => {
 
       e.preventDefault();
 
@@ -188,7 +188,6 @@ class AddTheme extends React.Component {
           </div>
           <div className="card-body">
             <div className="form_theme">
-                <form onSubmit={ this.onSubmit }>
                     <div className="form-group row">
                         <span className="label_form col-md-4">Name</span>
                         <div className="col-md-5 offset-md-1">
@@ -234,9 +233,8 @@ class AddTheme extends React.Component {
                     </div>
                     </div>
                     <div className="col-auto offset-md-5">
-                        <button className="btn btn-primary" type="submit">Submit</button>
+                        <button className="btn btn-primary" onClick={ this.saveTheme }>Submit</button>
                     </div>
-                </form>
               <span className="btn_previous" onClick={ this.handleClose }>
                   <i className="nc-icon nc-minimal-left"></i>previous</span>
             </div>

@@ -33,7 +33,7 @@ class Theme extends React.Component {
         _edit : false,
         _remove : false,
         themes : '',
-        alert: false,
+        alert: '',
         theme: ''
 
     }

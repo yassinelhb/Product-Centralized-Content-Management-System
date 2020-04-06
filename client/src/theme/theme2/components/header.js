@@ -12,28 +12,13 @@ class Header extends React.Component {
         this.state = {
             edit: false,
             links: this.props.links,
-            link: {
-                link_text: '',
-                link_path: ''
-            },
-            errors: {
-                link_text: '',
-                link_path: ''
-            }
+            toggle_edit : false
         }
-
     }
-
 
     editButtonClick = () => {
         this.setState({
             edit: !this.state.edit
-        })
-    }
-
-    addButtonClick  = () => {
-        this.setState({
-            errors: {}
         })
     }
 
@@ -42,174 +27,109 @@ class Header extends React.Component {
             edit: !this.state.edit
         })
     }
-    setLinkClick = (link,index) => {
-        this.setState({
-            link: {
-                link_text: link.link_text,
-                link_path: link.link_path,
-                link_index: index
-            },
-            errors: {}
-        })
-    }
-
-    linkTextChange = (event) => {
-        this.setState( {
-            link: {
-                ...this.state.link,
-                link_text: event.target.value.toLowerCase()
-            },
-            errors : {
-                ...this.state.errors,
-                exist: '',
-                link_text: ''
-            }
-        })
-    }
-
-    linkPathChange = (event) => {
-        this.setState({
-            link: {
-                ...this.state.link,
-                link_path: event.target.value.toLowerCase()
-            },
-            errors : {
-                ...this.state.errors,
-                exist: '',
-                link_path: ''
-            }
-        })
-    }
 
     addLinkClick = () => {
 
-        if ( this.state.link.link_text === '') {
-            this.setState({
-                errors: {
-                    ...this.state.errors,
-                    link_text: 'required'
-                }
-            })
-        }
-        if ( this.state.link.link_path === '') {
-            this.setState({
-                errors: {
-                    ...this.state.errors,
-                    link_path: 'required'
-                }
-            })
-        }
-        else {
-            serviceSite.linkSite(this.state.link,'add')
-                .then( res => {
-                    if (res.nModified === 0) {
-                        this.setState({
-                            errors : {
-                                exist : true
-                            }
-                        })
-                    } else {
-                        this.setState({
-                            links : [...this.state.links, this.state.link]
-                        })
-                    }
+        if ( this.refs.link_text.value !== '' && this.refs.page.value !== '') {
+
+            const link = {
+                link_text: this.refs.link_text.value,
+                page: this.refs.page.value,
+            }
+
+            serviceSite.linkSite(link,'add').then( res => {
+                this.setState({
+                    links : [...this.state.links, res]
                 })
+            })
 
         }
 
     }
 
-    editLinkClick = () => {
-        if (this.state.links[this.state.link.link_index].link_text !== this.state.link.link_text
-            || this.state.links[this.state.link.link_index].link_path !== this.state.link.link_path ) {
+    editLinkClick = (link_id,index) => {
+        const link_text = this.refs[`link_text` + index ].value
+        const page = this.refs[`page` + index].value
 
-            if( this.state.link.link_text === '') {
-
-                this.setState({
-                    errors: {
-                        ...this.state.errors,
-                        link_text: 'required'
-                    }
-                })
+        if (link_text !== '' && page.value !== '') {
+            const link = {
+                link_text: link_text,
+                page: page,
+                _id: link_id
             }
-            else if ( this.state.link.link_path === '') {
+
+            serviceSite.linkSite(link, 'edit').then(res => {
+                const links = [...this.state.links]
+                links[index] = res
                 this.setState({
-                    errors: {
-                        ...this.state.errors,
-                        link_path: 'required',
-                    }
+                    links: links
                 })
 
-            }
+            })
 
-            else {
-
-                serviceSite.linkSite(this.state.link,'edit')
-                    .then( res => {
-                        if (res.nModified === 0) {
-                            this.setState({
-                                errors : {
-                                    exist : true
-                                }
-                            })
-                        } else {
-                            const links = [...this.state.links]
-                            links[this.state.link.link_index] = this.state.link
-                            this.setState({
-                                links : links
-                            })
-                        }
-                    })
-            }
         }
+
     }
 
-    deleteLinkClick = () => {
+    deleteLinkClick = (link, index) => {
 
-        serviceSite.linkSite(this.state.link,'remove')
+        serviceSite.linkSite(link,'remove')
             .then(
                 this.setState({
-                    links: this.state.links.filter((link,i) => i !== this.state.link.link_index)
+                    links: this.state.links.filter((link,i) => i !== index)
                 })
             )
     }
 
+    mouseEnterHandle = () => {
+        this.setState({
+            toggle_edit: true
+        })
+    }
+
+    mouseLeaveHandle = () => {
+        this.setState({
+            toggle_edit: false
+        })
+    }
 
     render() {
 
         const logo = this.props.logo
 
+        // fetch pages
+        const pages = this.props.pages.map(link =>
+            <option key={link._id} value={link._id}> { link.page_name} </option>
+        )
+
         // fetch links
+        const links = this.state.links.map((link, index) => this.state.edit ? (
 
-        const links = this.state.links.map((link,index) =>
-
-            this.state.edit ? (
-
-                <li className="nav-item dropdown" key={index}>
-                    <a className="nav-link" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false" onClick={ () => this.setLinkClick(link,index) }>
+                <li className="nav-item dropdown" key={ link._id } >
+                    <a className="nav-link" data-toggle="dropdown" data-toggle-second="tooltip" title="Click to edit!"
+                       aria-haspopup="true" aria-expanded="false" >
                         { link.link_text }
                     </a>
-                    <div className="dropdown-menu">
+                    <div className="dropdown-menu dropdown-menu-right">
                         <form>
                             <div className="form-group">
-                                <input type="text" className={ this.state.errors.link_text || this.state.errors.exist  ? 'form-control border-danger' : 'form-control' } placeholder="Link text" defaultValue={ link.link_text }
-                                       onChange={this.linkTextChange}/>
+                                <input type="text" ref={ 'link_text' + index} className='form-control' placeholder="Link text"
+                                       defaultValue={ link.link_text } />
                             </div>
                             <div className="form-group">
-                                <input type="text" className={ this.state.errors.link_path || this.state.errors.exist  ? 'form-control border-danger' : 'form-control' } placeholder="Link path" defaultValue={ link.link_path }
-                                       onChange={this.linkPathChange}/>
+                                <select ref={ 'page' + index} defaultValue={link.page._id} className='form-control'>
+                                    { pages }
+                                </select>
                             </div>
-                            <span className="btn btn-primary" onClick={ () => this.editLinkClick() }>Save</span>
-                            <span className="btn btn-danger" onClick={ () => this.deleteLinkClick() }>Delete</span>
+                            <span className="btn btn-primary" onClick={ () => this.editLinkClick(link._id,index) }>Save</span>
+                            <span className="btn btn-danger" onClick={ () => this.deleteLinkClick(link,index) }>Delete</span>
 
                         </form>
                     </div>
                 </li>
-
             ) : (
-                <li className="nav-item" key={index} >
-                    <Link className="nav-link" to={`/website/`+link.link_path}>
+                <li className="nav-item" key={link._id} >
+                    <Link className="nav-link" to={`/website/`+link.page.page_name}>
                         { link.link_text }
                     </Link>
                 </li>
@@ -221,35 +141,40 @@ class Header extends React.Component {
             <>
                 <li className="nav-item nav-item-setting dropdown" >
                     <button className="nav-btn" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false" onClick={ this.addButtonClick}> Add </button>
-                    <div className="dropdown-menu">
+                            aria-haspopup="true" aria-expanded="false" onClick={ this.addButtonClick} data-toggle-second="tooltip" title="Click to add!"> Add </button>
+                    <div className="dropdown-menu dropdown-menu-right">
                         <form>
                             <div className="form-group">
-                                <input type="text" className={ this.state.errors.link_text || this.state.errors.exist  ? 'form-control border-danger' : 'form-control' } placeholder="Link text"
-                                       onChange={this.linkTextChange}/>
+                                <input type="text" className='form-control' placeholder="Link text" ref="link_text"/>
                             </div>
                             <div className="form-group">
-                                <input type="text" className={ this.state.errors.link_path || this.state.errors.exist  ? 'form-control border-danger' : 'form-control' } placeholder="Link path"
-                                       onChange={this.linkPathChange}/>
+                                <select ref="page" className='form-control'>
+                                    <option value=''>select page</option>
+                                    { pages }
+                                </select>
                             </div>
                             <span className="btn btn-primary" onClick={ () => this.addLinkClick() }>Save</span>
                         </form>
                     </div>
                 </li>
                 <li className="nav-item nav-item-setting">
-                    <button className="nav-btn"  onClick={ this.saveButtonClick}> Save </button>
+                    <button className="nav-btn"  onClick={ this.saveButtonClick } data-toggle-second="tooltip" title="Click to save!"> Save </button>
                 </li>
             </>
         ) : (
-            <li className="nav-item nav-item-setting" >
-                <button className="nav-btn" onClick={this.editButtonClick}>
-                    Edit
-                </button>
-            </li>
+
+            this.state.toggle_edit ? (
+                <li className="nav-item nav-item-setting" >
+                    <button className="nav-btn" onClick={this.editButtonClick} >
+                        Edit
+                    </button>
+                </li>
+            ) : ''
+
         )
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-light">
+            <nav className="navbar navbar-expand-lg navbar-light" onMouseEnter={ () => this.mouseEnterHandle() }  onMouseLeave={ () => this.mouseLeaveHandle() }>
                 <div className="container">
                     <a className="navbar-brand" href="#">
                         <img src={ require('../../../assets/img/'+ logo)}/>
@@ -264,14 +189,6 @@ class Header extends React.Component {
                             {links}
                             { btn_setting }
 
-                        </ul>
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <a className="nav-link" href="{{ url('/login') }}">Login</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="{{ url('/register') }}">Register</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
