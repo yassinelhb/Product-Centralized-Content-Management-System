@@ -15,7 +15,7 @@ const AddAds_banner = (props) => {
     const [modal, setModal] = useState(false);
     const [Ads_banner_name, setAds_banner_name] = useState("");
     const [description, setDescription] = useState("");
-    const [Ads_img, setAds_img] = useState([]);
+    const [Ads_img, setAds_img] = useState("");
     const [Valide_ads, setValide_ads] = useState("");
     const [ss, setSS] = useState("");
 
@@ -23,7 +23,10 @@ const AddAds_banner = (props) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const data = {"Ads_banner_name":Ads_banner_name,"description":description,"Ads_img":Ads_img , "Valide_ads" :Valide_ads} ;
+        const data = {"Ads_banner_name":Ads_banner_name,
+            "description":description,
+            "Ads_img":Ads_img.split(/(\\|\/)/g).pop() ,
+            "Valide_ads" :Valide_ads} ;
         console.log(data);
         Ads_serv.create(data)
             .then( res => {
@@ -77,16 +80,11 @@ const AddAds_banner = (props) => {
 
 
                         <FormGroup >
-
-
-
-                                            <input type="text" name="Ads_img"
+                            <label> click to update the  image ads </label>
+                                            <input type="file" name="Ads_img"
                                                    value={Ads_img}
                                                    onChange={e => setAds_img(e.target.value)}
                                                    className="form-control" />
-
-
-
                         </FormGroup>
 
 
