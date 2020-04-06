@@ -10,6 +10,7 @@ const Register2 = ({sites}) => {
 
 
     const [modal, setModal] = useState(false);
+    const [username, setusername] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [password2, setpassword2] = useState("");
@@ -30,7 +31,7 @@ const Register2 = ({sites}) => {
         console.log(password2);
         if(password===password2) {
             const token = localStorage.getItem("token");
-            const data = {"email":email,"password":password, "role":role,"website":website,"function":functionn, "token":token};
+            const data = {"username": username,"email":email,"password":password, "role":role,"website":website,"function":functionn, "token":token};
             register.register(data).then(res => {
                 if(res.data.error!=null){
                     seterror(res.data.error);
@@ -56,6 +57,17 @@ const Register2 = ({sites}) => {
                 <ModalHeader toggle={toggle}>Add new user</ModalHeader>
                 <form className="register-page" onSubmit={submitHandler}>
                     <ModalBody>
+                        <FormGroup>
+                            <label>User Name </label>
+                            <Input
+                                placeholder="Type user name"
+                                type="text"
+                                name="username"
+                                value={username}
+                                onChange={e => setusername(e.target.value)}
+
+                            />
+                        </FormGroup>
                         <FormGroup>
                             <label>Email</label>
                             <Input

@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const usersSchema  = new Schema({
+    username: {
+        type: String,
+        require: true,
+    },
     email: {
         type: String,
         required: true,
@@ -18,7 +22,7 @@ const usersSchema  = new Schema({
     },
     website: {
         type: Schema.Types.ObjectId,
-        ref: "website",
+        ref: "Website",
     },
     Statut: {
          type: String,
