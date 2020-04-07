@@ -16,12 +16,17 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import React, {Fragment} from "react";
+import serviceTheme from "../../services/theme.service";
+import { Link} from "react-router-dom";
+import ModalConfirm from "../../components/Modal/ModalConfirm";
 import servicePage from "../../services/page.service";
+import {Card, CardBody, CardHeader, Col, Row} from "reactstrap";
+import {Button, Modal} from "react-bootstrap";
 
 
-class ModalConfirm extends React.Component {
+class RemovePage extends React.Component {
+
 
     constructor() {
         super();
@@ -66,4 +71,5 @@ class ModalConfirm extends React.Component {
     }
 }
 
-export default ModalConfirm;
+
+export default RemovePage;

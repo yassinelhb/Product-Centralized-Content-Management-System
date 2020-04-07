@@ -15,14 +15,13 @@ class PageEditor extends React.Component {
         this.state = {
             page: props.page,
             website : '',
-            alert : ''
+            alert_top : '',
+            alert: ''
         }
     }
 
     loadComponent() {
-
         const { page, website } = this.state
-
         const Component = React.lazy(() => import('../../theme/'+ website.theme.theme_name + '/views/' + page.layout.layout_name))
         return <Component page = { page } editor = { false } handle = { this.handleChange } />
 
@@ -31,7 +30,7 @@ class PageEditor extends React.Component {
     handleChange = (page) => {
         this.setState({
             page: page,
-            alert : ''
+            alert_top : ''
         })
     }
 
@@ -47,15 +46,17 @@ class PageEditor extends React.Component {
     savePage = () => {
 
         if ( !this.state.page._id ) {
+            
             servicePage.addPage( this.state.page )
                 .then(res => {
                     res.message ?
                         this.setState({
-                            alert : res.message
+                            alert_top : res.message
                         })
                         :
                         this.setState({
-                            page: res
+                            page: res,
+                            alert: 'Page saved ...'
                         }, () =>  this.props.history.push('/block-editor/' + this.state.page._id ))
                 })
 
@@ -65,30 +66,37 @@ class PageEditor extends React.Component {
                 .then(res => {
                     res.message ?
                         this.setState({
-                            alert : res.message
+                            alert_top : res.message
                         })
                         :
                         this.setState({
-                            page: res
+                            page: res,
+                            alert: 'Page saved ...'
                         })
                 })
         }
+
+        setTimeout(() =>{
+            this.setState({
+                alert: ''
+            })
+        },2000)
 
     }
 
 
     render() {
-        const { page, errors, website, alert } = this.state
+        const { page, errors, website, alert_top, alert } = this.state
         return (
             <div className="wrapper-editor">
                 <Header component="pageEditor" page={ page } save = { () => this.savePage() } />
                 <Sidebar  page={ page }  handle = { this.handleChange } errors = { errors } />
-                <div className="content-editor">
+                <div className={ 'content-editor  wrapper-' + website.theme?.theme_name }>
                     {
-                        alert &&
+                        alert_top &&
 
                         <div className="alert alert-danger">
-                            { alert }
+                            { alert_top }
                         </div>
                     }
 
@@ -96,6 +104,14 @@ class PageEditor extends React.Component {
                         { website.theme && this.loadComponent() }
                     </Suspense>
                 </div>
+
+                {
+                    alert &&
+                    <div className="alert_saved">
+                        <span> { alert } </span>
+                    </div>
+                }
+
             </div>
         );
     }

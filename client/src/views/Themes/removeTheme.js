@@ -16,7 +16,6 @@ class RemoveTheme extends React.Component {
   }
 
   componentDidMount() {
-console.log(this.state.theme._id)
       serviceTheme.checkUsedTheme(this.state.theme._id)
           .then( res => {
               console.log(res)

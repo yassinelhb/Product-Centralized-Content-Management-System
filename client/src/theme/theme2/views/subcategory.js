@@ -114,17 +114,17 @@ class Subcategory extends React.Component {
                    <div className="list_product">
                        <div className="product_list_item">
                            <div className="row">
-                               <div className="col-sm-3">
+                               <div className="col-sm-12">
                                    <div className="product_item_img">
                                        <img src={ require('../../../assets/img/logo.png') }/>
                                    </div>
                                </div>
-                               <div className="col-sm-4">
+                               <div className="col-sm-12">
                                    <h2 className="product_item_title">
                                        Visa World Card Business
                                    </h2>
                                </div>
-                               <div className="col-sm-5">
+                               <div className="col-sm-12">
                                  <div className="product_item_prop">
                                    <div className="product_prop">
                                        <span className="prop_title">
@@ -174,15 +174,17 @@ class Subcategory extends React.Component {
                        </div>
                        <div className="product_list_item">
                            <div className="row">
-                               <div className="col-sm-3">
-                                   <img className="product_item_img" src={ require('../../../assets/img/logo.png') }/>
+                               <div className="col-sm-12">
+                                   <div className="product_item_img">
+                                       <img src={ require('../../../assets/img/logo.png') }/>
+                                   </div>
                                </div>
-                               <div className="col-sm-4">
+                               <div className="col-sm-12">
                                    <h2 className="product_item_title">
-                                       Mastercard Business
+                                       Visa World Card Business
                                    </h2>
                                </div>
-                               <div className="col-sm-5">
+                               <div className="col-sm-12">
                                    <div className="product_item_prop">
                                        <div className="product_prop">
                                        <span className="prop_title">
@@ -232,15 +234,17 @@ class Subcategory extends React.Component {
                        </div>
                        <div className="product_list_item">
                            <div className="row">
-                               <div className="col-sm-3">
-                                   <img className="product_item_img" src={ require('../../../assets/img/logo.png') }/>
+                               <div className="col-sm-12">
+                                   <div className="product_item_img">
+                                       <img src={ require('../../../assets/img/logo.png') }/>
+                                   </div>
                                </div>
-                               <div className="col-sm-4">
+                               <div className="col-sm-12">
                                    <h2 className="product_item_title">
                                        Visa World Card Business
                                    </h2>
                                </div>
-                               <div className="col-sm-5">
+                               <div className="col-sm-12">
                                    <div className="product_item_prop">
                                        <div className="product_prop">
                                        <span className="prop_title">
@@ -290,15 +294,77 @@ class Subcategory extends React.Component {
                        </div>
                        <div className="product_list_item">
                            <div className="row">
-                               <div className="col-sm-3">
-                                   <img className="product_item_img" src={ require('../../../assets/img/logo.png') }/>
+                               <div className="col-sm-12">
+                                   <div className="product_item_img">
+                                       <img src={ require('../../../assets/img/logo.png') }/>
+                                   </div>
                                </div>
-                               <div className="col-sm-4">
+                               <div className="col-sm-12">
                                    <h2 className="product_item_title">
                                        Visa World Card Business
                                    </h2>
                                </div>
-                               <div className="col-sm-5">
+                               <div className="col-sm-12">
+                                   <div className="product_item_prop">
+                                       <div className="product_prop">
+                                       <span className="prop_title">
+                                           Cotisation annuelle
+                                       </span>
+                                           <span className="prop_info">
+                                           	0,00 €
+                                       </span>
+                                       </div>
+                                       <div className="product_prop">
+                                       <span className="prop_title">
+                                           Compte supplémentaire
+                                       </span>
+                                           <span className="prop_info">
+                                           	-
+                                       </span>
+                                       </div>
+                                       <div className="product_prop">
+                                       <span className="prop_title">
+                                          Carte de crédit incluse
+                                       </span>
+                                           <span className="prop_info">
+                                           Oui
+                                       </span>
+                                       </div>
+                                       <div className="product_prop">
+                                       <span className="prop_title">
+                                          Type de carte de crédit
+                                       </span>
+                                           <span className="prop_info">
+                                           MasterCard
+                                       </span>
+                                       </div>
+                                   </div>
+                                   <div className="product_item_btn">
+                                       <a className="btn">
+                                         <span className="icon_btn">
+                                             <i className="nc-icon nc-minimal-right"></i>
+                                             <i className="nc-icon nc-minimal-right"></i>
+                                             <i className="nc-icon nc-minimal-right"></i>
+                                         </span>
+                                           More info
+                                       </a>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div className="product_list_item">
+                           <div className="row">
+                               <div className="col-sm-12">
+                                   <div className="product_item_img">
+                                       <img src={ require('../../../assets/img/logo.png') }/>
+                                   </div>
+                               </div>
+                               <div className="col-sm-12">
+                                   <h2 className="product_item_title">
+                                       Visa World Card Business
+                                   </h2>
+                               </div>
+                               <div className="col-sm-12">
                                    <div className="product_item_prop">
                                        <div className="product_prop">
                                        <span className="prop_title">

@@ -51,6 +51,42 @@
     font-size: 13px;
     color: #5e5e5e;
 }
+
+.sidebar-editor .input_file {
+    position: relative;
+    border: 4px dashed #E1E1E1;
+    height: 200px;
+}
+
+.sidebar-editor .input_file .file_preview {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.sidebar-editor .input_file .file_preview img {
+    width: 100px;
+    height: 100px;
+}
+
+.sidebar-editor .input_file .file_preview .input_text {
+    color: #9A9A9A;
+}
+
+
+
+
+
+
+
+
+
+
 .navbar-editor {
     background: #FFFFFF;
     border-bottom: 1px solid #E1E1E1;
