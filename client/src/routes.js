@@ -37,6 +37,8 @@ import productProperties from "./views/productProperty/productProperties";
 import Ads_banner from "./views/Ads_banner/Ads_banner";
 import Web from "./views/website_editor/Website";
 import Users from "./views/Users/Users.jsx"
+import AddProduct from "./views/product/AddProduct";
+import Products from "./views/product/Products";
 var routes = [
 
   {
@@ -76,21 +78,35 @@ var routes = [
   },
   {
     path: "/productTypes",
-    name: "Detail Types",
+    name: "Product Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
     layout: "/admin"
   },
   {
     path: "/productSubTypes",
-    name: "Detail Sub-Types",
+    name: "Product Sub-Types",
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
     layout: "/admin"
   },
   {
+    path: "/product/add",
+    name: "Add Product",
+    icon: "nc-icon nc-single-copy-04",
+    component: AddProduct,
+    layout: "/admin"
+  },
+  {
+    path: "/products",
+    name: "Products",
+    icon: "nc-icon nc-single-copy-04",
+    component: Products,
+    layout: "/admin"
+  },
+  {
     path: "/productProperties",
-    name: "Detail Properties",
+    name: "Product Properties",
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
     layout: "/admin"

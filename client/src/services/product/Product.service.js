@@ -1,21 +1,13 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-//const websiteId = '5e7ce3309f0d3737e8980743';
-const layout='5e7ce3309f0d3737e8980744';
-let websiteId ='';
-let datas =sessionStorage.getItem('webselect');
-let web = JSON.parse(datas);
-if (web!=null){
-     websiteId = web._id;
-}
 
 
-class ProductProperty {
+class Product {
 
 
     getAll = () => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productProperty`)
+            axios.get(api + `product`)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -25,9 +17,9 @@ class ProductProperty {
         })
 
     };
-    getBySubType = (subTypeId) => {
+    findByCountry = (country) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productProperty/bySubType/`+subTypeId)
+            axios.get(api + `product/findByCountry/`+country)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -37,9 +29,9 @@ class ProductProperty {
         })
 
     };
-    create = (property) => {
+    findByWebsite = (website) => {
         return new Promise((resolve, reject) => {
-            axios.post(api + `productProperty`, property)
+            axios.get(api + `product/findByWebsite/`+website)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -49,9 +41,9 @@ class ProductProperty {
         })
 
     };
-    createMany = (labels) => {
+    getPagesByWebsite = (website) => {
         return new Promise((resolve, reject) => {
-            axios.post(api + `propertyLabel/createMany`, labels)
+            axios.get(api + `product/getPagesByWebsite/`+website)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -61,15 +53,9 @@ class ProductProperty {
         })
 
     };
-    assignTypeToWebsite = (type) => {
-
-
-
-
-
+    create = (product,websiteId) => {
         return new Promise((resolve, reject) => {
-            const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
-            axios.post(api + `productProperty/assignTypeToWebsite`, t)
+            axios.post(api + `product/`+websiteId, product,{ headers: { "Content-Type": "multipart/form-data" } })
                 .then(res => {
                     resolve(res.data);
                 })
@@ -79,9 +65,11 @@ class ProductProperty {
         })
 
     };
-    update = (property,propertyId) => {
+
+
+    update = (product,productId) => {
         return new Promise((resolve, reject) => {
-            axios.put(api + `productProperty/`+propertyId, property)
+            axios.put(api + `product/`+productId, product)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -91,9 +79,9 @@ class ProductProperty {
         })
 
     };
-    getOneById = (propertyId) => {
+    getOneById = (productId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productProperty/`+propertyId)
+            axios.get(api + `product/`+productId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -103,9 +91,9 @@ class ProductProperty {
         })
 
     };
-    delete = (propertyId) => {
+    delete = (productId) => {
         return new Promise((resolve, reject) => {
-            axios.delete(api + `productProperty/`+propertyId)
+            axios.delete(api + `product/`+productId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -115,11 +103,12 @@ class ProductProperty {
         })
 
     };
+
 
 
 
 }
 
-const instance = new ProductProperty();
+const instance = new Product();
 
 export default instance;
