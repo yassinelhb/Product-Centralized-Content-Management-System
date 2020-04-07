@@ -16,6 +16,7 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import ProductService from "../../services/product/Product.service";
 import Label from "reactstrap/es/Label";
 import TypeService from "../../services/product/ProductType.service";
+import {Redirect} from "react-router";
 
 class AddProduct extends React.Component {
   buttonstyle= (e)=>{
@@ -45,7 +46,9 @@ class AddProduct extends React.Component {
       subTypes :[],
       websiteId:'',
       countrycode:'',
-      product:{}
+      product:{},
+      redirect: false
+
     };
   }
    getProperties = (e) => {
@@ -138,7 +141,10 @@ class AddProduct extends React.Component {
      this.state.properties.map(p=>{
        formData.set(p.name, product[p.name]);
      });
-        ProductService.create(formData,this.state.websiteId).then();
+        ProductService.create(formData,this.state.websiteId).then(s =>
+            this.setState({
+          redirect: true
+        }));
    };
   componentDidMount() {
     let data =sessionStorage.getItem('webselect');
@@ -162,12 +168,23 @@ class AddProduct extends React.Component {
           })
     }
   }
-
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  };
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/admin/products' />
+    }
+  };
   render() {
     const { properties } = this.state ;
     const { imagePreviewUrl, errors, types,subTypes } = this.state;
     return (
         <>
+          {this.renderRedirect()}
+
           <div className="content">
             <Row>
               <Col md="12">

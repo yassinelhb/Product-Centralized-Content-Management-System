@@ -39,6 +39,7 @@ import Web from "./views/website_editor/Website";
 import Users from "./views/Users/Users.jsx"
 import AddProduct from "./views/product/AddProduct";
 import Products from "./views/product/Products";
+import CountryProducts from "./views/product/CountryProducts";
 var routes = [
 
   {
@@ -90,18 +91,19 @@ var routes = [
     component: productSubTypes,
     layout: "/admin"
   },
-  {
-    path: "/product/add",
-    name: "Add Product",
-    icon: "nc-icon nc-single-copy-04",
-    component: AddProduct,
-    layout: "/admin"
-  },
+
   {
     path: "/products",
     name: "Products",
     icon: "nc-icon nc-single-copy-04",
     component: Products,
+    layout: "/admin"
+  },
+  {
+    path: "/countryproducts",
+    name: "Country Products",
+    icon: "nc-icon nc-single-copy-04",
+    component: CountryProducts,
     layout: "/admin"
   },
   {

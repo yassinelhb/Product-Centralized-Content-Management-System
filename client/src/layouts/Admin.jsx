@@ -11,6 +11,7 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 import routes from "routes.js";
 import serviceSite from "../services/website.service";
+import AddProduct from "../views/product/AddProduct";
 
 var ps;
 
@@ -77,6 +78,10 @@ class Dashboard extends React.Component {
                 />
               );
             })}
+            <Route
+                path={'/admin/product/add'}
+                component={() => <AddProduct website={this.state.website}/>}
+            />
           </Switch>
           <Footer fluid />
         </div>

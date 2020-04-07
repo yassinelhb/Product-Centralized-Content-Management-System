@@ -17,36 +17,39 @@ import AssignToWebsite from "./AssignToWebsite";
 
 class productTypes extends React.Component {
 
-  buttonstyle= (e)=>{
-    return{
-      "display":e
-    }
-  };
 
-  etat ='none';
+
 
   constructor() {
     super();
-    let data =sessionStorage.getItem('webselect');
-    this.data = JSON.parse(data);
-    if(this.data != null )
-    {
-      this.etat=''
-    }
+
     this.state = {
       types: [],
-
+      website:{},
+      websiteId:''
 
     };
   }
 
 
   componentDidMount() {
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
+    console.log(this.data);
+    if(this.data != null )
+    {
 
+
+    this.state = {
+      website:this.data,
+      websiteId:this.data._id
+    };}
     TypeService.getAll()
         .then( res => {
           this.setState({
-            types : res
+            types : res,
+            website:this.data,
+            websiteId:this.data._id
           });
         })
   }
@@ -59,14 +62,9 @@ class productTypes extends React.Component {
         })
 
   }
-  addToWebsiteHandler(type) {
-    TypeService.assignTypeToWebsite(type)
-        .then( res => {
-          console.log(res);
-        })
-  }
+
   render() {
-    const { types } = this.state ;
+    const { types,website } = this.state ;
     return (
       <>
         <div className="content">
@@ -91,7 +89,7 @@ class productTypes extends React.Component {
 
                       {
                         types.length ?
-                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><div className="row"><UpdateProductType typeId={type._id} /> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><Button color="success"  style={this.buttonstyle(this.etat)}   >Add to website</Button><AssignToWebsite onClick={() =>this.addToWebsiteHandler(type)} typeId={type._id}     /></div></td></tr>) :
+                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><div className="row"><UpdateProductType typeId={type._id} /> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><AssignToWebsite type={type} typeId={type._id} websiteId={this.state.websiteId}   website={website}   /></div></td></tr>) :
                             null
                       }
 

@@ -18,7 +18,7 @@ import Image from "react-bootstrap/Image";
 import {Redirect} from "react-router";
 
 
-class Products extends React.Component {
+class CountryProducts extends React.Component {
   buttonstyle= (e)=>{
     return{
       "display":e
@@ -37,7 +37,6 @@ class Products extends React.Component {
       products: [],
       websiteId: '',
       countrycode: '',
-      redirect: false
 
     };
   }
@@ -52,7 +51,7 @@ class Products extends React.Component {
         websiteId: this.data._id,
         countrycode: this.data.Contry,
       });
-      ProductService.findByWebsite(this.data._id)
+      ProductService.findByCountry(this.data.Contry)
           .then(res => {
             this.setState({
               products: res
@@ -61,7 +60,7 @@ class Products extends React.Component {
     }
   }
   refreshTable = () => {
-    ProductService.findByWebsite(this.state.websiteId)
+    ProductService.findByCountry(this.data.Contry)
         .then( res => {
           this.setState({
             products : res
@@ -78,28 +77,17 @@ class Products extends React.Component {
         })
 
   }
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
-  }
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/admin/product/add' />
-    }
-  }
+
   render() {
     const { products } = this.state ;
     return (
         <>
-          {this.renderRedirect()}
           <div className="content">
             <Row>
               <Col md="12">
                 <Card>
                   <CardHeader>
                     <CardTitle tag="h4">Products </CardTitle>
-                    <Button color="success" onClick={this.setRedirect} > Add  </Button>
                   </CardHeader>
                   <CardBody>
                     <Table responsive>
@@ -144,4 +132,4 @@ class Products extends React.Component {
 
 }
 
-export default Products;
+export default CountryProducts;
