@@ -8,7 +8,7 @@ var multer = require('multer');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'client/src/assets/img')
+        cb(null, 'assets/product')
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname )
@@ -41,7 +41,7 @@ exports.findByWebsite =   (req, res) =>{
         .then(pages => {
             const products =[];
             pages.forEach( async  (page,i) =>{
-                    const product = await Product.findById(page.get('product'));
+                    const product = await Product.findById(page.get('product')).populate('subType');
                     products.push(product);
 
                     if(i === pages.length -1){
@@ -132,4 +132,7 @@ exports.update = async  (req, res) => {
         res.json({message: err});
     }
 };
-
+exports.getPicture = (req, res) => {
+    var filename = req.params.picture;
+    res.download('assets/product/' + filename);
+};

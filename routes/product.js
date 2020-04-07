@@ -14,7 +14,8 @@ router.get('/findByWebsite/:websiteId', ProductService.findByWebsite);
 router.get('/getPagesByWebsite/:websiteId', ProductService.getPagesByWebsite);
 // create a new product
 router.post('/:websiteId', ProductService.create);
-
+// get a product by id
+router.get('/getPicture/:picture', ProductService.getPicture);
 // get a product by id
 router.get('/:productId', ProductService.getById);
 

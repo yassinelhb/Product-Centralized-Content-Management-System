@@ -38,6 +38,7 @@ import Ads_banner from "./views/Ads_banner/Ads_banner";
 import Web from "./views/website_editor/Website";
 import Users from "./views/Users/Users.jsx"
 import AddProduct from "./views/product/AddProduct";
+import Products from "./views/product/Products";
 var routes = [
 
   {
@@ -94,6 +95,13 @@ var routes = [
     name: "Add Product",
     icon: "nc-icon nc-single-copy-04",
     component: AddProduct,
+    layout: "/admin"
+  },
+  {
+    path: "/products",
+    name: "Products",
+    icon: "nc-icon nc-single-copy-04",
+    component: Products,
     layout: "/admin"
   },
   {

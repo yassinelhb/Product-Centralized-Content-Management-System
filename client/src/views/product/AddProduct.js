@@ -129,6 +129,7 @@ class AddProduct extends React.Component {
      formData.set('title', product.title);
      formData.set('picture', product.picture.name);
      formData.set('subType', product.subType);
+     formData.set('bankLink', product.bankLink);
      formData.set('active', false);
      formData.set('sponsored', false);
      formData.set('country_code', this.state.countrycode);
@@ -183,6 +184,16 @@ class AddProduct extends React.Component {
                             placeholder="title"
                             type="text"
                             name="title"
+                            onChange={this.handleChange}
+
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Bank Link</label>
+                        <Input
+                            placeholder="Link"
+                            type="text"
+                            name="bankLink"
                             onChange={this.handleChange}
 
                         />

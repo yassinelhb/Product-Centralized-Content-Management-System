@@ -31,7 +31,7 @@ class Product {
     };
     findByWebsite = (website) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `product/findByCountry/`+website)
+            axios.get(api + `product/findByWebsite/`+website)
                 .then(res => {
                     resolve(res.data);
                 })
