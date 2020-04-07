@@ -25,8 +25,8 @@ import TableList from "views/Tables.jsx";
 import Maps from "views/Map.jsx";
 import UserPage from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
-import Pages from "views/Pages.jsx";
-import Theme from "views/Themes/theme";
+import Pages from "views/pages/page";
+import Theme from "views/themes/theme";
 import Component from "views/Component.jsx";
 import register from "views/register/register.jsx"
 import Login from "views/Login/Login.jsx";
