@@ -1,10 +1,22 @@
-import productProperties from "../client/src/views/productProperty/productProperties";
 const Page = require('../models/page.model');
 const Website = require('../models/website.model');
 const Link = require('../models/link.model');
 const SubType = require('../models/ProductSubType.model');
 const Layout = require('../models/layout.model');
 const Product = require('../models/Product.model');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'client/src/assets/img')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname )
+    }
+});
+
+
+var upload = multer({ storage: storage });
 
 // get all Products
 
@@ -44,9 +56,9 @@ exports.findByWebsite =   (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
-// get  Product Types pages by website
+// get  Product  pages by website
 exports.getPagesByWebsite =   (req, res) =>{
-    Page.find({website:req.params.websiteId,type:"detail"})
+    Page.find({website:req.params.websiteId,type:"product"})
         .then(pages => {
 
             res.json(pages);
@@ -57,31 +69,34 @@ exports.getPagesByWebsite =   (req, res) =>{
 
 };
 // create a new product
-exports.create = async  (req, res) => {
+exports.create = [ upload.single('file'),async  (req, res) => {
 
-
-        const saved = await Product.create(req.body)
-            .then( product =>
+       const prod = req.body;
+        prod.picture =req.file.filename;
+        const saved = await Product.create(prod)
+            .then( async (product) =>
                 {
-                    const productLayout =  Layout.findOne({website:req.params.websiteId,layout_name:'detail'}).then().catch();
-
+                    const productLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'detail'}).then().catch();
+    console.log(productLayout);
                     const b ={
 
-                        "page_name":product.name,
+                        "page_name":product.title,
                         "type":"product",
                         "productSubType":product.subType,
                         "product":product._id,
                         "website":req.params.websiteId,
                         "layout":productLayout._id
                     };
-                    Page.create(req.body).then().catch();
+                    console.log(b);
+
+                    Page.create(b).then().catch();
                     res.json(product);
                 }
 
             )
             .catch(err => res.status(400).json('Error: ' + err));
 
-};
+}];
 
 // get a product by id
 exports.getById = async  (req, res) => {

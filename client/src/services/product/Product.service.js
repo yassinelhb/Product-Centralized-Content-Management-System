@@ -1,13 +1,13 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-const websiteId = '5e7ce3309f0d3737e8980743';
-const layout='5e7ce3309f0d3737e8980748';
+
+
 class Product {
 
 
     getAll = () => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType`)
+            axios.get(api + `product`)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -17,9 +17,9 @@ class Product {
         })
 
     };
-    create = (type) => {
+    findByCountry = (country) => {
         return new Promise((resolve, reject) => {
-            axios.post(api + `productType`, type)
+            axios.get(api + `product/findByCountry/`+country)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -29,11 +29,9 @@ class Product {
         })
 
     };
-
-    assignTypeToWebsite = (type) => {
+    findByWebsite = (website) => {
         return new Promise((resolve, reject) => {
-            const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
-            axios.post(api + `productType/assignTypeToWebsite`, t)
+            axios.get(api + `product/findByCountry/`+website)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -43,9 +41,9 @@ class Product {
         })
 
     };
-    update = (type,typeId) => {
+    getPagesByWebsite = (website) => {
         return new Promise((resolve, reject) => {
-            axios.put(api + `productType/`+typeId, type)
+            axios.get(api + `product/getPagesByWebsite/`+website)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -55,9 +53,9 @@ class Product {
         })
 
     };
-    getOneById = (typeId) => {
+    create = (product,websiteId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType/`+typeId)
+            axios.post(api + `product/`+websiteId, product,{ headers: { "Content-Type": "multipart/form-data" } })
                 .then(res => {
                     resolve(res.data);
                 })
@@ -67,9 +65,11 @@ class Product {
         })
 
     };
-    delete = (typeId) => {
+
+
+    update = (product,productId) => {
         return new Promise((resolve, reject) => {
-            axios.delete(api + `productType/`+typeId)
+            axios.put(api + `product/`+productId, product)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -79,10 +79,9 @@ class Product {
         })
 
     };
-
-    getByWebsite = (websiteid) => {
+    getOneById = (productId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productType/getByWebsite/`+websiteid)
+            axios.get(api + `product/`+productId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -92,6 +91,20 @@ class Product {
         })
 
     };
+    delete = (productId) => {
+        return new Promise((resolve, reject) => {
+            axios.delete(api + `product/`+productId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
+
 
 
 }

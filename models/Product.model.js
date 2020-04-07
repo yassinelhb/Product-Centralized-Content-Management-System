@@ -6,7 +6,7 @@ const ProductSchema  = new Schema({
     title: {type: String, required: true},
     country_code: {type: String, required: true},
     picture: {type: String, required: true},
-    alt_pic: {type: String, required: true},
+    alt_pic: {type: String, required: false},
     active: {type: Boolean, required: true},
     sponsored: {type: Boolean, required: true},
     subType: {type:mongoose.Schema.Types.ObjectId, ref:'ProductSubType'},
