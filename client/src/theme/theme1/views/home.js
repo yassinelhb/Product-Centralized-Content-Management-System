@@ -17,8 +17,8 @@ class Home extends React.Component {
             page : props.page,
             page_category: '',
             best_category_list_edit : false,
-            best_category_text_edit : false,
-            best_category_desc_edit : false
+            editor_text : '',
+            alert: ''
         }
 
     }
@@ -29,8 +29,8 @@ class Home extends React.Component {
             .then( res => {
                 res.forEach(page => {
                     if ( page.layout.layout_name === 'category' ) {
-                        if (this.state.page.best_category?.best_category_list) {
-                            const exist = this.state.page.best_category.best_category_list.find((item) => item._id == page._id);
+                        if (this.state.page.best_category_list) {
+                            const exist = this.state.page.best_category_list.find((item) => item._id == page._id);
                             if( ! exist ) {
                                 page_category.push(page)
                             }
@@ -47,19 +47,14 @@ class Home extends React.Component {
 
     addCategory = (page) => {
         let category_list = [page]
-        if ( this.state.page.best_category?.best_category_list ) {
-            category_list = [...this.state.page.best_category.best_category_list , page]
+        if ( this.state.page.best_category_list ) {
+            category_list = [...this.state.page.best_category_list , page]
         }
         this.setState({
-
             page : {
                 ...this.state.page,
-                best_category: {
-                    ...this.state.page.best_category,
-                    best_category_list: category_list
-                }
+                best_category_list: category_list
             },
-
             page_category : this.state.page_category.filter((item) => item._id !== page._id)
         })
     }
@@ -69,10 +64,7 @@ class Home extends React.Component {
             page_category : [...this.state.page_category, page],
             page : {
                 ...this.state.page,
-                best_category: {
-                    ...this.state.page.best_category,
-                    best_category_list: this.state.page.best_category.best_category_list.filter((item) => item._id !== page._id)
-                }
+                best_category_list: this.state.page.best_category_list.filter((item) => item._id !== page._id)
             },
         })
     }
@@ -102,62 +94,45 @@ class Home extends React.Component {
         this.savePage()
     }
 
-    editorBestCategoryText = (best_category_text) => {
+    handleTextClick = (editor_text) => {
         this.setState({
-            page : {
+            editor_text: editor_text
+        })
+    }
+
+    handleTextChange = (text) => {
+        const event = this.state.page[this.state.editor_text] !== text
+
+        this.setState({
+            page: {
                 ...this.state.page,
-                best_category: {
-                    ...this.state.page.best_category,
-                    best_category_text: best_category_text
-                }
-
+                [this.state.editor_text] : text
             },
-            best_category_text_edit : false
-
+            editor_text: ''
         })
 
-        this.savePage()
+        event && this.savePage()
 
     }
 
-    handleBestCategoryText = () => {
-
-        this.setState({
-            best_category_text_edit : true
-        })
-
-    }
-
-    editorBestCategoryDesc = (best_category_desc) => {
-        this.setState({
-            page : {
-                ...this.state.page,
-                best_category: {
-                    ...this.state.page.best_category,
-                    best_category_desc: best_category_desc
-                }
-            },
-            best_category_desc_edit : false
-        })
-
-        this.savePage()
-
-    }
-
-    handleBestCategoryDesc = () => {
-        this.setState({
-            best_category_desc_edit : true
-        })
-    }
 
     savePage() {
         if ( this.state.editor ) {
+            console.log(this.state.page.best_category_list)
             servicePage.editPage(this.state.page)
                 .then(res =>
                     this.setState({
-                        page : res
+                        page : res,
+                        alert : 'Page saved ...'
+
                     })
                 )
+
+            setTimeout(() =>{
+                this.setState({
+                    alert: ''
+                })
+            },2000)
 
         } else {
             this.props.handle(this.state.page)
@@ -167,21 +142,21 @@ class Home extends React.Component {
 
     render() {
 
-        const { page, page_category , best_category_list_edit, toggle_btn } = this.state
+        const { page, page_category , best_category_list_edit, toggle_btn, editor_text, alert} = this.state
 
-        const best_category_text = this.state.best_category_text_edit ?
-            <EditorText editorState = { page.best_category?.best_category_text ? page.best_category.best_category_text : '' } editor = {this.editorBestCategoryText} />
+        const best_category_text =  editor_text === 'best_category_text' ?
+            <EditorText editorState = { page.best_category_text ? page.best_category_text : '' } editor = { this.handleTextChange } />
             :
-            <h1 className="best_category_text" onClick={ this.handleBestCategoryText }>
-                { page.best_category?.best_category_text  ? page.best_category.best_category_text : 'Title of best category'  }
+            <h1 className="best_category_text" onClick={ () => this.handleTextClick('best_category_text') }>
+                { page.best_category_text  ? page.best_category_text : 'Title of best category'  }
             </h1>
 
 
-        const best_category_desc = this.state.best_category_desc_edit ?
-            <EditorText editorState = { page.best_category?.best_category_desc ? page.best_category.best_category_desc : '' } editor = {this.editorBestCategoryDesc} />
+        const best_category_desc =  editor_text === 'best_category_desc' ?
+            <EditorText editorState = { page.best_category_desc ? page.best_category_desc : '' } editor = { this.handleTextChange } />
             :
-            <p className="best_category_desc" onClick={ this.handleBestCategoryDesc }>
-                { page.best_category?.best_category_desc ? page.best_category.best_category_desc : 'Description of best category' }
+            <p className="best_category_desc" onClick={ () => this.handleTextClick('best_category_desc') }>
+                { page.best_category_desc ? page.best_category_desc : 'Description of best category' }
             </p>
 
         const toggle = <div className="toggle_btn">
@@ -199,19 +174,21 @@ class Home extends React.Component {
             }
         </div>
 
-        const best_category_list =  page.best_category?.best_category_list &&
-            page.best_category.best_category_list.map(page =>
+        const best_category_list =  page.best_category_list &&
+            page.best_category_list.map(page =>
                 <div className="col-md-3" key={ page._id}>
                     {
                         best_category_list_edit ?
                             <p className="best_category_item">
+                                <img src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png') }/>
                                 { page.page_name}
                                 <span className="toggle_icon" onClick={ () => this.removeCategory(page) }>
-                                                                    <i className="nc-icon nc-simple-remove"></i>
-                                                                </span>
+                                    <i className="nc-icon nc-simple-remove"></i>
+                                </span>
                             </p>
                             :
                             <Link className="best_category_item" to={ '/website/' +page.page_name}>
+                                <img src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png') }/>
                                 { page.page_name }
                             </Link>
                     }
@@ -225,22 +202,22 @@ class Home extends React.Component {
                         { best_category_text }
                         { best_category_desc }
                         <div className="best_category_list">
-                            <div className="row">
-                                <div className="col-md-9">
-                                    { toggle }
-                                    <div className={ best_category_list?.length && best_category_list_edit === false ? '' : 'best_category_border'}>
-                                        <div className="row">
-                                            { best_category_list }
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-3">
-                                    { best_category_list_edit && <EditorList page_category = { page_category } add={ this.addCategory } /> }
+                            <div className={ best_category_list?.length && best_category_list_edit === false ? 'list_category' : 'list_category best_category_border'}>
+                                { toggle }
+                                <div className="row">
+                                    { best_category_list }
                                 </div>
                             </div>
+                            { best_category_list_edit && <EditorList page_category = { page_category } add={ this.addCategory } /> }
                         </div>
                     </div>
                 </div>
+                {
+                    alert &&
+                    <div className="alert_saved">
+                        <span> { alert } </span>
+                    </div>
+                }
             </>
         );
     }
