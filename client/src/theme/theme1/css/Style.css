@@ -79,13 +79,13 @@ body {
 }
 
 .section-best_category .best_category_text {
-    font-size: 35px;
-    margin-bottom: 15px;
+    font-size: 30px;
+    margin-bottom: 25px;
 }
 
 .section-best_category .best_category_desc {
-    font-size: 19px;
-    margin-bottom: 25px;
+    font-size: 17px;
+    margin-bottom: 55px;
 }
 .section-best_category .toggle_btn {
     position: absolute;
@@ -108,28 +108,54 @@ body {
     color: #1F77D0;
 }
 
-.best_category_list .best_category_item {
-    background: #FFFFFF;
-    text-align: center;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(99, 99, 99, 0.67);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    display: block;
-    position: relative;
-    text-decoration: none;
-    color: #2c2c2c;
+.best_category_list {
+    display: flex;
+    flex-wrap: wrap;
 }
+
+.best_category_list .list_category {
+    width: 100%;
+    position: relative;
+}
+
 
 .best_category_list .best_category_border {
     border: dashed 2px #d8d8d8;
     padding: 10px;
     min-height: 150px;
+    width: 75%;
 }
 
-.best_category_list .list_category {
+
+
+.best_category_list .best_category_item {
+    background: #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(99, 99, 99, 0.67);
+    margin-bottom: 10px;
+    position: relative;
+    text-decoration: none;
+    padding: 15px;
+    color: #2c2c2c;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+
+}
+
+.best_category_list .best_category_item img {
+    width: 60px;
+    opacity: 0.6;
+    margin-bottom: 5px;
+}
+
+.best_category_list .editor_category {
+    position: relative;
+    width: 25%;
+}
+.best_category_list .editor_category .editor_list_category {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(119, 118, 114, 0.71);
     padding-top: 15px;
@@ -149,7 +175,7 @@ body {
     margin: 0;
 }
 
-.best_category_list .list_category .title_list_category {
+.best_category_list .editor_category .editor_list_category .title_list_category {
     display: block;
     font-weight: bold;
     font-size: 17px;
@@ -157,7 +183,7 @@ body {
     padding-left: 15px;
 }
 
-.best_category_list .list_category .item_category {
+.best_category_list .editor_category .editor_list_category .item_category {
     padding: 10px 15px;
     border-top: 1px solid #E1E1E1;
     cursor: pointer;
@@ -307,6 +333,7 @@ body {
     margin: 15px 0;
     padding: 20px 15px 15px;
     border-radius: 5px;
+    background: #FFFFFF;
 }
 
 .wrapper-theme1 .product_list_item .product_item_img {

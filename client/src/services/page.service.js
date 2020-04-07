@@ -25,10 +25,12 @@ class Page {
     }
 
 
-    addPage = (page) => {
-        page.website = side_id
+    addPage = (formData) => {
+
+        formData.append('website', side_id)
+
         return new Promise((resolve, reject) => {
-            axios.post(api + `page`, page)
+            axios.post(api + `page`, formData)
                 .then(res => {
                     resolve(res.data);
                 })

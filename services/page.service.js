@@ -1,6 +1,19 @@
 const Page = require('../models/page.model')
 const Link = require('../models/link.model')
-const Website = require('../models/website.model')
+var multer = require('multer');
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'client/src/assets/img/page')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname )
+    }
+})
+
+
+var upload = multer({ storage: storage });
 
 
 // get all pages
@@ -11,6 +24,7 @@ exports.getPages = async function (req, res) {
             .populate('productType')
             .populate('productSubType')
             .populate('productTypePage')
+            .populate('best_category_list')
             .populate({
             path: 'website',
             populate: {
@@ -37,13 +51,20 @@ exports.getOnePage = async  (req, res) => {
 }
 
 // add page
-exports.addPage = async  (req, res) => {
+exports.addPage = [ upload.single('page_img'), async  (req, res) => {
 
     try {
-        const exist = await Page.find({ website : req.body.website, page_name : req.body.page_name }).count()
+
+        let page = req.body
+
+        if ( req.file ) {
+            page.page_img = req.file.filename
+        }
+
+        const exist = await Page.find({ website : page.website, page_name : page.page_name }).count()
 
         if (exist === 0) {
-            const addedPage = await Page.create(req.body).then(result => result.populate('layout').execPopulate())
+            const addedPage = await Page.create(page).then(result => result.populate('layout').execPopulate())
             res.json(addedPage);
         } else {
             res.json({message: 'Page already exist'})
@@ -53,21 +74,26 @@ exports.addPage = async  (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
-
+}]
 
 // update page
-exports.updatePage = async  (req, res) => {
+exports.updatePage = [ upload.single('page_img'), async  (req, res) => {
     try {
 
-        const exist = await Page.find({ website : req.body.website, page_name : req.body.page_name, _id : {$ne: req.body._id } }).count()
+        let page = req.body
+
+        if ( req.file ){
+            page.page_img = req.file.filename
+        }
+
+        const exist = await Page.find({ website : page.website, page_name : page.page_name, _id : {$ne: page._id } }).count()
 
         if ( exist === 0) {
 
             const updatedPage = await Page.findOneAndUpdate(
-                { _id: req.body._id },
-                { $set: req.body },
-                {new: true, useFindAndModify: false}
+                { _id: page._id },
+                { $set: page },
+                { new: true, useFindAndModify: false }
             ).populate('layout').populate('productType').populate('productSubType')
                 .populate('productTypePage')
 
@@ -76,12 +102,10 @@ exports.updatePage = async  (req, res) => {
             res.json({message: 'Page already exist'})
         }
 
-
-
     } catch (err) {
         res.json({message: err});
     }
-}
+}]
 
 // delete page
 exports.deletePage = async  (req, res) => {

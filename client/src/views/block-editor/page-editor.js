@@ -45,9 +45,16 @@ class PageEditor extends React.Component {
 
     savePage = () => {
 
+        let formData = new FormData();
+
+        Object.keys(this.state.page).forEach(key => {
+            console.log(key)
+             formData.append(key, this.state.page[key].constructor === Object ?  this.state.page[key]._id :  this.state.page[key])
+        })
+
         if ( !this.state.page._id ) {
-            
-            servicePage.addPage( this.state.page )
+
+            servicePage.addPage(formData)
                 .then(res => {
                     res.message ?
                         this.setState({
@@ -60,9 +67,9 @@ class PageEditor extends React.Component {
                         }, () =>  this.props.history.push('/block-editor/' + this.state.page._id ))
                 })
 
-        } else {
-
-            servicePage.editPage( this.state.page )
+        }
+        else {
+            servicePage.editPage(formData)
                 .then(res => {
                     res.message ?
                         this.setState({

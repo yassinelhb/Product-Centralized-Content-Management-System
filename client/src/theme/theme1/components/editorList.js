@@ -25,11 +25,13 @@ class EditorList extends React.Component {
             </div>
         )
         return (
-            <div className="list_category">
-                <h1 className="title_list_category">
-                    List category
-                </h1>
-                { page_category }
+            <div className="editor_category">
+                <div className="editor_list_category">
+                    <h1 className="title_list_category">
+                        List category
+                    </h1>
+                    { page_category }
+                </div>
             </div>
         );
     }

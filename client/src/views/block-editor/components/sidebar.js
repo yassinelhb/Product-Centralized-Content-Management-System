@@ -38,10 +38,11 @@ class Sidebar extends React.Component {
                             ...this.state.errors,
                             page_img: ''
                         },
-                    });
+                    }, ()=> this.props.handle(this.state.page));
                 }
 
                 reader.readAsDataURL(file)
+
             }
             else {
                 this.setState({
