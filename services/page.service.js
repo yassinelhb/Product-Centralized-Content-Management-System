@@ -55,17 +55,23 @@ exports.addPage = [ upload.single('page_img'), async  (req, res) => {
 
     try {
 
-        let page = req.body
+        let page  = JSON.parse(req.body.page);
 
         if ( req.file ) {
             page.page_img = req.file.filename
         }
+        page.website = req.body.website
 
         const exist = await Page.find({ website : page.website, page_name : page.page_name }).count()
 
         if (exist === 0) {
-            const addedPage = await Page.create(page).then(result => result.populate('layout').execPopulate())
+            const addedPage = await Page.create(page)
+                .then(result => result.populate('layout').populate('best_category_list')
+                    .execPopulate())
+
+            console.log(addedPage)
             res.json(addedPage);
+
         } else {
             res.json({message: 'Page already exist'})
         }
@@ -80,24 +86,26 @@ exports.addPage = [ upload.single('page_img'), async  (req, res) => {
 exports.updatePage = [ upload.single('page_img'), async  (req, res) => {
     try {
 
-        let page = req.body
+        let page  = JSON.parse(req.body.page);
 
         if ( req.file ){
             page.page_img = req.file.filename
         }
-
         const exist = await Page.find({ website : page.website, page_name : page.page_name, _id : {$ne: page._id } }).count()
-
         if ( exist === 0) {
 
-            const updatedPage = await Page.findOneAndUpdate(
+           const updatedPage = await Page.findOneAndUpdate(
                 { _id: page._id },
                 { $set: page },
                 { new: true, useFindAndModify: false }
-            ).populate('layout').populate('productType').populate('productSubType')
-                .populate('productTypePage')
+            ).populate('layout')
+               .populate('productType')
+               .populate('productSubType')
+               .populate('productTypePage')
+               .populate('best_category_list')
 
             res.json(updatedPage);
+
         } else {
             res.json({message: 'Page already exist'})
         }

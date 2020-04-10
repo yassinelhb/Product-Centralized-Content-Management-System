@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 class Home extends React.Component {
 
+
     constructor(props) {
         super(props);
 
@@ -118,9 +119,16 @@ class Home extends React.Component {
 
 
     savePage() {
+
+        const { page } = this.state
+
         if ( this.state.editor ) {
-            console.log(this.state.page.best_category_list)
-            servicePage.editPage(this.state.page)
+
+            let formData = new FormData();
+
+            formData.append('page',JSON.stringify(page))
+
+            servicePage.editPage(formData)
                 .then(res =>
                     this.setState({
                         page : res,
@@ -134,7 +142,7 @@ class Home extends React.Component {
             },2000)
 
         } else {
-            this.props.handle(this.state.page)
+            this.props.handle(page)
         }
 
     }

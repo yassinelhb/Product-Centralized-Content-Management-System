@@ -40,10 +40,10 @@ class Page {
         })
     }
 
-    editPage = (page) => {
+    editPage = (formData) => {
 
         return new Promise((resolve, reject) => {
-            axios.patch(api + `page`, page)
+            axios.patch(api + `page`, formData)
                 .then(res => {
                     resolve(res.data);
                 })

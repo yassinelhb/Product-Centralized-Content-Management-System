@@ -188,7 +188,6 @@ class Header extends React.Component {
                         <ul className="navbar-nav mr-auto">
                             {links}
                             { btn_setting }
-
                         </ul>
                     </div>
                 </div>

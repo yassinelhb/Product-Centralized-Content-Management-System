@@ -49,18 +49,15 @@ class SelectLayout extends React.Component {
                 <Header component ="selectLayout" useLayout={ this.handleSelectLayout } layout={ this.state.layout } />
                 <div className="content-page">
                         <div className="row">
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                                 <div className="menu_page">
                                     { layouts }
                                 </div>
                             </div>
                             <div className="col-md-8">
                                 <div className="page-preview">
-                                    <div className="preview_img">
-                                        {
-                                            this.state.layout.website &&
-                                            <img src={require('../../theme/' + this.state.layout.website.theme.theme_name + '/assets/img/' + this.state.layout.layout_img)}/>
-                                        }
+                                    <div className="preview_img" style={  this.state.layout.website && {  backgroundImage: `url(` + require('../../theme/' + this.state.layout.website.theme.theme_name + '/assets/img/' + this.state.layout.layout_img) + `)`}}>
+                                        <div className="preview_bg"></div>
                                     </div>
                                 </div>
                             </div>

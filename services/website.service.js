@@ -45,7 +45,7 @@ const addLayouts = function(layouts,websiteId){
         item.website = websiteId
         const layout = new Layout(item)
         await layout.save(
-              index < 4 &&  addPages(layout,websiteId)
+              layout.layout_name === 'home' &&  addPages(layout,websiteId)
         )
 
     })

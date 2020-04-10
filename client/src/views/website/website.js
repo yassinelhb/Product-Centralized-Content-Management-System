@@ -41,6 +41,8 @@ class Website extends React.Component {
    }
 
    loadComponent(page) {
+        if (page.layout.layout_name === 'home')
+            console.log(page)
        const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name))
        return <Componant page={ page } editor = { true } />
    }

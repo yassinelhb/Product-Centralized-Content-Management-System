@@ -45,14 +45,13 @@ class PageEditor extends React.Component {
 
     savePage = () => {
 
+        const { page } = this.state
         let formData = new FormData();
 
-        Object.keys(this.state.page).forEach(key => {
-            console.log(key)
-             formData.append(key, this.state.page[key].constructor === Object ?  this.state.page[key]._id :  this.state.page[key])
-        })
+        formData.append('page',JSON.stringify(page))
+        formData.append('page_img',page.page_img)
 
-        if ( !this.state.page._id ) {
+        if ( ! page._id ) {
 
             servicePage.addPage(formData)
                 .then(res => {
@@ -82,7 +81,6 @@ class PageEditor extends React.Component {
                         })
                 })
         }
-
         setTimeout(() =>{
             this.setState({
                 alert: ''

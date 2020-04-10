@@ -35,10 +35,10 @@ const PageSchema  = new Schema({
     },
     best_category_list: [
         {
-            type: Schema.Types.ObjectId,
-            ref: "Page"
-        }
-    ]
+        type: Schema.Types.ObjectId,
+        ref: "Page",
+    }
+    ],
 
 }, {strict: false});
 

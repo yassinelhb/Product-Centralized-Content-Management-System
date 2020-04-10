@@ -46,6 +46,7 @@
 .section-best_category .best_category_text {
     font-size: 30px;
     margin-bottom: 25px;
+    text-transform: capitalize;
 }
 
 .section-best_category .best_category_desc {
@@ -98,6 +99,7 @@
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(99, 99, 99, 0.67);
     margin-bottom: 10px;
+    height: 100%;
     position: relative;
     text-decoration: none;
     padding: 15px;
@@ -219,6 +221,7 @@
     font-size: 27px;
     color: #0b5334;
     margin-bottom: 30px;
+    text-transform: capitalize;
 }
 
 .wrapper-theme2 .category_intro .category_text {
@@ -238,6 +241,8 @@
     padding: 25px;
     margin-bottom: 30px;
     text-decoration: none;
+    height: 100%;
+    text-align: center;
 }
 
 .wrapper-theme2 .category_list_subcategory .list_subcategory_item .subcategory_item_img {

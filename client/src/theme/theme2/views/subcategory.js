@@ -43,8 +43,16 @@ class Subcategory extends React.Component {
     }
 
     savePage() {
+
+        const { page } = this.state
+
         if ( this.state.editor ) {
-            servicePage.editPage(this.state.page)
+
+            let formData = new FormData();
+
+            formData.append('page',JSON.stringify(page))
+
+            servicePage.editPage(formData)
                 .then(res =>
                     this.setState({
                         page : res,
@@ -77,7 +85,7 @@ class Subcategory extends React.Component {
 
 
         const sort_word = editor_text === 'sort_word' ?
-            <EditorInputText editorState = { page.sort_word ? page.sort_word :  '' } editor = { this.handleTextChange } />
+            <EditorInputText editorState = { page.sort_word ? page.sort_word :  'Sort by' } editor = { this.handleTextChange } />
             :
             <span className="sort_text" onClick={ () => this.handleTextClick('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
 

@@ -30,7 +30,8 @@ class Page extends React.Component {
         this.state = {
             page : '',
             show : false,
-            pages : ''
+            pages : '',
+            filter: ''
         }
     }
 
@@ -57,15 +58,23 @@ class Page extends React.Component {
         })
     }
 
-    render() {
+    handleFilterChange = (event) => {
+        this.setState({
+            filter: event.target.value
+        })
+    }
 
-        const { show, page} = this.state
+    render() {
+        const { show, page, filter } = this.state
+
         const pages = this.state.pages &&
-            this.state.pages.map((page) =>
-                page.layout.layout_name !== 'subcategory' &&
-                <Fragment key={ page._id}>
-                    <div className="page-list_item">
-                        <p className="list-item_title">{ page.page_name }</p>
+            this.state.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.page_name.match(filter)).map((page) =>
+                <Fragment key={ page._id} >
+                    <div className="page-list_item" data-toggle="collapse" href= { '#collapse'+ page._id }>
+                        <p className="list-item_title">
+                            { this.state.pages.filter(subcategory => subcategory.layout.layout_name === 'subcategory'  && subcategory.productTypePage._id === page._id ).length  ? <i className="nc-icon nc-simple-add"></i> : '' }
+                            { page.page_name }
+                        </p>
                         <div className="dropdown item-dropdown">
                                <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
                                  <i className="nc-icon nc-settings-gear-65"></i>
@@ -85,28 +94,31 @@ class Page extends React.Component {
                     </div>
                     {
                         page.layout.layout_name === 'category' &&
-                        this.state.pages.map((subcategory) =>
-                            subcategory.layout.layout_name === 'subcategory' && subcategory.productTypePage._id === page._id &&
-                            <div className="page-list_item pl-5" key={subcategory._id}>
-                                <p className="list-item_title">{ subcategory.page_name }</p>
-                                <div className="dropdown item-dropdown">
-                                   <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
-                                     <i className="nc-icon nc-settings-gear-65"></i>
-                                   </span>
-                                    <div className="dropdown-menu dropdown-menu-right">
-                                        <Link className="dropdown-item" to={'/block-editor/' + subcategory._id } >
-                                            <i className="nc-icon nc-ruler-pencil"></i>
-                                            Edit
-                                        </Link>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" onClick={ () => this.removeClick(subcategory) }>
-                                            <i className="nc-icon nc-simple-remove"></i>
-                                            Remove
-                                        </a>
-                                    </div>
-                                </div>
+                            <div className="list_subcategory collapse" id={ 'collapse'+ page._id }>
+                                {
+                                    this.state.pages.filter(subcategory => subcategory.layout.layout_name === 'subcategory'  && subcategory.productTypePage._id === page._id ).map((subcategory) =>
+                                        <div className="page-list_item" key={subcategory._id}>
+                                            <p className="list-item_title">{ subcategory.page_name }</p>
+                                            <div className="dropdown item-dropdown">
+                                                <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
+                                                    <i className="nc-icon nc-settings-gear-65"></i>
+                                                </span>
+                                               <div className="dropdown-menu dropdown-menu-right">
+                                                    <Link className="dropdown-item" to={'/block-editor/' + subcategory._id } >
+                                                        <i className="nc-icon nc-ruler-pencil"></i>
+                                                        Edit
+                                                    </Link>
+                                                    <div className="dropdown-divider"></div>
+                                                    <a className="dropdown-item" onClick={ () => this.removeClick(subcategory) }>
+                                                        <i className="nc-icon nc-simple-remove"></i>
+                                                        Remove
+                                                    </a>
+                                               </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
                             </div>
-                        )
                     }
                 </Fragment>
             )
@@ -129,7 +141,7 @@ class Page extends React.Component {
                                         </div>
                                         <div className="col-auto toolbar">
                                             <div className="no-border input-group input-search">
-                                                <input placeholder="Search..." type="text" className="form-control"/>
+                                                <input placeholder="Search..." type="text" className="form-control" onChange={ this.handleFilterChange }/>
                                                 <div className="input-group-append">
                                                       <span className="input-group-text">
                                                         <i className="nc-icon nc-zoom-split"></i>

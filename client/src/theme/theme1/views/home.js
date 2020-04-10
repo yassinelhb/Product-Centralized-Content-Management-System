@@ -117,16 +117,23 @@ class Home extends React.Component {
 
 
     savePage() {
-        if ( this.state.editor ) {
-            console.log(this.state.page.best_category_list)
-            servicePage.editPage(this.state.page)
-                .then(res =>
-                    this.setState({
-                        page : res,
-                        alert : 'Page saved ...'
+        const { page } = this.state
 
-                    })
-                )
+        if ( this.state.editor ) {
+
+            let formData = new FormData();
+
+            formData.append('page',JSON.stringify(page))
+
+            servicePage.editPage(formData)
+                .then(res => {
+                    if (! res.message)
+                        this.setState({
+                            page : res,
+                            alert : 'Page saved ...'
+
+                        }, ()=> console.log(res))
+                })
 
             setTimeout(() =>{
                 this.setState({
@@ -135,7 +142,7 @@ class Home extends React.Component {
             },2000)
 
         } else {
-            this.props.handle(this.state.page)
+            this.props.handle(page)
         }
 
     }
@@ -180,7 +187,6 @@ class Home extends React.Component {
                     {
                         best_category_list_edit ?
                             <p className="best_category_item">
-                                <img src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png') }/>
                                 { page.page_name}
                                 <span className="toggle_icon" onClick={ () => this.removeCategory(page) }>
                                     <i className="nc-icon nc-simple-remove"></i>
@@ -188,7 +194,7 @@ class Home extends React.Component {
                             </p>
                             :
                             <Link className="best_category_item" to={ '/website/' +page.page_name}>
-                                <img src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png') }/>
+                                <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../assets/img/page/default_image.png') }/>
                                 { page.page_name }
                             </Link>
                     }
