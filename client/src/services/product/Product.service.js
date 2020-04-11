@@ -65,7 +65,18 @@ class Product {
         })
 
     };
+    assignToWebsite = (product,websiteId) => {
+        return new Promise((resolve, reject) => {
+            axios.post(api + `product/assignToWebsite/`+websiteId, product)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
 
     update = (product,productId) => {
         return new Promise((resolve, reject) => {
@@ -91,6 +102,18 @@ class Product {
         })
 
     };
+    removeFromWebsite = (productId,websiteId) => {
+        return new Promise((resolve, reject) => {
+            axios.delete(api + `product/removeFromWebsite/`+websiteId+'/'+productId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
     delete = (productId) => {
         return new Promise((resolve, reject) => {
             axios.delete(api + `product/`+productId)
@@ -103,7 +126,6 @@ class Product {
         })
 
     };
-
 
 
 
