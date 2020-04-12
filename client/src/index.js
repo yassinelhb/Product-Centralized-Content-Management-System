@@ -35,23 +35,34 @@ import register2 from "./views/register/register-freelancer-contentEditor"
 import register from "./views/register/register";
 
 import Web_add from "./views/website_editor/web_add";
-
-
 const hist = createBrowserHistory();
+const test = 1;
+const token = localStorage.getItem("token");
+const PrivateRoute = ({ component: Component, ...rest }) =>(
+    <Route {...rest} render={(props) => (
+      token !== ""
+       ? <AdminLayout {...props}/>
+         :<Redirect to='/login'/>
+    )
+
+    }  />
+)
+
+
 
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/website" component={Website} />
-        <Route exact path="/block-editor" component={BlockEditor} />
-        <Route path="/block-editor/:pageId" component={BlockEditor} />
+      <Route exact path="/block-editor" component={BlockEditor} />
+      <Route path="/block-editor/:pageId" component={BlockEditor} />
 
-        <Route exact path={"/"} component={Login}/>
-        <Route path="/admin" render={props => <AdminLayout {...props} />} />
-        <Redirect to="/admin/dashboard" />
-        <Route path="/Website_add" component={Web_add} />
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
+      <Route  path={"/login"} component={Login}/>
+      <PrivateRoute path="/admin" render={props => <AdminLayout {...props} />} />
       <Redirect to="/admin/dashboard" />
+      <Route path="/Website_add" component={Web_add} />
+
+
 
     </Switch>
   </Router>,
