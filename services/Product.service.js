@@ -77,12 +77,14 @@ exports.create = [ upload.single('file'),async  (req, res) => {
             .then( async (product) =>
                 {
                     const productLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'detail'}).then().catch();
+                    const SubTypePage = await Page.findOne({website:req.params.websiteId,type:'subCategory',productSubType:product.subType}).then().catch();
     console.log(productLayout);
                     const b ={
 
                         "page_name":product.title,
                         "type":"product",
                         "productSubType":product.subType,
+                        "SubTypePage":SubTypePage._id,
                         "product":product._id,
                         "website":req.params.websiteId,
                         "layout":productLayout._id
@@ -111,13 +113,23 @@ exports.getById = async  (req, res) => {
 // delete a product
 exports.delete = async  (req, res) => {
     try {
-        const removed = await Product.remove({_id: req.params.productId});
+        const removed = await Product.remove({_id: req.params.productId}).then(p =>{
+            Page.remove({product: req.params.productId,type:'product'});
+        }).catch();
         res.json(removed);
     } catch (err) {
         res.json({message: err});
     }
 };
-
+// remove a product from website
+exports.removeFromWebsite = async  (req, res) => {
+    try {
+        const removed = await Page.remove({product: req.params.productId,website: req.params.websiteId,type:'product'});
+        res.json(removed);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
 // update a product
 exports.update = async  (req, res) => {
     try {
@@ -135,4 +147,28 @@ exports.update = async  (req, res) => {
 exports.getPicture = (req, res) => {
     var filename = req.params.picture;
     res.download('assets/product/' + filename);
+};
+// assign a  product to website
+exports.assignToWebsite = async  (req, res) => {
+
+
+
+                const productLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'detail'}).then().catch();
+                console.log(productLayout);
+                const b ={
+
+                    "page_name":req.body.title,
+                    "type":"product",
+                    "productSubType":req.body.subType,
+                    "product":req.body._id,
+                    "website":req.params.websiteId,
+                    "layout":productLayout._id
+                };
+                console.log(b);
+
+    await    Page.create(b).then(page => res.json(page)).catch(err => res.status(400).json('Error: ' + err));
+
+
+
+
 };

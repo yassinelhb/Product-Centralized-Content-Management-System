@@ -37,7 +37,7 @@ class CountryProducts extends React.Component {
       products: [],
       websiteId: '',
       countrycode: '',
-
+      websiteProducts:[]
     };
   }
 
@@ -51,11 +51,19 @@ class CountryProducts extends React.Component {
         websiteId: this.data._id,
         countrycode: this.data.Contry,
       });
+      ProductService.findByWebsite(this.data._id)
+          .then(res => {
+            this.setState({
+              websiteProducts: res
+            });
+            console.log(res);
+          });
       ProductService.findByCountry(this.data.Contry)
           .then(res => {
             this.setState({
               products: res
             });
+            console.log(res);
           })
     }
   }
@@ -77,9 +85,15 @@ class CountryProducts extends React.Component {
         })
 
   }
+  assignToWebsite(product) {
+    ProductService.assignToWebsite(product,this.state.websiteId)
+        .then( res => {
+          this.refreshTable();
+        })
 
+  }
   render() {
-    const { products } = this.state ;
+    const { products,websiteProducts } = this.state ;
     return (
         <>
           <div className="content">
@@ -107,7 +121,12 @@ class CountryProducts extends React.Component {
                         products.length ?
                             products.map(product => <tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td><td>{product.bankLink}</td>
                               <td>    <img src="http://localhost:3001/product/getPicture/1586281664321-0.png" style={{width: "50px",height:"50px"}}  /> </td>
-                              <td><div className="row"><Button color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>) :
+                              <td><div className="row"><Button color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button>
+                               <Button color="success"  onClick={() =>this.assignToWebsite(product)} >Add To Website</Button>
+                              </div>
+                              </td>
+                            </tr>
+                            ) :
                             null
                       }
 

@@ -47,49 +47,56 @@ var routes = [
     name: "Dashboard",
     icon: "nc-icon nc-bank",
     component: Dashboard,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator","Content coordinator"]
   },
   {
     path: "/register",
     name: "register",
     icon: "nc-icon nc-single-02",
     component: register,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: [""]
   },
   {
     path: "/Users",
     name: "Users",
     icon: "nc-icon nc-single-02",
     component: Users,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/pages",
     name: "Pages",
     icon: "nc-icon nc-single-copy-04",
     component: Pages,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/themes",
     name: "Theme",
     icon: "nc-icon nc-single-copy-04",
     component: Theme,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/productTypes",
     name: "Product Types",
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/productSubTypes",
     name: "Product Sub-Types",
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
 
   {
@@ -97,21 +104,24 @@ var routes = [
     name: "Products",
     icon: "nc-icon nc-single-copy-04",
     component: Products,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/countryproducts",
     name: "Country Products",
     icon: "nc-icon nc-single-copy-04",
     component: CountryProducts,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/productProperties",
     name: "Product Properties",
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
 
   {
@@ -120,21 +130,24 @@ var routes = [
     name: "Websites",
     icon: "nc-icon nc-globe",
     component: Web,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/Ads_banner",
     name: "Ads_banner",
     icon: "nc-icon nc-calendar-60",
     component: Ads_banner,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/component",
     name: "Component",
     icon: "nc-icon nc-tile-56",
     component: Component,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
 
   {
@@ -142,35 +155,40 @@ var routes = [
     name: "Maps",
     icon: "nc-icon nc-pin-3",
     component: Maps,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/notifications",
     name: "Notifications",
     icon: "nc-icon nc-bell-55",
     component: Notifications,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/user-page",
     name: "User Profile",
     icon: "nc-icon nc-single-02",
     component: UserPage,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/tables",
     name: "Table List",
     icon: "nc-icon nc-tile-56",
     component: TableList,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   },
   {
     path: "/typography",
     name: "Typography",
     icon: "nc-icon nc-caps-small",
     component: Typography,
-    layout: "/admin"
+    layout: "/admin",
+    Roles: ["Administrator"]
   }
 
 ];

@@ -33,6 +33,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import Web from '../../views/website_editor/Website'
 import logo from "logo.svg";
 import Session from 'react-session-api';
+import jwt_decode from "jwt-decode";
 
 
 // or
@@ -41,6 +42,9 @@ var ps;
 
 class Sidebar extends React.Component {
 
+  state = {
+    log:"",
+  }
 
     image= "no.png"
     name ="No Site selected"
@@ -78,6 +82,9 @@ class Sidebar extends React.Component {
 }
 
   componentDidMount() {
+    const token = localStorage.getItem("token");
+    this.setState({log: jwt_decode(token).users.role});
+
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.sidebar.current, {
         suppressScrollX: true,
@@ -91,6 +98,7 @@ class Sidebar extends React.Component {
     }
   }
   render() {
+    const {sites} = this.state;
     return (
       <div
         className="sidebar"
@@ -124,24 +132,33 @@ class Sidebar extends React.Component {
         <div className="sidebar-wrapper" ref={this.sidebar}>
           <Nav>
             {this.props.routes.map((prop, key) => {
-              return (
-                <li
-                  className={
-                    this.activeRoute(prop.path) +
-                    (prop.pro ? " active-pro" : "")
-                  }
-                  key={key}
-                >
-                  <NavLink
-                    to={prop.layout + prop.path}
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    <i className={prop.icon} />
-                    <p>{prop.name}</p>
-                  </NavLink>
-                </li>
-              );
+              for (var i = 0; i < prop.Roles.length; i++) {
+              if(
+                  prop.Roles[i] === this.state.log
+
+                 )
+              {
+                return (
+
+                    <li
+                        className={
+                          this.activeRoute(prop.path) +
+                          (prop.pro ? " active-pro" : "")
+                        }
+                        key={key}
+
+                    >
+                      <NavLink
+                          to={prop.layout + prop.path}
+                          className="nav-link"
+                          activeClassName="active"
+                      >
+                        <i className={prop.icon}/>
+                        <p>{prop.name}</p>
+                      </NavLink>
+                    </li>
+                );
+              }}
             })}
           </Nav>
         </div>

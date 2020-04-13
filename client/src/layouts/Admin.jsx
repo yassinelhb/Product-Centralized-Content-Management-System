@@ -12,6 +12,7 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import routes from "routes.js";
 import serviceSite from "../services/website.service";
 import AddProduct from "../views/product/AddProduct";
+import jwt_decode from "jwt-decode";
 
 var ps;
 
@@ -21,11 +22,14 @@ class Dashboard extends React.Component {
     this.state = {
       backgroundColor: "black",
       activeColor: "info",
-      website: ''
+      website: '',
+      log:"",
     };
     this.mainPanel = React.createRef();
   }
   componentDidMount() {
+    const token = localStorage.getItem("token");
+    this.setState({log: jwt_decode(token).users.role});
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.mainPanel.current);
       document.body.classList.toggle("perfect-scrollbar-on");
@@ -58,6 +62,7 @@ class Dashboard extends React.Component {
     this.setState({ backgroundColor: color });
   };
   render() {
+    const {sites} = this.state;
     return (
       <div className="wrapper">
         <Sidebar
@@ -70,14 +75,19 @@ class Dashboard extends React.Component {
           <DemoNavbar {...this.props} />
           <Switch>
             {routes.map((prop, key) => {
-              return (
-                <Route
-                  path={prop.layout + prop.path}
-                  component={() => <prop.component website={this.state.website}/>}
-                  key={key}
-                />
-              );
-            })}
+              for (var i = 0; i < prop.Roles.length; i++) {
+                if(
+                    prop.Roles[i] === this.state.log
+
+                ) {
+                  return (
+                      <Route
+                          path={prop.layout + prop.path}
+                          component={() => <prop.component website={this.state.website}/>}
+                          key={key}
+                      />
+                  );
+                }}})}
             <Route
                 path={'/admin/product/add'}
                 component={() => <AddProduct website={this.state.website}/>}

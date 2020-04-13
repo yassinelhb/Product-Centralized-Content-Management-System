@@ -70,7 +70,7 @@ class Products extends React.Component {
 
   };
   deleteHandler(id) {
-    ProductService.delete(id)
+    ProductService.removeFromWebsite(id,this.state.websiteId)
         .then( res => {
           this.setState({
             products : this.state.products.filter(t => t._id !== id)

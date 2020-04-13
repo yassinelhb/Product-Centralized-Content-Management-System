@@ -14,6 +14,8 @@ router.get('/findByWebsite/:websiteId', ProductService.findByWebsite);
 router.get('/getPagesByWebsite/:websiteId', ProductService.getPagesByWebsite);
 // create a new product
 router.post('/:websiteId', ProductService.create);
+// assign To Website
+router.post('/assignToWebsite/:websiteId', ProductService.assignToWebsite);
 // get a product by id
 router.get('/getPicture/:picture', ProductService.getPicture);
 // get a product by id
@@ -21,7 +23,8 @@ router.get('/:productId', ProductService.getById);
 
 // delete a product
 router.delete('/:productId', ProductService.delete);
-
+// delete a product from a website
+router.delete('/removeFromWebsite/:websiteId/:productId', ProductService.removeFromWebsite);
 // update a product
 router.put('/:propertyId', ProductService.update);
 
