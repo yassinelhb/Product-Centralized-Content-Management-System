@@ -24,6 +24,7 @@ exports.getPages = async function (req, res) {
             .populate('productType')
             .populate('productSubType')
             .populate('productTypePage')
+            .populate('product')
             .populate('best_category_list')
             .populate({
             path: 'website',
@@ -69,7 +70,6 @@ exports.addPage = [ upload.single('page_img'), async  (req, res) => {
                 .then(result => result.populate('layout').populate('best_category_list')
                     .execPopulate())
 
-            console.log(addedPage)
             res.json(addedPage);
 
         } else {
@@ -100,6 +100,7 @@ exports.updatePage = [ upload.single('page_img'), async  (req, res) => {
                 { new: true, useFindAndModify: false }
             ).populate('layout')
                .populate('productType')
+               .populate('product')
                .populate('productSubType')
                .populate('productTypePage')
                .populate('best_category_list')

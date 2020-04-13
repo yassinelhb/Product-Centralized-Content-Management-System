@@ -186,6 +186,7 @@
     background: transparent;
     padding: 25px 0;
     justify-content: center;
+    text-transform: capitalize;
 
 }
 
@@ -382,6 +383,7 @@
     font-size: 25px;
     margin-top: 35px;
     margin-bottom: 15px;
+    text-transform: capitalize;
 }
 
 .wrapper-theme2 .content_product .product_prop {
@@ -401,16 +403,16 @@
     color: #5e5e5e;
 }
 
-.wrapper-theme2 .content_product .product_desc {
+.wrapper-theme2 .content_product .list_product_desc {
     margin-top: 70px;
 }
 
-.wrapper-theme2 .content_product .product_desc .product_desc_title {
+.wrapper-theme2 .content_product .list_product_desc .product_desc .product_desc_title {
     font-size: 19px;
     margin-top: 15px;
 }
 
-.wrapper-theme2 .content_product .product_desc .product_desc_parag {
+.wrapper-theme2 .content_product .list_product_desc  .product_desc .product_desc_parag {
     color: #5e5e5e;
     font-size: 16px;
     line-height: 32px;

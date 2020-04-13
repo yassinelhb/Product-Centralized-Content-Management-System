@@ -1,58 +1,232 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import Add from "../components/description/add";
+import servicePage from "../../../services/page.service";
+import EditorText from "../../theme2/components/editorText";
 
 
 class Detail extends React.Component {
+
     constructor(props) {
         super(props);
+        this.state = {
+            editor: props.editor,
+            page: props.page,
+            editor_text : '',
+            alert: '',
+            show: false
+        }
     }
+
+    addClick = () => {
+        this.setState({
+            show: true
+        })
+    }
+
+    addDescription = (description) => {
+
+        let list_description = [description]
+
+        if ( this.state.page.list_description ) {
+            list_description = [...this.state.page.list_description , description]
+        }
+        this.setState({
+            page: {
+                ...this.state.page,
+                list_description : list_description
+            }
+        }, () => this.savePage())
+
+        this.handleClose()
+
+    }
+
+    removeDescription = (index) => {
+        this.setState({
+            page: {
+                ...this.state.page,
+                list_description:  this.state.page.list_description.filter((description, i) => i !== index),
+            }
+        }, () => this.savePage() )
+    }
+
+    handleTextClick = (editor_text) => {
+        this.setState({
+            editor_text: editor_text
+        })
+    }
+
+    handleTextChange = (text) => {
+        const event = this.state.page[this.state.editor_text] !== text
+
+        this.setState({
+            page: {
+                ...this.state.page,
+                [this.state.editor_text] : text
+            },
+            editor_text: ''
+        })
+
+        event && this.savePage()
+    }
+
+    handleItemDescriptionClick = (type, index) => {
+        this.setState({
+            editor_text: {
+                index: index,
+                type: type
+            }
+        })
+    }
+
+    handleItemDescriptionChange = (text) => {
+
+        const { editor_text } = this.state
+
+        const list_description = [...this.state.page.list_description]
+
+        const event = list_description[editor_text.index][editor_text.type] !== text
+
+        list_description[editor_text.index][editor_text.type] = text
+
+        this.setState({
+            page: {
+                ...this.state.page,
+                list_description: list_description
+            },
+            editor_text: ''
+        })
+
+        event && this.savePage()
+    }
+
+
+    handleClose = () => {
+        this.setState({
+            show: false
+        })
+    }
+
+    savePage() {
+
+        const { page } = this.state
+        const { imagePreviewUrl } = this.props
+
+        if ( this.state.editor ) {
+
+            let formData = new FormData();
+
+            formData.append('page',JSON.stringify(page))
+
+            servicePage.editPage(formData)
+                .then(res => {
+                    if (! res.message)
+                        this.setState({
+                            page : res,
+                            alert : 'Page saved ...'
+                        })
+                })
+
+            setTimeout(() =>{
+                this.setState({
+                    alert: ''
+                })
+            },2000)
+
+        } else {
+            this.props.handle(this.state.page)
+        }
+
+    }
+
     render() {
+
+        const { imagePreviewUrl } = this.props
+        const { page, editor_text, alert, show } = this.state
+
+        const intro_product_text = editor_text === 'intro_product_text' ?
+            <EditorText editorState = { page.intro_product_text ? page.intro_product_text : '' } editor = { this.handleTextChange } />
+            :
+            <p  className="product_desc_text" onClick={ () => this.handleTextClick('intro_product_text') }>
+                { page.intro_product_text ? page.intro_product_text : 'Description of product' }
+            </p>
+
+
+        const list_description = page.list_description && page.list_description.map((description, index) =>
+            <div className="product_desc" key={ index }>
+                <div className="toggle_btn">
+                   <span className="icon_btn" onClick={ () => this.removeDescription(index) }>
+                      <i className="nc-icon nc-simple-remove"></i>
+                   </span>
+                </div>
+
+                {
+                    editor_text.index === index  && editor_text.type === 'title' ?
+                        <EditorText editorState = { description.title } editor = {this.handleItemDescriptionChange} />
+                        :
+                        <h4 className="product_desc_title" onClick={ () => this.handleItemDescriptionClick('title', index) }>
+                                { description.title }
+                        </h4>
+
+                }
+
+                {
+                    editor_text.index === index  && editor_text.type === 'text' ?
+                        <EditorText editorState = { description.text } editor = {this.handleItemDescriptionChange} />
+                        :
+                        <p className="product_desc_text" onClick={ () => this.handleItemDescriptionClick('text', index) }>
+                            { description.text }
+                        </p>
+                }
+
+            </div>
+        )
+
         return (
+
             <div className="container">
                 <div className="breadcrumb">
-                    <Link to={'/'} className="navigation_page"> Home </Link>
+                    <Link to={'/website/home'} className="navigation_page"> Home </Link>
                     <span className="navigation_pipe">/</span>
-                    <span className="navigation_page"> category 2 </span>
+                    <Link to={'/website/' + page.productSubType.page_name } className="navigation_page"> { page.productSubType.page_name } </Link>
                     <span className="navigation_pipe">/</span>
-                    <span className="navigation_page"> subcategory 1 </span>
-                    <span className="navigation_pipe">/</span>
-                    <span className="navigation_page">  Hello bank compte vue hello </span>
-
+                    <span className="navigation_page"> { page.page_name } </span>
                 </div>
+
                 <div className="content_product">
                     <div className="row">
                         <div className="col-xs-12 col-sm-12 col-md-6">
                             <div className="product_header">
                                 <div className="product_img">
-                                    <img src={ require('../../../assets/img/logo.png')}/>
+                                    {
+                                        imagePreviewUrl ?
+
+                                            <img src={imagePreviewUrl} />
+                                            :
+                                            <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)}/>
+
+
+                                    }
                                 </div>
                                 <h1 className="product_title">
-                                    Hello bank compte vue hello
+                                    { page.page_name }
                                 </h1>
                             </div>
-                            <div className="product_desc">
-                                <p className="product_desc_parag">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                </p>
-                                <h4 className="product_desc_title">
-                                    App facile à utiliser
-                                </h4>
-                                <p className="product_desc_parag">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                                </p>
-                                <h4 className="product_desc_title">
-                                    Conclusion
-                                </h4>
-                                <p className="product_desc_parag">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                                </p>
+                            <div className="list_product_desc">
+
+                                { intro_product_text }
+
+                                { list_description }
+
+                                <button className="btn btn-secondary" onClick={ this.addClick }>
+                                    Add description
+                                </button>
+                                <Add show = { show }  add={ this.addDescription } hide={ this.handleClose }/>
                             </div>
                         </div>
                         <div className="col-xs-12 col-sm-12 col-md-6">
                             <div className="product_prop">
-                                {/*<h3 className="product_prop_title">
-                                    Caractéristiques
-                                </h3>*/}
 
                                 <table className="table table_prop">
                                     <tbody>
@@ -84,6 +258,13 @@ class Detail extends React.Component {
                     </div>
 
                 </div>
+                {
+                    alert &&
+                    <div className="alert_saved">
+                        <span> { alert } </span>
+                    </div>
+                }
+
             </div>
         );
     }

@@ -132,7 +132,7 @@ class Home extends React.Component {
                             page : res,
                             alert : 'Page saved ...'
 
-                        }, ()=> console.log(res))
+                        })
                 })
 
             setTimeout(() =>{

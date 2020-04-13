@@ -68,11 +68,11 @@ class Page extends React.Component {
         const { show, page, filter } = this.state
 
         const pages = this.state.pages &&
-            this.state.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.page_name.match(filter)).map((page) =>
+            this.state.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.layout.layout_name !== 'detail' && page.page_name.match(filter)).map((page) =>
                 <Fragment key={ page._id} >
                     <div className="page-list_item" data-toggle="collapse" href= { '#collapse'+ page._id }>
                         <p className="list-item_title">
-                            { this.state.pages.filter(subcategory => subcategory.layout.layout_name === 'subcategory'  && subcategory.productTypePage._id === page._id ).length  ? <i className="nc-icon nc-simple-add"></i> : '' }
+                            { this.state.pages.filter(subcategory => subcategory.productTypePage?._id === page._id ).length  ? <i className="nc-icon nc-simple-add"></i> : '' }
                             { page.page_name }
                         </p>
                         <div className="dropdown item-dropdown">
@@ -96,9 +96,13 @@ class Page extends React.Component {
                         page.layout.layout_name === 'category' &&
                             <div className="list_subcategory collapse" id={ 'collapse'+ page._id }>
                                 {
-                                    this.state.pages.filter(subcategory => subcategory.layout.layout_name === 'subcategory'  && subcategory.productTypePage._id === page._id ).map((subcategory) =>
-                                        <div className="page-list_item" key={subcategory._id}>
-                                            <p className="list-item_title">{ subcategory.page_name }</p>
+                                    this.state.pages.filter(subcategory => subcategory.productTypePage?._id === page._id ).map((subcategory) =>
+                                       <Fragment  key={subcategory._id}>
+                                           <div className="page-list_item"  data-toggle="collapse" href= { '#collapse'+ subcategory._id }>
+                                            <p className="list-item_title">
+                                                { this.state.pages.filter(product => product.layout.layout_name === 'detail' && product.productSubType?._id === subcategory.productSubType?._id ).length ? <i className="nc-icon nc-simple-add"></i> : '' }
+                                                { subcategory.page_name }
+                                            </p>
                                             <div className="dropdown item-dropdown">
                                                 <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
                                                     <i className="nc-icon nc-settings-gear-65"></i>
@@ -116,6 +120,34 @@ class Page extends React.Component {
                                                </div>
                                             </div>
                                         </div>
+                                           <div className="list_product collapse" id={ 'collapse'+ subcategory._id }>
+                                               {
+                                                   this.state.pages.filter(product => product.layout.layout_name === 'detail' && product.productSubType?._id === subcategory.productSubType?._id ).map((product) =>
+                                                       <div className="page-list_item">
+                                                           <p className="list-item_title">
+                                                               { product.page_name }
+                                                           </p>
+                                                           <div className="dropdown item-dropdown">
+                                                               <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
+                                                                   <i className="nc-icon nc-settings-gear-65"></i>
+                                                               </span>
+                                                               <div className="dropdown-menu dropdown-menu-right">
+                                                                   <Link className="dropdown-item" to={'/block-editor/' + product._id } >
+                                                                       <i className="nc-icon nc-ruler-pencil"></i>
+                                                                       Edit
+                                                                   </Link>
+                                                                   <div className="dropdown-divider"></div>
+                                                                   <a className="dropdown-item" onClick={ () => this.removeClick(product) }>
+                                                                       <i className="nc-icon nc-simple-remove"></i>
+                                                                       Remove
+                                                                   </a>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                   )
+                                               }
+                                           </div>
+                                       </Fragment>
                                     )
                                 }
                             </div>

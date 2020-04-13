@@ -38,10 +38,12 @@ class Sidebar extends React.Component {
                             ...this.state.errors,
                             page_img: ''
                         },
-                    }, ()=> this.props.handle(this.state.page));
+                    }, ()=> this.props.handle(this.state.page, this.state.imagePreviewUrl));
                 }
 
                 reader.readAsDataURL(file)
+
+
 
             }
             else {
@@ -77,7 +79,7 @@ class Sidebar extends React.Component {
 
 
     render() {
-        const { page, imagePreviewUrl} = this.state
+        const { page, imagePreviewUrl } = this.state
         return (
             <div className="sidebar-editor">
                 <ul className="nav nav-tabs">
@@ -132,7 +134,10 @@ class Sidebar extends React.Component {
                                                             page.page_img ?
                                                                 <img src={ require('../../../assets/img/page/'+ page.page_img)} />
                                                                 :
-                                                                <p className="input_text">Drag your files here or click in this area</p>
+                                                                page.layout.layout_name === 'detail' ?
+                                                                    <img src={ require('../../../../../assets/product/'+ page.product.picture)} />
+                                                                    :
+                                                                    <p className="input_text">Drag your files here or click in this area</p>
                                                     }
                                                 </div>
                                             </div>
