@@ -63,8 +63,6 @@ class Category extends React.Component {
 
             servicePage.editPage(formData)
                 .then(res => {
-                    console.log(res)
-
                         this.setState({
                             page : res,
                             alert : 'Page saved ...'

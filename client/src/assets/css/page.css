@@ -65,6 +65,12 @@
     border-radius: 30px;
 }
 
+.pages-page_list .list_subcategory .list_product {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0.1);
+}
 
 
 

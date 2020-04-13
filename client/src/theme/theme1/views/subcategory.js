@@ -92,7 +92,7 @@ class Subcategory extends React.Component {
         return (
            <div className="container">
                <div className="breadcrumb">
-                   <Link to={'/'} className="navigation_page"> Home </Link>
+                   <Link to={'/website/home'} className="navigation_page"> Home </Link>
                    <span className="navigation_pipe">/</span>
                    <Link to={'/website/' + page.productTypePage.page_name } className="navigation_page"> { page.productTypePage.page_name } </Link>
                    <span className="navigation_pipe">/</span>
