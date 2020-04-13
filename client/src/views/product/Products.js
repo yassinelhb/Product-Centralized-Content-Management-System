@@ -117,9 +117,9 @@ class Products extends React.Component {
 
                       {
                         products.length ?
-                            products.map(product => <tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td><td>{product.bankLink}</td>
-                              <td>    <img src="http://localhost:3001/product/getPicture/1586281664321-0.png" style={{width: "50px",height:"50px"}}  /> </td>
-                              <td><div className="row"><Button color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>) :
+                            products.map(product =>{ const pic = 'http://localhost:3001/product/getPicture/'+product.picture; return(<tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td><td>{product.bankLink}</td>
+                              <td>    <img src={pic} style={{width: "50px",height:"50px"}}  /> </td>
+                              <td><div className="row"><Button color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>)}) :
                             null
                       }
 

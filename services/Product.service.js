@@ -4,6 +4,10 @@ const Link = require('../models/link.model');
 const SubType = require('../models/ProductSubType.model');
 const Layout = require('../models/layout.model');
 const Product = require('../models/Product.model');
+const Label = require('../models/PropertyLabel.model');
+const Property = require('../models/ProductProperty.model');
+
+
 var multer = require('multer');
 
 var storage = multer.diskStorage({
@@ -80,7 +84,6 @@ exports.create = [ upload.single('file'),async  (req, res) => {
                     const SubTypePage = await Page.findOne({website:req.params.websiteId,type:'subCategory',productSubType:product.subType}).then().catch();
     console.log(productLayout);
                     const b ={
-
                         "page_name":product.title,
                         "type":"product",
                         "productSubType":product.subType,
@@ -108,6 +111,41 @@ exports.getById = async  (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
+};
+exports.productDetails = async  (req, res) => {
+
+    Product.findById(req.params.productId).populate('subType').lean()
+        .then( (product) => {
+            const entries = Object.entries(product);
+            console.log(entries);
+            for (const index in entries) {
+
+
+
+                Property.findOne({name:entries[index][0],subType:product.subType._id}).then(prop => {
+
+
+                if( prop != null){
+
+                    Label.findOne({website:req.params.websiteId,property:prop._id}).then(label => {
+                    product[entries[index][0]] = {label:label,value:entries[index][1]};
+                        if(index  == entries.length -2)
+                        {
+
+                              res.json(product);
+                        }
+                }).catch(err =>console.log(err));
+                }
+
+            }).catch(err =>console.log(err));
+
+
+
+            }
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+
 };
 
 // delete a product

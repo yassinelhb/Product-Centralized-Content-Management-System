@@ -56,7 +56,7 @@ var routes = [
     icon: "nc-icon nc-single-02",
     component: register,
     layout: "/admin",
-    Roles: [""]
+    Roles: ["Administrator"]
   },
   {
     path: "/Users",

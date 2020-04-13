@@ -10,6 +10,9 @@ router.get('/', ProductService.getAll);
 router.get('/findByCountry/:country', ProductService.findByCountry);
 // get all products  by website
 router.get('/findByWebsite/:websiteId', ProductService.findByWebsite);
+
+// get  product details with labels  by website
+router.get('/productDetails/:websiteId/:productId', ProductService.productDetails);
 // get all products pages by website
 router.get('/getPagesByWebsite/:websiteId', ProductService.getPagesByWebsite);
 // create a new product
