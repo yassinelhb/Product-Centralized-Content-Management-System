@@ -169,8 +169,8 @@ class Home extends React.Component {
         const toggle = <div className="toggle_btn">
             {
                 best_category_list_edit &&
-                <span className="icon_btn" onClick={this.editButtonClick}>
-                             <i className="nc-icon nc-check-2" onClick={this.saveButtonClick}></i>
+                <span className="icon_btn"  onClick={this.saveButtonClick}>
+                             <i className="nc-icon nc-check-2"></i>
                         </span>
             }
             {

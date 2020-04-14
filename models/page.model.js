@@ -37,11 +37,15 @@ const PageSchema  = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Product",
     },
+    SubTypePage: {
+        type: Schema.Types.ObjectId,
+        ref: "Page",
+    },
     best_category_list: [
         {
         type: Schema.Types.ObjectId,
         ref: "Page",
-    }
+        }
     ],
 
 }, {strict: false});

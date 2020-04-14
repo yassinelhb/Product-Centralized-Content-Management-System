@@ -189,7 +189,9 @@ class Detail extends React.Component {
                 <div className="breadcrumb">
                     <Link to={'/website/home'} className="navigation_page"> Home </Link>
                     <span className="navigation_pipe">/</span>
-                    <Link to={'/website/' + page.productSubType.page_name } className="navigation_page"> { page.productSubType.page_name } </Link>
+                    <Link to={'/website/' + page.SubTypePage.productTypePage.page_name } className="navigation_page"> { page.SubTypePage.productTypePage.page_name } </Link>
+                    <span className="navigation_pipe">/</span>
+                    <Link to={'/website/'  + page.SubTypePage.productTypePage.page_name + '/' + page.SubTypePage.page_name } className="navigation_page"> { page.SubTypePage.page_name } </Link>
                     <span className="navigation_pipe">/</span>
                     <span className="navigation_page"> { page.page_name } </span>
                 </div>
@@ -201,12 +203,9 @@ class Detail extends React.Component {
                                 <div className="product_img">
                                     {
                                         imagePreviewUrl ?
-
                                             <img src={imagePreviewUrl} />
                                             :
                                             <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)}/>
-
-
                                     }
                                 </div>
                                 <h1 className="product_title">
