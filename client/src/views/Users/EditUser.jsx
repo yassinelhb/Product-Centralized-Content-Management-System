@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col, Label} from 'reactstrap';
 import userService from "../../services/User/user.js";
 import TypeService from "../../services/product/ProductType.service";
-
+import bcrypt from 'bcryptjs'
 const EditUser = (props) => {
 
     const {typeId} =props;
@@ -10,7 +10,7 @@ const EditUser = (props) => {
     const [modal, setModal] = useState(false);
     const [username, setusername] = useState(" ");
     const [email, setemail] = useState(" ");
-    const [website, setwebsite] = useState("");
+    const [website, setwebsite] = useState([]);
     const [password, setpassword] = useState("");
     const [password2, setpassword2] = useState("");
     const [error, seterror] = useState("");
@@ -36,18 +36,29 @@ const changee = () => {
                 "email": email,
                 "website": website,
                 "Statut": Statut,
-                "password": password
             };
             console.log(data);
             userService.update(data, typeId)
                 .then(res => {
                     console.log(res);
+                    toggle();
                 })
         }
         else{
             seterror("password don't match");
         }
     };
+    function multiSelectHandler(e) {
+        var options = e.target.options;
+        var value = [];
+        for (var i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+        setwebsite(value);
+
+    }
     useEffect(() => {
         userService.getOneById(typeId)
             .then( res => {
@@ -55,10 +66,8 @@ const changee = () => {
                 setemail(res.email);
                 setwebsite(res.website);
                 setStatut(res.Statut);
-                setpassword(res.password);
-                setpassword2(res.password);
-
             })
+
 
     },[typeId]);
     return (
@@ -91,13 +100,17 @@ const changee = () => {
 
                             />
                         </FormGroup>
-                        <FormGroup>
-                            <Label>Website</Label>
-                            <select required name="website" value={website}  onChange={e => setwebsite(e.target.value)} className="form-control"  >
-                                {userss.map(users => <option value={users._id}>{users.site_name}</option>)}
-                            </select>
+                        {
+                            (website !="")&&
+                            <FormGroup>
+                                <Label>Website</Label>
+                                <select required name="website" value={website} multiple={true}
+                                        onChange={e => multiSelectHandler(e)} className="form-control">
+                                    {userss.map(users => <option value={users._id}>{users.site_name}</option>)}
+                                </select>
 
-                        </FormGroup>
+                            </FormGroup>
+                        }
                         <FormGroup>
                             <Label>Statut</Label>
                             {Statut === "activated" &&
@@ -115,31 +128,6 @@ const changee = () => {
                             </select>
                             }
                         </FormGroup>
-                        <Button color="primary" type="submit" onClick={changee}>change password</Button>
-                        {
-                            change ==="True"&&
-                            <FormGroup>
-                            <label>Password</label>
-                            <Input
-                            placeholder="Type Password"
-                            type="password"
-                            name="username"
-                            onChange={e => setpassword(e.target.value)}
-
-                            />
-                                <label>Confirm Password</label>
-                                <Input
-                                    placeholder="Type Password"
-                                    type="password"
-                                    name="username"
-                                    onChange={e => setpassword2(e.target.value)}
-
-                                />
-                            </FormGroup>
-
-
-                        }
-
                             <div className="alert-danger">
                                 {error}
                             </div>
