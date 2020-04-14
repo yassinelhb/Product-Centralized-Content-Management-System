@@ -27,11 +27,14 @@ exports.create = async  (req, res) => {
 exports.createMany = async  (req, res) => {
 
     try {
-        const saved = await Label.collection.insert(req.body);
-        res.json(saved);
-    } catch (err) {
-        res.json({message: err});
-    }
+        req.body.forEach(label => {
+         Label.create(label).then().catch();
+        });
+        res.json(req.body)
+} catch (err) {
+    res.json({message: err});
+}
+
 };
 
 // get a label by id
