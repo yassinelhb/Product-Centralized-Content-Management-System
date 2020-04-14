@@ -17,9 +17,16 @@ const BlogSchema  = new Schema({
     website: {
         type: Schema.Types.ObjectId,
         ref: "website",
+        required: true,
+    },
+    users: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required: true,
     },
     Statut: {
         type: String,
+        required: true,
     }
 })
 
