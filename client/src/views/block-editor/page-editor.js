@@ -16,21 +16,23 @@ class PageEditor extends React.Component {
             page: props.page,
             website : '',
             alert_top : '',
-            alert: ''
+            alert: '',
+            imagePreviewUrl: ''
         }
     }
 
     loadComponent() {
-        const { page, website } = this.state
+        const { page, website, imagePreviewUrl } = this.state
         const Component = React.lazy(() => import('../../theme/'+ website.theme.theme_name + '/views/' + page.layout.layout_name))
-        return <Component page = { page } editor = { false } handle = { this.handleChange } />
+        return <Component page = { page } editor = { false } handle = { this.handleChange } imagePreviewUrl = { imagePreviewUrl } />
 
     }
 
-    handleChange = (page) => {
+    handleChange = (page, imagePreviewUrl) => {
         this.setState({
             page: page,
-            alert_top : ''
+            alert_top : '',
+            imagePreviewUrl: imagePreviewUrl
         })
     }
 
@@ -45,9 +47,15 @@ class PageEditor extends React.Component {
 
     savePage = () => {
 
-        if ( !this.state.page._id ) {
-            
-            servicePage.addPage( this.state.page )
+        const { page } = this.state
+        let formData = new FormData();
+
+        formData.append('page',JSON.stringify(page))
+        formData.append('page_img',page.page_img)
+
+        if ( ! page._id ) {
+
+            servicePage.addPage(formData)
                 .then(res => {
                     res.message ?
                         this.setState({
@@ -60,9 +68,9 @@ class PageEditor extends React.Component {
                         }, () =>  this.props.history.push('/block-editor/' + this.state.page._id ))
                 })
 
-        } else {
-
-            servicePage.editPage( this.state.page )
+        }
+        else {
+            servicePage.editPage(formData)
                 .then(res => {
                     res.message ?
                         this.setState({
@@ -75,7 +83,6 @@ class PageEditor extends React.Component {
                         })
                 })
         }
-
         setTimeout(() =>{
             this.setState({
                 alert: ''

@@ -32,7 +32,21 @@ const PageSchema  = new Schema({
     productTypePage: {
         type: Schema.Types.ObjectId,
         ref: "Page",
-    }
+    },
+    product: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+    },
+    SubTypePage: {
+        type: Schema.Types.ObjectId,
+        ref: "Page",
+    },
+    best_category_list: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: "Page",
+        }
+    ],
 
 }, {strict: false});
 

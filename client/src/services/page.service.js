@@ -25,10 +25,12 @@ class Page {
     }
 
 
-    addPage = (page) => {
-        page.website = side_id
+    addPage = (formData) => {
+
+        formData.append('website', side_id)
+
         return new Promise((resolve, reject) => {
-            axios.post(api + `page`, page)
+            axios.post(api + `page`, formData)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -38,10 +40,10 @@ class Page {
         })
     }
 
-    editPage = (page) => {
+    editPage = (formData) => {
 
         return new Promise((resolve, reject) => {
-            axios.patch(api + `page`, page)
+            axios.patch(api + `page`, formData)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -53,7 +55,6 @@ class Page {
 
 
     deletePage = (pageId) => {
-        console.log(pageId)
         return new Promise((resolve, reject) => {
             axios.delete(api + `page/` + pageId)
                 .then(res => {
@@ -65,6 +66,18 @@ class Page {
         })
     }
 
+    getPagesBySubTypes = (subTypePageId) => {
+        console.log(subTypePageId)
+        return new Promise((resolve, reject) => {
+            axios.get(api + `page/subtypePage/` + subTypePageId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+    }
 
     }
 

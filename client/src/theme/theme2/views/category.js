@@ -52,13 +52,23 @@ class Category extends React.Component {
     }
 
     savePage() {
+
+        const { page } = this.state
+
         if ( this.state.editor ) {
-            servicePage.editPage(this.state.page)
-                .then(res =>
-                    this.setState({
-                        page : res,
-                        alert : 'Page saved ...'
-                    })
+
+            let formData = new FormData();
+
+            formData.append('page',JSON.stringify(page))
+
+            servicePage.editPage(formData)
+                .then(res => {
+                        this.setState({
+                            page : res,
+                            alert : 'Page saved ...'
+                        })
+                    }
+
                 )
 
             setTimeout(() =>{
@@ -89,7 +99,7 @@ class Category extends React.Component {
             subcategory_page.map( subcategory =>
                 <div className="col-sm-6 col-md-4" key={subcategory._id}>
                     <Link className="list_subcategory_item" to={`/website/` + page.page_name + `/`+ subcategory.page_name }>
-                        <img className="subcategory_item_img" src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png') }/>
+                        <img className="subcategory_item_img" src={ subcategory.page_img ? require('../../../assets/img/page/'+ subcategory.page_img) : require('../../../assets/img/page/default_image.png') }/>
                         <h2 className="subcategory_item_title">{ subcategory.page_name }</h2>
                     </Link>
                 </div>

@@ -40,26 +40,7 @@ class ProductType {
         })
 
     };
-    assignTypeToWebsite = (type) => {
-        axios.get(`layout/findby/`+websiteId).then(resp => {
 
-            console.log(resp.data);
-            layout =resp.data._id;
-        });
-        return new Promise((resolve, reject) => {
-
-
-            const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":websiteId, "layout":layout};
-            axios.post(api + `productSubType/assignTypeToWebsite`, t)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-
-    };
     update = (subType,subTypeId) => {
         return new Promise((resolve, reject) => {
             axios.put(api + `productSubType/`+subTypeId, subType)

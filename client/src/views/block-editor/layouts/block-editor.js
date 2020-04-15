@@ -27,7 +27,6 @@ class BlockEditor extends React.Component {
                 });
 
                 if( this.state.pageId ) {
-
                     this.state.pages.filter(page => page._id === this.state.pageId).forEach(page =>
                         this.setState({
                             page : page
@@ -50,7 +49,6 @@ class BlockEditor extends React.Component {
 
     render() {
         const { editor, page, pageId }  = this.state
-
         return (
             <div className="wrapper-editor">
                 {

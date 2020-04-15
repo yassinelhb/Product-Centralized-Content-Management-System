@@ -26,6 +26,10 @@ class website {
     };
     //update
 
+    website = () => {
+        return web
+    }
+
     update = (property,propertyId) => {
         return new Promise((resolve, reject) => {
             axios.put(api + `website/`+propertyId, property)
@@ -165,45 +169,6 @@ class website {
         })
 
     };
-
-    addPage = (page) => {
-        page.site_id = side_id
-        return new Promise((resolve, reject) => {
-            axios.post(api + `website/page`, page)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-    }
-
-    savePage = (page) => {
-        page.site_id = side_id
-        return new Promise((resolve, reject) => {
-            axios.patch(api + `website/page`, page)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-    }
-
-
-    deletePage = (pageId) => {
-        return new Promise((resolve, reject) => {
-            axios.delete(api + `website/page/` + pageId)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
-    }
 
     }
 

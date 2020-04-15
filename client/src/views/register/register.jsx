@@ -29,16 +29,29 @@ class register extends React.Component {
         password:"",
         password2:"",
         role:"Choose...",
-        website:"",
+        website:[],
         function:"",
         data:{},
     }
     handleChange(e) {
         this.setState({ [e.target.name] : e.target.value });
     }
+     multiSelectHandler(e) {
+        var options = e.target.options;
+        var value = [];
+        for (var i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+         this.setState({website: value});
+
+    }
     handleSubmit = event => {
         if(this.state.password===this.state.password2) {
             console.log("aaaa");
+            console.log(this.state.website);
+
             const token = localStorage.getItem("token");
 
             if(this.state.website===""&&this.state.function==="") {
@@ -70,6 +83,8 @@ class register extends React.Component {
         }
 
     };
+
+
 
 
     componentDidMount() {
@@ -156,7 +171,7 @@ class register extends React.Component {
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>role</Label>
-                                    <select name="role"   className="form-control" onChange={this.handleChange.bind(this)}>
+                                    <select name="role"   className="form-control"   onChange={this.handleChange.bind(this)}>
                                         <option selected>Choose...</option>
                                         <option>Content director</option>
                                         <option>Administrator</option>
@@ -170,7 +185,7 @@ class register extends React.Component {
                                 (this.state.role !== "Administrator" && this.state.role !== "Content director" && this.state.role !== "Choose..." )&&
                                 <FormGroup>
                                 <Label>site</Label>
-                                <select name="website"  className="form-control" onChange={this.handleChange.bind(this)}>
+                                <select name="website"  multiple className="form-control" onChange={e => this.multiSelectHandler(e)}>
                                 <option selected>Choose...</option>
                                 {sites.map(site => <option value={site._id}>{site.site_name}</option>)}
                                 </select>

@@ -71,7 +71,7 @@
 
 .sidebar-editor .input_file .file_preview img {
     width: 100px;
-    height: 100px;
+    max-height: 100px;
 }
 
 .sidebar-editor .input_file .file_preview .input_text {
@@ -162,10 +162,26 @@
 
 .content-page .page-preview .preview_img {
     box-shadow: 0 0 5px #8e8e8e;
+    height: 550px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    transition: 1s;
 }
 
-.content-page .page-preview .preview_img img {
-    width: 100%;
+.content-page .page-preview .preview_bg {
+    background: rgba(0,0,0,.2);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.content-page .page-preview .preview_img:hover {
+    transition: 4s;
+    background-position: bottom;
 }
 
 .content-page .menu_page {

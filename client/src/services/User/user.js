@@ -46,6 +46,18 @@ class user{
         })
 
     };
+    changepassword = (type,typeId) => {
+        return new Promise((resolve, reject) => {
+            axios.put(api + `users/changepassword/`+typeId, type)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
 }
 
 const instance = new user();

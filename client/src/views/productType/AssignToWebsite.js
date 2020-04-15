@@ -8,19 +8,11 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import index from "react-chartjs-2";
 const AssignToWebsite = (props) => {
 
-    const buttonstyle= (e)=>{
-        return{
-            "display":e
-        }
-    };
 
-    let hidden  = 'none'
-    let data =sessionStorage.getItem('webselect');
-    if(data!=null)
-    {  hidden = ''}
-    const {typeId} =props;
+
+
+    const {typeId,type,website,websiteId} =props;
   const [modal, setModal] = useState(false);
-
   const [subTypeIndex, setIndex] = useState(0);
   const [properties, setProperties] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -30,12 +22,17 @@ const AssignToWebsite = (props) => {
   const submitHandler = (e) => {
 
     e.preventDefault();
-    PropertyService.createMany(labels)
-       .then( res => {
-          console.log(res);
-        });
-      toggle();
-      console.log(labels)
+      console.log(websiteId);
+      TypeService.assignTypeToWebsite(type,website._id)
+          .then( res => {
+              console.log(res);
+              PropertyService.createMany(labels)
+                  .then( res => {
+                      console.log(res);
+                  });
+              toggle();
+              console.log(labels);
+          })
   };
 
     function  changeHandler(e,property) {
@@ -54,14 +51,17 @@ const AssignToWebsite = (props) => {
 
     }
   useEffect(() => {
+      console.log(website);
     SubTypeService.getByType(typeId)
         .then( res => {
+            console.log(res);
           res.map((subType,index)=>{
+              console.log(subType);
               if(index === subTypeIndex){
                   PropertyService.getBySubType(subType._id).then(properties =>{
                       setProperties(properties) ;
                       properties.map(p=>{
-                      const label = {label:'',property:p._id,website:'5e7ce3309f0d3737e8980743'};
+                      const label = {label:'',property:p._id,website:website._id};
                           labels.push(label);
 
 
@@ -77,7 +77,7 @@ const AssignToWebsite = (props) => {
   },[typeId,subTypeIndex]);
   return (
       <div>
-        <Button color="primary" onClick={toggle}   style={buttonstyle(hidden) } >Assign to website</Button>
+        <Button color="primary" onClick={toggle}  >Assign to website</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign to website</ModalHeader>
           <form onSubmit={submitHandler}>

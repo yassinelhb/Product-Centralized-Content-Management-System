@@ -122,7 +122,7 @@ class Pages extends React.Component {
               <p className="link-item_title" data-toggle="collapse" data-parent="#menu_link" href={'#collapse'+index}>
                 <span className="item-title_text">{ link.link_text }</span>
                 <span className="item-title_toggle">
-                  { link.page.page_name}
+                  <span className="toggle_text">{ link.page.page_name}</span>
                   <i className="nc-icon nc-minimal-down"></i>
                 </span>
               </p>
@@ -134,7 +134,7 @@ class Pages extends React.Component {
                              defaultValue={ link.link_text }  />
                     </div>
                     <div className="form-group">
-                      <select ref={ 'page' + index} defaultValue={link.page._id} className='form-control'>
+                      <select ref={ 'page' + index} className='form-control' defaultValue={link.page._id}>
                         { pages }
                       </select>
                     </div>

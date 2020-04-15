@@ -20,10 +20,10 @@ const usersSchema  = new Schema({
         type: String,
 
     },
-    website: {
+    website: [{
         type: Schema.Types.ObjectId,
         ref: "Website",
-    },
+    }],
     Statut: {
          type: String,
     },
