@@ -15,15 +15,18 @@ class Website extends React.Component {
         super();
         this.state = {
             website: '',
-            pages: ''
+            pages: '',
+            links: ''
         }
 
     }
-   componentDidMount() {
+
+    componentDidMount() {
         serviceSite.webSite()
             .then( res => {
             this.setState({
-                website : res
+                website : res,
+                links: res.header.links
             });
         })
 
@@ -35,12 +38,18 @@ class Website extends React.Component {
            })
    }
 
-   loadHeader() {
+    handleLinks = (links) => {
+        this.setState({
+            links: links
+        })
+    }
+
+    loadHeader() {
         const Header = React.lazy(() => import('../../theme/' + this.state.website.theme.theme_name + '/components/header'))
-        return <Header links = { this.state.website.header.links} logo = { this.state.website.logo_pic } pages = { this.state.pages } />
+        return <Header links = { this.state.links} logo = { this.state.website.logo_pic } pages = { this.state.pages } handle = { this.handleLinks } />
    }
 
-   loadComponent(page) {
+    loadComponent(page) {
         if (page.layout.layout_name === 'home')
             console.log(page)
        const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name))
