@@ -56,11 +56,7 @@ var routes = [
     icon: "nc-icon nc-single-02",
     component: register,
     layout: "/admin",
-<<<<<<< HEAD
     Roles: ["Administrator","Content director"]
-=======
-    Roles: ["Administrator"]
->>>>>>> 6567b70f6258a668550851466e903fcd50d51a92
   },
   {
     path: "/Users",
@@ -92,7 +88,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/productSubTypes",
@@ -100,7 +96,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
 
   {
@@ -109,7 +105,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Products,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/countryproducts",
@@ -117,7 +113,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: CountryProducts,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/productProperties",
@@ -125,7 +121,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
 
   {
@@ -135,7 +131,7 @@ var routes = [
     icon: "nc-icon nc-globe",
     component: Web,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/Ads_banner",
@@ -143,7 +139,7 @@ var routes = [
     icon: "nc-icon nc-calendar-60",
     component: Ads_banner,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/component",
