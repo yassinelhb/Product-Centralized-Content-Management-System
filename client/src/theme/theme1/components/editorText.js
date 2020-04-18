@@ -1,7 +1,5 @@
 import React, {Suspense} from 'react';
 import '../css/Style.css';
-import Header from "../components/header";
-import { Link} from "react-router-dom";
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';

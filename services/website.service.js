@@ -94,6 +94,7 @@ exports.getOneWebsite = async  (req, res) => {
     try {
         const website = await Website.findById(req.params.siteId)
             .populate('theme')
+            .populate('ads_banners')
             .populate('layouts')
             .populate({
                 path: 'pages',
@@ -221,6 +222,25 @@ exports.updateWebsite_ads = async  (req, res) => {
             }
         );
         res.json(updateWebsite_ads);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
+
+
+
+// delete a website ads banner
+exports.deleteWebsite_ads = async  (req, res) => {
+    try {
+        const deleteWebsite_ads = await Website.updateOne(
+            { _id: req.params.siteId },
+            { $set:
+                    {
+                        ads_banners: null,
+                    }
+            }
+        );
+        res.json(deleteWebsite_ads);
     } catch (err) {
         res.json({message: err});
     }
