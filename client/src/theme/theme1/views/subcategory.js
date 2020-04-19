@@ -5,6 +5,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import EditorInputText from "../components/editorInputText";
+import Sidebar_compare from "../components/compare/sidebar_compare";
 
 
 
@@ -18,11 +19,17 @@ class Subcategory extends React.Component {
             products: '',
             editor_text : '',
             alert: '',
-            show: 1
+            compares : '',
+            show: 2
         }
     }
 
     componentDidMount() {
+
+        this.setState({
+            compares : JSON.parse(sessionStorage.getItem("compares")) ? JSON.parse(sessionStorage.getItem("compares")): ''
+        })
+
         servicePage.getPagesBySubTypes(this.state.page._id)
             .then( res =>
                 this.setState({
@@ -54,8 +61,23 @@ class Subcategory extends React.Component {
 
     showMore = () => {
         this.setState({
-            show : this.state.show + 1
+            show : this.state.show + 2
         })
+    }
+
+    handleCompare = ( page_product ) => {
+        let compares = [...this.state.compares]
+        const exist = compares.find( page_prod => page_prod._id === page_product._id )
+
+        if ( ! exist ) {
+            compares.push(page_product)
+        } else {
+            compares = compares.filter( page_prod => page_prod._id !== page_product._id )
+        }
+
+        this.setState({
+            compares : compares
+        }, () => sessionStorage.setItem("compares", JSON.stringify(this.state.compares)))
     }
 
     savePage() {
@@ -89,7 +111,7 @@ class Subcategory extends React.Component {
 
     render() {
 
-        const { page, editor_text, alert, products, show } = this.state
+        const { page, editor_text, alert, products, show, editor, compares } = this.state
 
         const intro_subcategory_text = editor_text === 'intro_subcategory_text' ?
             <EditorText editorState = { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description } editor = { this.handleTextChange } />
@@ -108,10 +130,10 @@ class Subcategory extends React.Component {
         const list_products = products && products.map( (product_page, index ) =>
                  show > index &&
                  <div className="product_list_item" key={ product_page._id }>
-                        <div className="row">
+                     <div className="row">
                             <div className="col-sm-3">
                                 <div className="product_item_img">
-                                    <img src={ product_page.page_img ? require('../../../assets/img/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
+                                    <img src={ product_page.page_img ? require('../../../assets/img/page/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
                                 </div>
                             </div>
                             <div className="col-sm-4">
@@ -167,7 +189,13 @@ class Subcategory extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                     <div className="product_item_check">
+                         <label className="custom-checkbox">
+                             <input type="checkbox" onChange={ () => this.handleCompare(product_page) } checked={ compares.find( page_prod => page_prod._id === product_page._id )}/>
+                             <span className="check_icon"></span>
+                         </label>
+                     </div>
+                 </div>
         )
 
         const more_product = editor_text === 'more_product' ?
@@ -188,15 +216,16 @@ class Subcategory extends React.Component {
 
 
         return (
-           <div className="container">
-               <div className="breadcrumb">
-                   <Link to={'/website/home'} className="navigation_page"> Home </Link>
-                   <span className="navigation_pipe">/</span>
-                   <Link to={'/website/' + page.productTypePage.page_name } className="navigation_page"> { page.productTypePage.page_name } </Link>
-                   <span className="navigation_pipe">/</span>
-                   <span className="navigation_page"> { page.page_name } </span>
-               </div>
-               <div className="category_intro">
+            <>
+                <div className="container">
+                    <div className="breadcrumb">
+                        <Link to={'/website/home'} className="navigation_page"> Home </Link>
+                        <span className="navigation_pipe">/</span>
+                        <Link to={'/website/' + page.productTypePage.page_name } className="navigation_page"> { page.productTypePage.page_name } </Link>
+                        <span className="navigation_pipe">/</span>
+                        <span className="navigation_page"> { page.page_name } </span>
+                    </div>
+                    <div className="category_intro">
                    <h1 className="category_name">
                        { page.page_name }
                    </h1>
@@ -204,7 +233,10 @@ class Subcategory extends React.Component {
                    { intro_subcategory_text }
 
                </div>
-               <div className="subcategory_product">
+                    <div className="subcategory_pub">
+                    <img className="img_pub" src={ require('../../../assets/img/pub/damir-bosnjak.jpg') }/>
+                    </div>
+                    <div className="subcategory_product">
                    <div className="toolbar_filter">
                         <div className="filter_sort">
                             {
@@ -229,13 +261,18 @@ class Subcategory extends React.Component {
                    }
 
                </div>
-               {
-                   alert &&
-                   <div className="alert_saved">
-                       <span> { alert } </span>
-                   </div>
-               }
-           </div>
+                    {
+                        alert &&
+                        <div className="alert_saved">
+                            <span> { alert } </span>
+                        </div>
+                    }
+                </div>
+                {
+                    editor && compares.length &&
+                    <Sidebar_compare compares = { compares } handle = { this.handleCompare } />
+                }
+            </>
         );
     }
 }

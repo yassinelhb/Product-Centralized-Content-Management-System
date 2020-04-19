@@ -143,6 +143,7 @@ class Detail extends React.Component {
     render() {
 
         const { imagePreviewUrl } = this.props
+
         const { page, editor_text, alert, show } = this.state
 
         const intro_product_text = editor_text === 'intro_product_text' ?
@@ -200,17 +201,13 @@ class Detail extends React.Component {
                     <div className="row">
                         <div className="col-xs-12 col-sm-12 col-md-6">
                             <div className="product_header">
-                                <div className="product_img">
-                                    {
-                                        imagePreviewUrl ?
-                                            <img src={imagePreviewUrl} />
-                                            :
-                                            <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)}/>
-                                    }
-                                </div>
-                                <h1 className="product_title">
-                                    { page.page_name }
-                                </h1>
+                                {
+                                    imagePreviewUrl ?
+                                        <img src={ imagePreviewUrl }  className="product_img" />
+                                        :
+                                        <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)} className="product_img" />
+                                }
+                                <h1 className="product_title"> { page.page_name } </h1>
                             </div>
                             <div className="list_product_desc">
 

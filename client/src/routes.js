@@ -41,12 +41,11 @@ import AddProduct from "./views/product/AddProduct";
 import Products from "./views/product/Products";
 import CountryProducts from "./views/product/CountryProducts";
 var routes = [
-
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
-    component: Dashboard,
+    component: Icons,
     layout: "/admin",
     Roles: ["Administrator","Content coordinator","Content director","Sales manager","Freelancer","Content Editor"]
   },
