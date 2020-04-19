@@ -90,9 +90,9 @@ class ProductType {
 
     };
 
-    getByWebsite = (websiteid) => {
+    getByWebsite = (websiteid,typeId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productSubType/getByWebsite/`+websiteid)
+            axios.get(api + `productSubType/getByWebsite/`+websiteid+'/'+typeId)
                 .then(res => {
                     resolve(res.data);
                 })

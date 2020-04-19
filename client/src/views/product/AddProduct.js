@@ -19,12 +19,6 @@ import TypeService from "../../services/product/ProductType.service";
 import {Redirect} from "react-router";
 
 class AddProduct extends React.Component {
-  buttonstyle= (e)=>{
-    return{
-      "display":e
-    }
-  };
-  etat ='none';
   constructor(props) {
     super(props);
 

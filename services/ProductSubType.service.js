@@ -102,3 +102,26 @@ exports.getSubTypesPagesByType =   (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
+// get sub-types by website and Product Type
+exports.getByWebsite =   (req, res) =>{
+    Page.findOne({website:req.params.websiteId,type:"category",productType:req.params.typeId}).then( async (p) => {
+    await Page.find({website:req.params.websiteId,type:"subCategory",productTypePage:p._id})
+        .then(pages => {
+            const types =[];
+            pages.forEach( async  (page,i) =>{
+                    const type = await SubType.findById(page.get('productSubType'));
+                    types.push(type);
+
+                    if(i === pages.length -1){
+
+                        await res.json(types);
+                    }
+                }
+            );
+
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+    }).catch(err => res.status(400).json('Error: ' + err));
+
+};

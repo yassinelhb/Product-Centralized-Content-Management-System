@@ -37,6 +37,18 @@ class ProductProperty {
         })
 
     };
+    getNotAssigned = (subTypeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productProperty/getNotAssigned/`+subTypeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
     create = (property) => {
         return new Promise((resolve, reject) => {
             axios.post(api + `productProperty`, property)

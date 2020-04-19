@@ -8,6 +8,8 @@ var PropertyService = require('../services/ProductProperty.service');
 router.get('/', PropertyService.getAll);
 // get all properties bysubType
 router.get('/bySubType/:subTypeId', PropertyService.getAllBySubType);
+// get all Product properties that doesn't belong to a specified subType
+router.get('/getNotAssigned/:subTypeId', PropertyService.getNotAssigned);
 // create a new property
 router.post('/', PropertyService.create);
 

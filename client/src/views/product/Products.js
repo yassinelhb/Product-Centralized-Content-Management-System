@@ -19,20 +19,12 @@ import {Redirect} from "react-router";
 
 
 class Products extends React.Component {
-  buttonstyle= (e)=>{
-    return{
-      "display":e
-    }
-  };
-  etat ='none';
+
   constructor(props) {
     super(props);
     let data =sessionStorage.getItem('webselect');
     this.data = JSON.parse(data);
-    if(this.data != null )
-    {
-      this.etat=''
-    }
+
     this.state = {
       products: [],
       websiteId: '',

@@ -88,7 +88,7 @@ class productSubTypes extends React.Component {
             <Col md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Product Types</CardTitle>
+                  <CardTitle tag="h4">Product Sub-Types</CardTitle>
                   <AddProductSubType refreshTable={this.refreshTable}/>
                 </CardHeader>
                 <CardBody>
