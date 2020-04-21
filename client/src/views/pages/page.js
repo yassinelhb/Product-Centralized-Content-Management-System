@@ -80,6 +80,10 @@ class Page extends React.Component {
                                  <i className="nc-icon nc-settings-gear-65"></i>
                                </span>
                             <div className="dropdown-menu dropdown-menu-right">
+                                <Link className="dropdown-item" to={'/website/' + page.page_name } >
+                                    <i className="nc-icon nc-laptop"></i>
+                                    View
+                                </Link>
                                 <Link className="dropdown-item" to={'/block-editor/' + page._id } >
                                     <i className="nc-icon nc-ruler-pencil"></i>
                                     Edit
@@ -93,7 +97,7 @@ class Page extends React.Component {
                         </div>
                     </div>
                     {
-                        page.layout.layout_name === 'category' &&
+                        page.layout.layout_name === 'category' && this.state.pages.filter(subcategory => subcategory.productTypePage?._id === page._id ).length ?
                             <div className="list_subcategory collapse" id={ 'collapse'+ page._id }>
                                 {
                                     this.state.pages.filter(subcategory => subcategory.productTypePage?._id === page._id ).map((subcategory) =>
@@ -108,6 +112,10 @@ class Page extends React.Component {
                                                     <i className="nc-icon nc-settings-gear-65"></i>
                                                 </span>
                                                <div className="dropdown-menu dropdown-menu-right">
+                                                   <Link className="dropdown-item" to={'/website/' + subcategory.productTypePage.page_name + '/' + subcategory.page_name } >
+                                                       <i className="nc-icon nc-laptop"></i>
+                                                       View
+                                                   </Link>
                                                     <Link className="dropdown-item" to={'/block-editor/' + subcategory._id } >
                                                         <i className="nc-icon nc-ruler-pencil"></i>
                                                         Edit
@@ -120,37 +128,48 @@ class Page extends React.Component {
                                                </div>
                                             </div>
                                         </div>
-                                           <div className="list_product collapse" id={ 'collapse'+ subcategory._id }>
-                                               {
-                                                   this.state.pages.filter(product => product.layout.layout_name === 'detail' && product.productSubType?._id === subcategory.productSubType?._id ).map((product) =>
-                                                       <div className="page-list_item">
-                                                           <p className="list-item_title">
-                                                               { product.page_name }
-                                                           </p>
-                                                           <div className="dropdown item-dropdown">
+                                           {
+                                               this.state.pages.filter(product => product.layout.layout_name === 'detail' && product.SubTypePage?._id === subcategory._id ).length ?
+                                                   <div className="list_product collapse" id={ 'collapse'+ subcategory._id }>
+                                                   {
+                                                       this.state.pages.filter(product => product.layout.layout_name === 'detail' && product.SubTypePage?._id === subcategory._id ).map((product) =>
+                                                           <div className="page-list_item" key={product._id}>
+                                                               <p className="list-item_title">
+                                                                   { product.page_name }
+                                                               </p>
+                                                               <div className="dropdown item-dropdown">
                                                                <span className="item-btn_setting" data-toggle="dropdown" data-toggle-second="tooltip" title="Setting">
                                                                    <i className="nc-icon nc-settings-gear-65"></i>
                                                                </span>
-                                                               <div className="dropdown-menu dropdown-menu-right">
-                                                                   <Link className="dropdown-item" to={'/block-editor/' + product._id } >
-                                                                       <i className="nc-icon nc-ruler-pencil"></i>
-                                                                       Edit
-                                                                   </Link>
-                                                                   <div className="dropdown-divider"></div>
-                                                                   <a className="dropdown-item" onClick={ () => this.removeClick(product) }>
-                                                                       <i className="nc-icon nc-simple-remove"></i>
-                                                                       Remove
-                                                                   </a>
+                                                                   <div className="dropdown-menu dropdown-menu-right">
+                                                                       <Link className="dropdown-item" to={'/website/' + product.SubTypePage.productTypePage.page_name + '/' + product.SubTypePage.page_name + '/' + product.page_name } >
+                                                                           <i className="nc-icon nc-laptop"></i>
+                                                                           View
+                                                                       </Link>
+                                                                       <Link className="dropdown-item" to={'/block-editor/' + product._id } >
+                                                                           <i className="nc-icon nc-ruler-pencil"></i>
+                                                                           Edit
+                                                                       </Link>
+                                                                       <div className="dropdown-divider"></div>
+                                                                       <a className="dropdown-item" onClick={ () => this.removeClick(product) }>
+                                                                           <i className="nc-icon nc-simple-remove"></i>
+                                                                           Remove
+                                                                       </a>
+                                                                   </div>
                                                                </div>
                                                            </div>
-                                                       </div>
-                                                   )
-                                               }
-                                           </div>
+                                                       )
+                                                   }
+                                               </div>
+                                                   :
+                                                   ''
+                                           }
                                        </Fragment>
                                     )
                                 }
                             </div>
+                            :
+                            ''
                     }
                 </Fragment>
             )

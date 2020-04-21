@@ -15,15 +15,19 @@ class Website extends React.Component {
         super();
         this.state = {
             website: '',
-            pages: ''
+            pages: '',
+            links: ''
         }
 
     }
-   componentDidMount() {
+
+    componentDidMount() {
+
         serviceSite.webSite()
             .then( res => {
             this.setState({
-                website : res
+                website : res,
+                links: res.header.links
             });
         })
 
@@ -35,27 +39,43 @@ class Website extends React.Component {
            })
    }
 
-   loadHeader() {
+    handleLinks = (links) => {
+        this.setState({
+            links: links
+        })
+    }
+
+    loadHeader() {
         const Header = React.lazy(() => import('../../theme/' + this.state.website.theme.theme_name + '/components/header'))
+        return <Header links = { this.state.links} logo = { this.state.website.logo_pic } pages = { this.state.pages } handle = { this.handleLinks } />
+   }
+
+    loadComponent(page) {
+        if (page.layout.layout_name === 'home')
+            console.log(page)
+       const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name))
+
+
         return <Header links = { this.state.website.header.links} logo = { this.state.website.logo_pic } pages = { this.state.pages } />
    }
 
    loadComponent(page) {
-        if (page.layout.layout_name === 'home')
-            console.log(page)
-       const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name))
+
+       const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name));
        return <Componant page={ page } editor = { true } />
    }
 
 
     render() {
         const { pages, website } = this.state
+
         const router = pages &&
             pages.map((page) =>
                 page.layout.layout_name === 'subcategory' ?
                     <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
                     :
                     <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+
             )
 
 

@@ -41,6 +41,7 @@ const UpdateWebsite = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
+
         const data = {"domain":domain,
             "logo_pic":logo_pic.split(/(\\|\/)/g).pop(),
             "site_name":site_name ,

@@ -16,7 +16,6 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
 import { Link } from "react-router-dom";
 import {
     Collapse,
@@ -39,60 +38,187 @@ import {
 import routes from "routes.js";
 import '../../assets/css/ads_front.css';
 import ChatBot from 'react-simple-chatbot';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class chatbot extends React.Component {
+
+class Review extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: '',
+            gender: '',
+            age: '',
+        };
+    }
+
+    componentWillMount() {
+        const { steps } = this.props;
+        const { name, gender, age } = steps;
+
+        this.setState({ name, gender, age });
+    }
 
     render() {
+        const { name, gender, age } = this.state;
         return (
+            <div style={{ width: '100%' }}>
+                <h3>Summary</h3>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>{name.value}</td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td>{gender.value}</td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>{age.value}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+}
 
+Review.propTypes = {
+    steps: PropTypes.object,
+};
+
+Review.defaultProps = {
+    steps: undefined,
+};
+
+class chatbot extends Component {
+    render() {
+        return (
             <ChatBot
                 steps={[
-
                     {
                         id: '1',
                         message: 'What is your name?',
-                        trigger: '2',
+                        trigger: 'name',
                     },
                     {
-                        id: '2',
+                        id: 'name',
                         user: true,
                         trigger: '3',
                     },
                     {
                         id: '3',
-                        message: 'Hi {previousValue}, nice to meet you!',
-                        trigger: '4',
-                    },
-
-                    {
-                        id: '4',
-                        message: 'What ur occupation?',
-                        trigger: '5',
+                        message: 'Hi {previousValue}! What is your gender?',
+                        trigger: 'gender',
                     },
                     {
-                        id: '5',
+                        id: 'gender',
                         options: [
-                            { value: 1, label: 'student', trigger: '6' },
-                            { value: 2, label: 'businessman', trigger: '7' },
-                            { value: 3, label: 'normal employee', trigger: '8' },
+                            { value: 'male', label: 'Male', trigger: '5' },
+                            { value: 'female', label: 'Female', trigger: '5' },
                         ],
                     },
                     {
-                        id: '6',
-                        message: 'you are a student, so  we have some wonderful bank offer that can give u many advantage',
-                        end: true,
+                        id: '5',
+                        message: 'How old are you?',
+                        trigger: 'age',
+                    },
+                    {
+                        id: 'age',
+                        user: true,
+                        trigger: '7',
+                        validator: (value) => {
+                            if (isNaN(value)) {
+                                return 'value must be a number';
+                            } else if (value < 0) {
+                                return 'value must be positive';
+                            } else if (value > 120) {
+                                return `${value}? Come on real age plz!`;
+                            }
+
+                            return true;
+                        },
                     },
                     {
                         id: '7',
-                        message: 'you are a businessman,  great so  we have some Special bank offer that can give u many advantage',
-                        end: true,
+                        message: 'Great! Check out your summary',
+                        trigger: 'review',
+                    },
+                    {
+                        id: 'review',
+                        component: <Review />,
+                        asMessage: true,
+                        trigger: 'update',
+                    },
+                    {
+                        id: 'update',
+                        message: 'Would you like to update some field?',
+                        trigger: 'update-question',
+                    },
+                    {
+                        id: 'update-question',
+                        options: [
+                            { value: 'yes', label: 'Yes', trigger: 'update-yes' },
+                            { value: 'no', label: 'No', trigger: 'end-message' },
+                        ],
+                    },
+                    {
+                        id: 'update-yes',
+                        message: 'What field would you like to update?',
+                        trigger: 'update-fields',
+                    },
+                    {
+                        id: 'update-fields',
+                        options: [
+                            { value: 'name', label: 'Name', trigger: 'update-name' },
+                            { value: 'gender', label: 'Gender', trigger: 'update-gender' },
+                            { value: 'age', label: 'Age', trigger: 'update-age' },
+                        ],
+                    },
+                    {
+                        id: 'update-name',
+                        update: 'name',
+                        trigger: '7',
+                    },
+                    {
+                        id: 'update-gender',
+                        update: 'gender',
+                        trigger: '7',
+                    },
+                    {
+                        id: 'update-age',
+                        update: 'age',
+                        trigger: '7',
+                    },
+                    {
+                        id: 'end-message',
+                        message: 'Thanks! Your data was submitted successfully!',
+                        trigger: '8',
                     },
                     {
                         id: '8',
-                        message: 'you are a normal employee ,  so  we have some Special bank offer that can help and give u many advantage',
+                        options: [
+                            { value: 'busnss man', label: 'busnss man', trigger: '9' },
+                            { value: 'employe', label: 'employe', trigger: '9' },
+                            { value: 'student', label: 'student', trigger: '9' },
+                        ],
+                    },
+                    {
+                        id: '9',
+                        component: (
+                            <div> This is an example ste can give u more information
+                                <h1>The a element</h1>
+
+                                <a href="http://www.atb.tn/">Visit ATB!</a>
+
+                            </div>
+
+                        ),
                         end: true,
                     },
-
                 ]}
             />
         );

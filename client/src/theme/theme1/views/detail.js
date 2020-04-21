@@ -143,6 +143,7 @@ class Detail extends React.Component {
     render() {
 
         const { imagePreviewUrl } = this.props
+
         const { page, editor_text, alert, show } = this.state
 
         const intro_product_text = editor_text === 'intro_product_text' ?
@@ -189,7 +190,9 @@ class Detail extends React.Component {
                 <div className="breadcrumb">
                     <Link to={'/website/home'} className="navigation_page"> Home </Link>
                     <span className="navigation_pipe">/</span>
-                    <Link to={'/website/' + page.productSubType.page_name } className="navigation_page"> { page.productSubType.page_name } </Link>
+                    <Link to={'/website/' + page.SubTypePage.productTypePage.page_name } className="navigation_page"> { page.SubTypePage.productTypePage.page_name } </Link>
+                    <span className="navigation_pipe">/</span>
+                    <Link to={'/website/'  + page.SubTypePage.productTypePage.page_name + '/' + page.SubTypePage.page_name } className="navigation_page"> { page.SubTypePage.page_name } </Link>
                     <span className="navigation_pipe">/</span>
                     <span className="navigation_page"> { page.page_name } </span>
                 </div>
@@ -198,20 +201,13 @@ class Detail extends React.Component {
                     <div className="row">
                         <div className="col-xs-12 col-sm-12 col-md-6">
                             <div className="product_header">
-                                <div className="product_img">
-                                    {
-                                        imagePreviewUrl ?
-
-                                            <img src={imagePreviewUrl} />
-                                            :
-                                            <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)}/>
-
-
-                                    }
-                                </div>
-                                <h1 className="product_title">
-                                    { page.page_name }
-                                </h1>
+                                {
+                                    imagePreviewUrl ?
+                                        <img src={ imagePreviewUrl }  className="product_img" />
+                                        :
+                                        <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)} className="product_img" />
+                                }
+                                <h1 className="product_title"> { page.page_name } </h1>
                             </div>
                             <div className="list_product_desc">
 

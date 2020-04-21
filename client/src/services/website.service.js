@@ -11,6 +11,20 @@ if (web!=null){
 
 
 class website {
+// delete web ads
+    delete_ads = (property,e) => {
+        return new Promise((resolve, reject) => {
+            axios.put(api + `website/delete_web_ads/`+side_id, property)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+    //update
 
     website = () => {
         return web
@@ -57,6 +71,7 @@ class website {
         })
 
     };
+
     getOneById = (propertyId) => {
         return new Promise((resolve, reject) => {
             axios.get(api + `website/`+propertyId)

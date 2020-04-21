@@ -12,10 +12,12 @@ import {
 import user from "../../services/User/user";
 import UpdateProductType from "../productType/UpdateProductType";
 import EditUser from "./EditUser";
+import ChangePassword from "./changePassword";
 import loginn from "../../services/Login/Login.js";
 import Input from "reactstrap/es/Input";
 import FormGroup from "reactstrap/es/FormGroup";
 import jwt_decode from "jwt-decode";
+import PropertyService from "../../services/product/ProductProperty.service";
 
 
 
@@ -39,6 +41,7 @@ class Users extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
+
     componentDidMount() {
 
         const token = localStorage.getItem("token");
@@ -52,7 +55,6 @@ class Users extends React.Component {
                     this.setState({
                         sites: res
                     });
-                    console.log(this.state.sites);
                 });
             user.getAll(token)
                 .then(res => {
@@ -107,7 +109,6 @@ class Users extends React.Component {
                                                 <th>User Name</th>
                                                 <th>Email</th>
                                                 <th>role</th>
-                                                <th>Website</th>
                                                 <th>function</th>
                                                 <th>Statut</th>
                                                 <th>Actions</th>
@@ -122,12 +123,6 @@ class Users extends React.Component {
                                                             <td>{users.username}</td>
                                                             <td>{users.email}</td>
                                                             <td>{users.role}</td>
-                                                            {
-                                                                users.website ?
-
-                                                                    <td>{users.website.site_name}</td> : <td>____</td>
-
-                                                            }
                                                             {
                                                                 users.function ?
 
@@ -145,9 +140,8 @@ class Users extends React.Component {
                                                             }
 
 
-                                                            <td><EditUser typeId={users._id} userss={this.state.sites}/>
+                                                            <td><EditUser  typeId={users._id} userss={this.state.sites}/> <ChangePassword typeId={users._id}  />
                                                             </td>
-
 
                                                         </tr>) :
                                                     null

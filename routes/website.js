@@ -26,4 +26,8 @@ router.post('/header/link/:type', WebsiteService.updateLinksHeader)
 // update  website ads
 router.put('/web_ads/:siteId', WebsiteService.updateWebsite_ads)
 
+//delete website ads
+
+router.put('/delete_web_ads/:siteId', WebsiteService.deleteWebsite_ads)
+
 module.exports = router;

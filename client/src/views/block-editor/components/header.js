@@ -34,12 +34,22 @@ class Header extends React.Component {
                     <div className="navbar-button mt-md-0">
                         { component === 'pageEditor' ?
                             <>
-                                <Link className="btn btn-outline-info" disabled={ ! page._id } to={"/website/" + page.page_name }>Preview</Link>
+                                <Link className="btn btn-outline-info" disabled={ ! page._id } to={
+                                    page.layout.layout_name === 'detail' ?
+                                        '/website/' + page.SubTypePage.productTypePage.page_name + `/` + page.SubTypePage.page_name + `/` +page.page_name
+                                        :
+                                        page.layout.layout_name === 'subcategory' ?
+                                            '/website/' + page.productTypePage.page_name  + `/` +page.page_name
+                                            :
+                                            '/website/' +page.page_name
+                                }>Preview</Link>
                                 <button className="btn btn-info" onClick={ this.savePage } disabled={ page.page_name === ''}>Save...</button>
                                 <button className="btn toggle-menu">
                                 <i className="nc-icon nc-settings-gear-65"></i>
                                 </button>
-                            </> : <button className="btn btn-info" onClick={ this.useLayoutClick }>Use { layout.layout_name } layout</button>
+                            </>
+                            :
+                            <button className="btn btn-info" onClick={ this.useLayoutClick }>Use { layout.layout_name } layout</button>
                         }
 
                     </div>

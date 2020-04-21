@@ -41,14 +41,13 @@ import AddProduct from "./views/product/AddProduct";
 import Products from "./views/product/Products";
 import CountryProducts from "./views/product/CountryProducts";
 var routes = [
-
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
-    component: Dashboard,
+    component: Icons,
     layout: "/admin",
-    Roles: ["Administrator","Content coordinator"]
+    Roles: ["Administrator","Content coordinator","Content director","Sales manager","Freelancer","Content Editor"]
   },
   {
     path: "/register",
@@ -56,7 +55,7 @@ var routes = [
     icon: "nc-icon nc-single-02",
     component: register,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/Users",
@@ -64,7 +63,7 @@ var routes = [
     icon: "nc-icon nc-single-02",
     component: Users,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/pages",
@@ -72,7 +71,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Pages,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/themes",
@@ -80,7 +79,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Theme,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/productTypes",
@@ -88,7 +87,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/productSubTypes",
@@ -96,7 +95,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
 
   {
@@ -105,7 +104,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Products,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/countryproducts",
@@ -113,7 +112,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: CountryProducts,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/productProperties",
@@ -121,7 +120,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
 
   {
@@ -131,7 +130,7 @@ var routes = [
     icon: "nc-icon nc-globe",
     component: Web,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/Ads_banner",
@@ -139,7 +138,7 @@ var routes = [
     icon: "nc-icon nc-calendar-60",
     component: Ads_banner,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/component",
@@ -147,7 +146,7 @@ var routes = [
     icon: "nc-icon nc-tile-56",
     component: Component,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
 
   {
@@ -156,7 +155,7 @@ var routes = [
     icon: "nc-icon nc-pin-3",
     component: Maps,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/notifications",
@@ -164,7 +163,7 @@ var routes = [
     icon: "nc-icon nc-bell-55",
     component: Notifications,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/user-page",
@@ -172,7 +171,7 @@ var routes = [
     icon: "nc-icon nc-single-02",
     component: UserPage,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/tables",
@@ -180,7 +179,7 @@ var routes = [
     icon: "nc-icon nc-tile-56",
     component: TableList,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   },
   {
     path: "/typography",
@@ -188,7 +187,7 @@ var routes = [
     icon: "nc-icon nc-caps-small",
     component: Typography,
     layout: "/admin",
-    Roles: ["Administrator"]
+    Roles: ["Administrator","Content director"]
   }
 
 ];

@@ -14,9 +14,10 @@ const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var themesRouter = require('./routes/theme')
+var BlogRouter = require('./routes/Blog');
+var themesRouter = require('./routes/theme');
 
-var links_boxRouter = require('./routes/links_box')
+var links_boxRouter = require('./routes/links_box');
 
 var ProductTypeRouter = require('./routes/productType');
 var websitesRouter = require('./routes/website');
@@ -55,6 +56,7 @@ app.use(function(req, res, next) {
 });
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/Blog', BlogRouter);
 app.use('/theme', themesRouter);
 app.use('/productType', ProductTypeRouter);
 app.use('/website', websitesRouter);
@@ -67,6 +69,7 @@ app.use('/ads_banner', Ads_bannerRouter);
 app.use('/links_box', links_boxRouter);
 
 app.use('/product', ProductRouter);
+
 
 
 

@@ -33,13 +33,17 @@ import {
     InputGroup,
     InputGroupText,
     InputGroupAddon,
-    Input
+    Input, Button
 } from "reactstrap";
 
 import routes from "routes.js";
 import '../../assets/css/ads_front.css';
+import propTypes from 'prop-types';
+import Web_serv from "../../services/website.service";
+import Ads_serv from "../../services/Ads_banner/Ads_banner.service";
 
 class Ads extends React.Component {
+
     Styleimage= ()=>{
         return{
             padding: '5px',
@@ -48,22 +52,71 @@ class Ads extends React.Component {
 
         }
     };
+    web = window.location.href.split(/(\\|\/)/g).pop() ;
+    ads='loading.png'
+    etat_add=''
+    constructor() {
+        super();
+        this.state = {
+            website: {},
+            ads_banner:{}
+
+
+        };
+    }
+    buttonstyle= (e)=>{
+        return{
+            "display":e
+        }
+    };
+
+    etat ='none';
+
+    componentDidMount() {
+
+        Web_serv.getOneById(this.web)
+            .then( res => {
+
+                this.setState({
+                    website : res
+                }
+                );
+                 this.ads= this.state.website.ads_banners.Ads_img;
+                this.etat_add= this.state.website.ads_banners.Valide_ads;
+
+            })
+
+
+
+    }
+
+    deleteHandler(){
+
+        alert(this.web)
+        alert( "aa"+this.state.website.ads_banners._id)
+        alert( "aa"+this.ads)
+
+    }
+
     render() {
+        if(this.etat_add !== false){this.etat=''}
         return (
+
             <div className="nav-tools">
                 <div className="container">
             <div id="ads">
-                <div className="threshold">
+                <div className="threshold"  >
                     <div className="container">
 
 
-                        <div className="banner-holder">
+                        <div className="banner-holder" >
 
 
-                            <div className="banner bottom">
+                            <div className="banner bottom" style={this.Styleimage()} >
 
-                                <img className="group list-group-image" style={this.Styleimage()}
-                                     src={require("assets/img/pub30.png")}/>
+
+                                <img className="group list-group-image"
+                                     src={require("assets/img/"+this.ads)}/>
                             </div>
 
                         </div>

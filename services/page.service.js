@@ -23,6 +23,12 @@ exports.getPages = async function (req, res) {
             .populate('layout')
             .populate('productType')
             .populate('productSubType')
+            .populate({
+                path: 'SubTypePage',
+                populate: {
+                    path: 'productTypePage'
+                }
+            })
             .populate('productTypePage')
             .populate('product')
             .populate('best_category_list')
@@ -32,6 +38,25 @@ exports.getPages = async function (req, res) {
                 path: 'theme'
             }
         })
+        res.json(pages)
+
+    } catch (err) {
+        res.json({ message: err });
+    }
+}
+
+// get pages by subTypes
+exports.getPagesBySubTypes = async function (req, res) {
+    try {
+        const pages = await Page.find({ SubTypePage : req.params.subTypePage_id })
+            .populate('product')
+            .populate({
+                path: 'SubTypePage',
+                populate: {
+                    path: 'productTypePage'
+                }
+            })
+
         res.json(pages)
 
     } catch (err) {
@@ -102,6 +127,7 @@ exports.updatePage = [ upload.single('page_img'), async  (req, res) => {
                .populate('productType')
                .populate('product')
                .populate('productSubType')
+               .populate('SubTypePage')
                .populate('productTypePage')
                .populate('best_category_list')
 

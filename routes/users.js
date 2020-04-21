@@ -7,6 +7,8 @@ router.get('/', userService.loginn, userService.getuser);
 router.post('/register', userService.loginn, userService.register);
 router.post('/', userService.login);
 router.put('/:id', userService.update);
+router.put('/changepassword/:id', userService.changepassword);
+
 router.get('/:id', userService.getById);
 
 router.get('/testcnx', userService.loginn , function (req , res) {

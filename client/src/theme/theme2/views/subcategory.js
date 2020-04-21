@@ -16,9 +16,21 @@ class Subcategory extends React.Component {
         this.state = {
             editor: props.editor,
             page: props.page,
+            products: '',
             editor_text : '',
-            alert: ''
+            alert: '',
+            show: 2
+
         }
+    }
+
+    componentDidMount() {
+        servicePage.getPagesBySubTypes(this.state.page._id)
+            .then( res =>
+                this.setState({
+                    products : res
+                })
+            )
     }
 
     handleTextClick = (editor_text) => {
@@ -40,6 +52,12 @@ class Subcategory extends React.Component {
 
         event && this.savePage()
 
+    }
+
+    showMore = () => {
+        this.setState({
+            show : this.state.show + 2
+        })
     }
 
     savePage() {
@@ -74,7 +92,7 @@ class Subcategory extends React.Component {
 
     render() {
 
-        const { page, editor_text, alert } = this.state
+        const { page, editor_text, alert, products, show } = this.state
 
         const intro_subcategory_text = editor_text === 'intro_subcategory_text' ?
             <EditorText editorState = { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description } editor = { this.handleTextChange } />
@@ -88,6 +106,78 @@ class Subcategory extends React.Component {
             <EditorInputText editorState = { page.sort_word ? page.sort_word :  'Sort by' } editor = { this.handleTextChange } />
             :
             <span className="sort_text" onClick={ () => this.handleTextClick('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
+
+
+        const list_products = products && products.map( (product_page, index ) =>
+            show > index &&
+            <div className="product_list_item" key={ product_page._id }>
+                <div className="product_item_img">
+                    <img src={ product_page.page_img ? require('../../../assets/img/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
+                </div>
+                <h2 className="product_item_title">
+                    { product_page.page_name }
+                </h2>
+                <div className="product_item_prop">
+                    <div className="product_prop">
+                           <span className="prop_title">
+                               Cotisation annuelle
+                           </span>
+                        <span className="prop_info">
+                                0,00 €
+                           </span>
+                    </div>
+                    <div className="product_prop">
+                           <span className="prop_title">
+                               Compte supplémentaire
+                           </span>
+                        <span className="prop_info">
+                                -
+                           </span>
+                    </div>
+                    <div className="product_prop">
+                           <span className="prop_title">
+                              Carte de crédit incluse
+                           </span>
+                        <span className="prop_info">
+                               Oui
+                           </span>
+                    </div>
+                    <div className="product_prop">
+                           <span className="prop_title">
+                              Type de carte de crédit
+                           </span>
+                        <span className="prop_info">
+                               MasterCard
+                           </span>
+                    </div>
+                </div>
+                <div className="product_item_btn">
+                    <Link className="btn btn-secondary"
+                          to={'/website/' + product_page.SubTypePage.productTypePage.page_name + '/' + product_page.SubTypePage.page_name + '/' + product_page.page_name}>
+                             <span className="icon_btn">
+                                 <i className="nc-icon nc-minimal-right"></i>
+                                 <i className="nc-icon nc-minimal-right"></i>
+                                 <i className="nc-icon nc-minimal-right"></i>
+                             </span>
+                        More info
+                    </Link>
+                </div>
+            </div>
+        )
+
+        const more_product = editor_text === 'more_product' ?
+            <span className="btn btn-secondary">
+                <EditorInputText editorState = { page.more_product ? page.more_product :  'More product' } editor = { this.handleTextChange } />
+            </span>
+            :
+            <>
+                <span className="btn btn-secondary" onClick={ this.showMore }>{ page.more_product ? page.more_product + '...' :  'More product ...'  }</span>
+                <div className="toggle_btn">
+                    <span className="icon_btn" onClick={ () => this.handleTextClick('more_product') } >
+                        <i className="nc-icon nc-ruler-pencil"></i>
+                    </span>
+                </div>
+            </>
 
 
         return (
@@ -120,311 +210,17 @@ class Subcategory extends React.Component {
                         </div>
                    </div>
                    <div className="list_product">
-                       <div className="product_list_item">
-                           <div className="row">
-                               <div className="col-sm-12">
-                                   <div className="product_item_img">
-                                       <img src={ require('../../../assets/img/logo.png') }/>
-                                   </div>
-                               </div>
-                               <div className="col-sm-12">
-                                   <h2 className="product_item_title">
-                                       Visa World Card Business
-                                   </h2>
-                               </div>
-                               <div className="col-sm-12">
-                                 <div className="product_item_prop">
-                                   <div className="product_prop">
-                                       <span className="prop_title">
-                                           Cotisation annuelle
-                                       </span>
-                                       <span className="prop_info">
-                                           	0,00 €
-                                       </span>
-                                   </div>
-                                   <div className="product_prop">
-                                       <span className="prop_title">
-                                           Compte supplémentaire
-                                       </span>
-                                       <span className="prop_info">
-                                           	-
-                                       </span>
-                                   </div>
-                                   <div className="product_prop">
-                                       <span className="prop_title">
-                                          Carte de crédit incluse
-                                       </span>
-                                       <span className="prop_info">
-                                           Oui
-                                       </span>
-                                   </div>
-                                   <div className="product_prop">
-                                       <span className="prop_title">
-                                          Type de carte de crédit
-                                       </span>
-                                       <span className="prop_info">
-                                           MasterCard
-                                       </span>
-                                   </div>
-                               </div>
-                                   <div className="product_item_btn">
-                                       <a className="btn">
-                                         <span className="icon_btn">
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                         </span>
-                                           More info
-                                       </a>
-                                   </div>
-                               </div>
+                       { list_products }
+                   </div>
+                   {
+                       products.length > show &&
+                       <div className="toolbar_bottom">
+                           <div className="more_product">
+                               { more_product }
                            </div>
                        </div>
-                       <div className="product_list_item">
-                           <div className="row">
-                               <div className="col-sm-12">
-                                   <div className="product_item_img">
-                                       <img src={ require('../../../assets/img/logo.png') }/>
-                                   </div>
-                               </div>
-                               <div className="col-sm-12">
-                                   <h2 className="product_item_title">
-                                       Visa World Card Business
-                                   </h2>
-                               </div>
-                               <div className="col-sm-12">
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Cotisation annuelle
-                                       </span>
-                                           <span className="prop_info">
-                                           	0,00 €
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Compte supplémentaire
-                                       </span>
-                                           <span className="prop_info">
-                                           	-
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Carte de crédit incluse
-                                       </span>
-                                           <span className="prop_info">
-                                           Oui
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Type de carte de crédit
-                                       </span>
-                                           <span className="prop_info">
-                                           MasterCard
-                                       </span>
-                                       </div>
-                                   </div>
-                                   <div className="product_item_btn">
-                                       <a className="btn">
-                                         <span className="icon_btn">
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                         </span>
-                                           More info
-                                       </a>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div className="product_list_item">
-                           <div className="row">
-                               <div className="col-sm-12">
-                                   <div className="product_item_img">
-                                       <img src={ require('../../../assets/img/logo.png') }/>
-                                   </div>
-                               </div>
-                               <div className="col-sm-12">
-                                   <h2 className="product_item_title">
-                                       Visa World Card Business
-                                   </h2>
-                               </div>
-                               <div className="col-sm-12">
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Cotisation annuelle
-                                       </span>
-                                           <span className="prop_info">
-                                           	0,00 €
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Compte supplémentaire
-                                       </span>
-                                           <span className="prop_info">
-                                           	-
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Carte de crédit incluse
-                                       </span>
-                                           <span className="prop_info">
-                                           Oui
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Type de carte de crédit
-                                       </span>
-                                           <span className="prop_info">
-                                           MasterCard
-                                       </span>
-                                       </div>
-                                   </div>
-                                   <div className="product_item_btn">
-                                       <a className="btn">
-                                         <span className="icon_btn">
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                         </span>
-                                           More info
-                                       </a>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div className="product_list_item">
-                           <div className="row">
-                               <div className="col-sm-12">
-                                   <div className="product_item_img">
-                                       <img src={ require('../../../assets/img/logo.png') }/>
-                                   </div>
-                               </div>
-                               <div className="col-sm-12">
-                                   <h2 className="product_item_title">
-                                       Visa World Card Business
-                                   </h2>
-                               </div>
-                               <div className="col-sm-12">
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Cotisation annuelle
-                                       </span>
-                                           <span className="prop_info">
-                                           	0,00 €
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Compte supplémentaire
-                                       </span>
-                                           <span className="prop_info">
-                                           	-
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Carte de crédit incluse
-                                       </span>
-                                           <span className="prop_info">
-                                           Oui
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Type de carte de crédit
-                                       </span>
-                                           <span className="prop_info">
-                                           MasterCard
-                                       </span>
-                                       </div>
-                                   </div>
-                                   <div className="product_item_btn">
-                                       <a className="btn">
-                                         <span className="icon_btn">
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                         </span>
-                                           More info
-                                       </a>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div className="product_list_item">
-                           <div className="row">
-                               <div className="col-sm-12">
-                                   <div className="product_item_img">
-                                       <img src={ require('../../../assets/img/logo.png') }/>
-                                   </div>
-                               </div>
-                               <div className="col-sm-12">
-                                   <h2 className="product_item_title">
-                                       Visa World Card Business
-                                   </h2>
-                               </div>
-                               <div className="col-sm-12">
-                                   <div className="product_item_prop">
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Cotisation annuelle
-                                       </span>
-                                           <span className="prop_info">
-                                           	0,00 €
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                           Compte supplémentaire
-                                       </span>
-                                           <span className="prop_info">
-                                           	-
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Carte de crédit incluse
-                                       </span>
-                                           <span className="prop_info">
-                                           Oui
-                                       </span>
-                                       </div>
-                                       <div className="product_prop">
-                                       <span className="prop_title">
-                                          Type de carte de crédit
-                                       </span>
-                                           <span className="prop_info">
-                                           MasterCard
-                                       </span>
-                                       </div>
-                                   </div>
-                                   <div className="product_item_btn">
-                                       <a className="btn">
-                                         <span className="icon_btn">
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                             <i className="nc-icon nc-minimal-right"></i>
-                                         </span>
-                                           More info
-                                       </a>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
+                   }
 
-                   </div>
-                   <div className="more_product">
-                       <span className="btn_more">More product</span>
-                   </div>
                </div>
                {
                    alert &&

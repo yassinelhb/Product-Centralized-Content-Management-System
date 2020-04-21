@@ -67,7 +67,7 @@ exports.login = async  (req, res) => {
         if (!users) res.json({error: "User n'existe pas"});
         else {
             if (bcrypt.compareSync(req.body.password, users.password)) {
-                var token = jwt.sign({users}, 'secret', {expiresIn: 3600})
+                var token = jwt.sign({users}, 'secret', {expiresIn: 28800})
                 res.json(token)
             } else {
                 res.json({error : "Mot de passe incorrecte "});
@@ -105,10 +105,24 @@ exports.update = async  (req, res) => {
             { $set: {
                     username:req.body.username,
                     email:req.body.email,
-                    password:bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
                     website:req.body.website,
                     Statut:req.body.Statut,
+                }},
 
+            {new: true, useFindAndModify: false}
+        );
+        res.json(updated);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
+
+exports.changepassword = async  (req, res) => {
+    try {
+        const updated = await users.updateOne(
+            { _id: req.params.id },
+            { $set: {
+                    password:bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
                 }},
 
             {new: true, useFindAndModify: false}
@@ -121,6 +135,7 @@ exports.update = async  (req, res) => {
 exports.getById = async  (req, res) => {
     try {
         const user  = await users.findById(req.params.id);
+        user.password = bcrypt.hashSync(user.password , bcrypt.genSaltSync(10))
         res.json(user);
     } catch (err) {
         res.json({message: err});
