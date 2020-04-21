@@ -27,14 +27,15 @@ const AssignToWebsite = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+      PropertyService.createMany(labels)
+          .then( res => {
+              console.log(res);
+          });
     properties.forEach(property => {
         property.subType.push(subType);
         PropertyService.update(property,property._id)
             .then( r => {
-                PropertyService.createMany(labels)
-                    .then( res => {
-                        console.log(res);
-                    });
+
                 props.refreshTable();
                 toggle();
             })
@@ -125,7 +126,7 @@ const AssignToWebsite = (props) => {
       <div>
         <Button color="primary" onClick={toggle}>Assign</Button>
         <Modal isOpen={modal} toggle={toggle} >
-          <ModalHeader toggle={toggle}>Add new product property</ModalHeader>
+          <ModalHeader toggle={toggle}>Assign property to subtype</ModalHeader>
           <form onSubmit={submitHandler}>
             <ModalBody>
 

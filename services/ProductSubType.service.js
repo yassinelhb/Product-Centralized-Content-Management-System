@@ -1,5 +1,6 @@
 const SubType = require('../models/ProductSubType.model');
 const Page = require('../models/page.model');
+const Layout = require('../models/layout.model');
 
 // get all Detail sub-Types
 exports.getAll =   (req, res) =>{
@@ -123,5 +124,30 @@ exports.getByWebsite =   (req, res) =>{
         })
         .catch(err => res.status(400).json('Error: ' + err));
     }).catch(err => res.status(400).json('Error: ' + err));
+
+};
+exports.assignToWebsite = async  (req, res) => {
+
+    const subCategoryLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'subcategory'}).then().catch(err => res.status(400).json('Error: ' + err));
+   await Page.findOne({website:req.params.websiteId,type:"category",productType:req.body.productType}).then( async (p) => {
+       console.log(req.body);
+
+       const b ={
+
+            "page_name":req.body.name,
+            "type":"subCategory",
+            "productSubType":req.body._id,
+            "productTypePage": p._id,
+            "website":req.params.websiteId,
+            "layout":subCategoryLayout._id
+
+
+
+        };
+
+       await Page.create(b).then(page =>res.json(page)).catch(err => res.status(400).json('Error: ' + err));
+    })
+        .catch(err => res.status(400).json('Error: ' + err));
+
 
 };

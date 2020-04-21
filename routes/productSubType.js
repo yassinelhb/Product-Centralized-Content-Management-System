@@ -10,7 +10,8 @@ router.get('/', SubTypeService.getAll);
 router.get('/byType/:typeId', SubTypeService.getByType);
 // create a new sub-type
 router.post('/', SubTypeService.create);
-
+//
+router.post('/assignToWebsite/:websiteId', SubTypeService.assignToWebsite);
 // get a sub-type by id
 router.get('/:subTypeId', SubTypeService.getById);
 

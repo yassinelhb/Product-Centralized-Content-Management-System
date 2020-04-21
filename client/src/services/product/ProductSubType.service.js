@@ -115,7 +115,20 @@ class ProductType {
 
     };
 
+    assignTypeToWebsite = (website,subType) => {
 
+
+        return new Promise((resolve, reject) => {
+            axios.post(api + `productSubType/assignToWebsite/`+website, subType)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
     getSubTypePageByType = (pageId) => {
         return new Promise((resolve, reject) => {
             axios.get(api + `productSubType/subtypesPagesByType/` + pageId)

@@ -14,6 +14,7 @@ import SubTypeService from "../../services/product/ProductSubType.service";
 import AddProductSubType from "./AddProductSubType";
 import UpdateProductSubType from "./UpdateProductSubType";
 import TypeService from "../../services/product/ProductType.service";
+import AssignToWebsite from "./AssignToWebsite";
 
 class productSubTypes extends React.Component {
   buttonstyle= (e)=>{
@@ -106,7 +107,7 @@ class productSubTypes extends React.Component {
 
                       {
                         subTypes.length ?
-                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button></div></td></tr>) :
+                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button> <AssignToWebsite subtype={subType} refreshTable={this.refreshTable}  /></div></td></tr>) :
                             null
                       }
 
