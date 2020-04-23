@@ -24,7 +24,7 @@ class PageEditor extends React.Component {
     loadComponent() {
         const { page, website, imagePreviewUrl } = this.state
         const Component = React.lazy(() => import('../../theme/'+ website.theme.theme_name + '/views/' + page.layout.layout_name))
-        return <Component page = { page } editor = { false } handle = { this.handleChange } imagePreviewUrl = { imagePreviewUrl } />
+        return <Component page = { page } editor = { false } handle = { this.handleChange } imagePreviewUrl = { imagePreviewUrl } website = { website } />
 
     }
 

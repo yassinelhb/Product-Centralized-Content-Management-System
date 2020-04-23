@@ -1,0 +1,77 @@
+/* translator */
+
+.content_trans {
+    width: 400px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 9999;
+}
+
+.content_trans .select_header {
+    display: flex;
+    background: #FFFFFF;
+    border: 1px solid #E1E1E1;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 5px rgba(99, 99, 99, 0.37);
+    padding: 15px;
+}
+
+.content_trans .select_header .revert-icon {
+    font-size: 22px;
+}
+
+.content_trans .select_header .select_language {
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+.content_trans .select_header .search_language {
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.content_trans .select_header .search_language .close_search {
+    font-size: 20px;
+    position: absolute;
+    margin-top: 7px;
+    right: 0;
+    cursor: pointer;
+}
+.content_trans .select_header .search_language input {
+    outline: none;
+    height: 40px;
+    width: 90%;
+}
+
+.content_trans .select_body {
+    height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: absolute;
+    box-shadow: 0 0 5px rgba(99, 99, 99, 0.37);
+}
+.content_trans .select_body .list_language {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background: #FFFFFF;
+    padding: 15px 0;
+}
+
+.content_trans .select_body .list_language .item_language {
+    width: 30%;
+}
+
+.content_trans .select_body .list_language .item_language .language_name {
+    display: inline-block;
+    padding: 10px 15px;
+}
+
+/* editor text */
+
+.editor_text {
+    margin-bottom: 50px;
+}

@@ -3,7 +3,6 @@ import { Link} from "react-router-dom";
 import '../css/Style.css';
 import serviceSite from '../../../services/website.service'
 
-
 class Header extends React.Component {
 
     constructor(props) {
@@ -12,7 +11,8 @@ class Header extends React.Component {
         this.state = {
             edit: false,
             links: this.props.links,
-            toggle_edit : false
+            toggle_edit : false,
+            alert : ''
         }
     }
 
@@ -26,6 +26,8 @@ class Header extends React.Component {
         this.setState({
             edit: !this.state.edit
         })
+
+        this.props.handle(this.state.links)
     }
 
     addLinkClick = () => {
@@ -39,8 +41,15 @@ class Header extends React.Component {
 
             serviceSite.linkSite(link,'add').then( res => {
                 this.setState({
-                    links : [...this.state.links, res]
+                    links : [...this.state.links, res],
+                    alert : 'Header saved ...'
                 })
+
+                setTimeout(() =>{
+                    this.setState({
+                        alert: ''
+                    })
+                },2000)
             })
 
         }
@@ -48,6 +57,7 @@ class Header extends React.Component {
     }
 
     editLinkClick = (link_id,index) => {
+
         const link_text = this.refs[`link_text` + index ].value
         const page = this.refs[`page` + index].value
 
@@ -62,9 +72,15 @@ class Header extends React.Component {
                 const links = [...this.state.links]
                 links[index] = res
                 this.setState({
-                    links: links
+                    links: links,
+                    alert : 'Header saved ...'
                 })
 
+                setTimeout(() =>{
+                    this.setState({
+                        alert: ''
+                    })
+                },2000)
             })
 
         }
@@ -74,11 +90,21 @@ class Header extends React.Component {
     deleteLinkClick = (link, index) => {
 
         serviceSite.linkSite(link,'remove')
-            .then(
+            .then(() => {
+
                 this.setState({
-                    links: this.state.links.filter((link,i) => i !== index)
+                    links: this.state.links.filter((link,i) => i !== index),
+                    alert : 'Header saved ...'
                 })
-            )
+
+                setTimeout(() =>{
+                    this.setState({
+                        alert: ''
+                    })
+                },2000)
+
+            })
+
     }
 
     mouseEnterHandle = () => {
@@ -95,7 +121,8 @@ class Header extends React.Component {
 
     render() {
 
-        const logo = this.props.logo
+        const { alert } = this.state
+        const { logo } = this.props
 
         // fetch pages
         const pages = this.props.pages.map(link =>
@@ -139,9 +166,15 @@ class Header extends React.Component {
         // toggle button edit and add
         const btn_setting = this.state.edit ? (
             <>
-                <li className="nav-item nav-item-setting dropdown" >
-                    <button className="nav-btn" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false" onClick={ this.addButtonClick} data-toggle-second="tooltip" title="Click to add!"> Add </button>
+                <li className="nav-item dropdown">
+
+                    <div className="toggle_btn"  data-toggle="dropdown"
+                         aria-haspopup="true" aria-expanded="false"  data-toggle-second="tooltip" title="Click to add!">
+                        <span className="icon_btn">
+                            <i className="nc-icon nc-simple-add"></i>
+                        </span>
+                    </div>
+
                     <div className="dropdown-menu dropdown-menu-right">
                         <form>
                             <div className="form-group">
@@ -157,18 +190,22 @@ class Header extends React.Component {
                         </form>
                     </div>
                 </li>
-                <li className="nav-item nav-item-setting">
-                    <button className="nav-btn"  onClick={ this.saveButtonClick } data-toggle-second="tooltip" title="Click to save!"> Save </button>
+                <li className="nav-item">
+                    <div className="toggle_btn">
+                        <span className="icon_btn"  onClick={ this.saveButtonClick } data-toggle-second="tooltip" title="Click to save!">
+                            <i className="nc-icon nc-check-2"></i>
+                        </span>
+                    </div>
                 </li>
             </>
         ) : (
 
             this.state.toggle_edit ? (
-                <li className="nav-item nav-item-setting" >
-                    <button className="nav-btn" onClick={this.editButtonClick} >
-                        Edit
-                    </button>
-                </li>
+                <div className="toggle_btn">
+                    <span className="icon_btn" onClick={this.editButtonClick}>
+                        <i className="nc-icon nc-ruler-pencil"></i>
+                    </span>
+                </div>
             ) : ''
 
         )
@@ -188,10 +225,16 @@ class Header extends React.Component {
                         <ul className="navbar-nav mr-auto">
                             {links}
                             { btn_setting }
+
                         </ul>
                     </div>
                 </div>
-
+                {
+                    alert &&
+                    <div className="alert_saved">
+                        <span> { alert } </span>
+                    </div>
+                }
             </nav>
         );
     }
