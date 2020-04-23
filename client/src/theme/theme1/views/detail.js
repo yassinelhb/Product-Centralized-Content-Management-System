@@ -240,6 +240,7 @@ class Detail extends React.Component {
                                         <img src={ imagePreviewUrl }  className="product_img" />
                                         :
                                         <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/' + page.product.picture)} className="product_img" />
+
                                 }
                                 <h1 className="product_title"> { page.page_name } </h1>
                             </div>

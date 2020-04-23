@@ -6,6 +6,7 @@ import TypeService from "../../services/product/ProductType.service";
 import SubTypeService from "../../services/product/ProductSubType.service";
 import Label from "reactstrap/es/Label";
 import PropertyService from "../../services/product/ProductProperty.service";
+import Select from "react-select";
 
 const AddProductProperty = (props) => {
 
@@ -13,6 +14,7 @@ const AddProductProperty = (props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [subTypes, setSubTypes] = useState([]);
+  const [options, setOptions] = useState([]);
   const [newSubTypes, setNewSubTypes] = useState([]);
   const [type, setType] = useState("");
   const [ss, setSS] = useState("");
@@ -32,22 +34,29 @@ const AddProductProperty = (props) => {
   useEffect(() => {
     SubTypeService.getAll()
         .then( res => {
-          setSubTypes(res)
+   res.forEach(sub => {
+    const option = { value: sub._id, label: sub.name };
+   options.push(option);
+
+   setOptions(options);
+
+})
         })
 
   },[ss]);
 
     function multiSelectHandler(e) {
-        var options = e.target.options;
+
         var value = [];
-        for (var i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
+        for (var i = 0, l = e.length; i < l; i++) {
+
+                value.push(e[i].value);
+
         }
         setNewSubTypes(value);
 
     }
+
 
     return (
       <div>
@@ -94,16 +103,15 @@ const AddProductProperty = (props) => {
 
               <FormGroup>
                 <Label for="typeSelect">Product SubType</Label>
-                <Input onChange={e => multiSelectHandler(e)} multiple={true} type="select" name="type" id="typeSelect" >
 
-                  {
-                    subTypes.length ?
-                        subTypes.map(Type => <option value={Type._id}>{Type.name}</option>) :
-                        null
-                  }
-                </Input>
               </FormGroup>
+                <Select
+                    isMulti
+                    name="subTypes"
+                    options={options}
+                    onChange={e => multiSelectHandler(e)}
 
+                />
             </ModalBody>
             <ModalFooter>
               <Button color="primary" type="submit" >Add</Button>{' '}

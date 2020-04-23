@@ -56,20 +56,18 @@ class Website extends React.Component {
        return <Componant page={ page } editor = { true } website = { this.state.website } />
    }
 
-
     render() {
         const { pages, website } = this.state
+
         const router = pages &&
             pages.map((page) =>
-                page.layout.layout_name === 'detail' ?
-                    <Route exact path={`${this.props.match.url}/` + page.SubTypePage.productTypePage.page_name + `/` + page.SubTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                page.layout.layout_name === 'subcategory' ?
+                    <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
                     :
-                    page.layout.layout_name === 'subcategory' ?
-                        <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-                        :
-                        <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-            )
+                    <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
 
+            )
+        
 
          return (
             <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>

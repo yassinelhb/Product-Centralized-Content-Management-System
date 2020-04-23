@@ -38,11 +38,11 @@ class ProductType {
 
     };
 
-    assignTypeToWebsite = (type,website) => {
+    assignTypeToWebsite = (type,website,subTypes) => {
 
 
         return new Promise((resolve, reject) => {
-            const t ={"page_name":type.name, "type":"category", "productType":type._id, "website":website, "layout":layout};
+            const t ={"page_name":type.name, "type":"category", "productType":type._id,subTypes:subTypes, "website":website, "layout":layout};
             axios.post(api + `productType/assignTypeToWebsite`, t)
                 .then(res => {
                     resolve(res.data);

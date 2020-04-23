@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import Add from "../../theme1/components/description/add";
 import EditorText from "../components/editorText";
-import servicePage from '../../../services/page.service'
 import serviceProducts from '../../../services/product/Product.service'
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 
@@ -166,7 +165,6 @@ class Detail extends React.Component {
     render() {
 
         const { imagePreviewUrl } = this.props
-
         const { page, editor_text, alert, show, product_property } = this.state
 
         const intro_product_text = editor_text === 'intro_product_text' ?
@@ -214,8 +212,6 @@ class Detail extends React.Component {
             </tr>
 
         )
-
-
 
         return (
             <div className="container">

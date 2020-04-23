@@ -4,7 +4,6 @@ import { Link} from "react-router-dom";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
-import serviceSubType from "../../../services/product/ProductSubType.service";
 import EditorInputText from "../components/editorInputText";
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 import serviceProducts from "../../../services/product/Product.service";

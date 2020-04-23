@@ -76,15 +76,17 @@ exports.assignTypeToWebsite = async  (req, res) => {
            const subCategoryLayout = await Layout.findOne({website:req.body.website,layout_name:'subcategory'}).then().catch();
             console.log(req.body.website);
            console.log(subCategoryLayout);
-           await  SubType.find({productType:req.body.productType})
-                .then(subTypes => {
-                    subTypes.forEach(subType =>
+
+                    console.log(req.body.subTypes);
+                    req.body.subTypes.forEach( (sub) =>
                         {
+                     //      const subType =  SubType.findById(sub.value).then().catch();
+                           console.log(sub);
                             const b ={
 
-                                "page_name":subType.name,
+                                "page_name":sub.label,
                                 "type":"subCategory",
-                                "productSubType":subType._id,
+                                "productSubType":sub.value,
                                 "productTypePage": s._id,
                                 "website":req.body.website,
                                 "layout":subCategoryLayout._id
@@ -100,8 +102,6 @@ exports.assignTypeToWebsite = async  (req, res) => {
                     )
 
 
-                })
-                .catch(err => res.status(400).json('Error: ' + err));
 
         })
         .catch(err => res.status(400).json('Error: ' + err));
@@ -115,7 +115,7 @@ const addPage = async function(body) {
         })
         .catch();
 };
-// get  Detail Types by website
+// get  Product Types by website
 exports.getByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId,type:"category"})
         .then(pages => {
@@ -136,7 +136,7 @@ exports.getByWebsite =   (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
-// get  Detail Types pages by website
+// get  Product Types pages by website
 exports.getTypesPagesByWebsite =   (req, res) =>{
     Page.find({website:req.params.websiteId,type:"category"})
         .then(pages => {

@@ -23,27 +23,37 @@ class Ads_banner extends React.Component {
         width: '150px',
         }
     };
+    delete_hidden=''
       border ='solid'
       banner_update =""
     Styleborder= (e)=>{
 
-        if(e==this.banner_update){ return{
-            border : this.border
-        }}
+        if(e==this.banner_update  && this.delete_hidden==''){
+            return {
+                    border : this.border
+                    }
+        }
         else
-        {return{
-            background :''  }
+        {
+            return{
+                     background :''  }
 
+        }
+
+        if(this.delete_hidden!=""){
+            return  {
+                border : this.delete_hidden
+            }
         }
     };
     Stylesacane= (e)=>{
         if(e==true){ return{
-            background :'#96F70A'
+            background :'#96F72A'
 
         }}
         else
         {return{
-            background :'#F1130D'  }
+            background :'#F0234D'  }
 
         }
     };
@@ -53,7 +63,14 @@ class Ads_banner extends React.Component {
         }
     };
 
+    button_ads_style= (e)=>{
+        return{
+            "display":e
+        }
+    };
+
      etat ='none';
+     ads_etat='none'
      side_id ='';
      id_banner=' '
 
@@ -63,13 +80,19 @@ class Ads_banner extends React.Component {
 
         let data =sessionStorage.getItem('webselect');
         this.data = JSON.parse(data);
+        let ads =null
 
         if(this.data != null )
         {
             this.etat=''
             this.side_id = this.data._id;
             this.banner_update = this.data.ads_banners;
+            this.ads=this.data.ads_banners
 
+        }
+        if(this.ads!= null)
+        {
+            this.ads_etat=''
         }
         this.state = {
             ads_banner: [],
@@ -113,11 +136,30 @@ class Ads_banner extends React.Component {
 
     }
 
+
+    delete_adsHandler(e) {
+        alert(e)
+        web_serv.delete_ads(e)
+        this.delete_hidden='o'
+
+        this.ads_etat='none'
+        Ads_serv.getAll()
+            .then( res => {
+                this.setState({
+                    ads_banner : res
+                });
+            });
+
+
+    }
+
     addToWebsiteHandler(ads) {
         const data = {"ads_banners":ads._id } ;
         console.log(data);
         web_serv.update_ads(data,this.side_id)
         this.banner_update=  ads._id;
+        this.delete_hidden=''
+        this.ads_etat=''
 
         Ads_serv.getAll()
             .then( res => {
@@ -140,6 +182,7 @@ class Ads_banner extends React.Component {
                                 <CardHeader>
                                     <CardTitle tag="h4">Ads_banners</CardTitle>
                                     <AddAds_banner refreshTable={this.refreshTable}/>
+                                    <Button style={this.button_ads_style(this.ads_etat)} color="danger"  onClick={() =>this.delete_adsHandler(this.side_id)}>delete this website ads</Button>
                                 </CardHeader>
                                 <CardBody>
                                     <Table responsive>

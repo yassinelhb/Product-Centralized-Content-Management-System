@@ -96,18 +96,7 @@ class Ads_banner {
         })
 
     };
-    typesPagesByWebsite = (websiteid) => {
-        return new Promise((resolve, reject) => {
-            axios.get(api + `productProperty/typesPagesByWebsite/`+websiteid)
-                .then(res => {
-                    resolve(res.data);
-                })
-                .catch(error => {
-                    reject(error)
-                })
-        })
 
-    };
 
 }
 
