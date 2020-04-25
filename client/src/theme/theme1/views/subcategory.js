@@ -77,9 +77,7 @@ class Subcategory extends React.Component {
                 [this.state.editor_text] : text
             },
             editor_text: '',
-        })
-
-        event && this.savePage()
+        },() => event && this.savePage())
 
     }
 
@@ -101,18 +99,17 @@ class Subcategory extends React.Component {
 
         this.setState({
             compares : compares
-        }, () => sessionStorage.setItem("compares", JSON.stringify(this.state.compares)))
+        })
     }
 
     savePage() {
-        const { page } = this.state
+
+        const { page } =  this.state
 
         if ( this.state.editor ) {
-
             let formData = new FormData();
 
             formData.append('page',JSON.stringify(page))
-
             servicePage.editPage(formData)
                 .then(res =>
                     this.setState({
@@ -202,6 +199,7 @@ class Subcategory extends React.Component {
             </div>
         )
 
+
         const more_product = editor_text === 'more_product' ?
             <span className="btn btn-secondary">
                 <EditorInputText editorState = { page.more_product ? page.more_product :  'More product' } editor = { this.handleTextChange } />
@@ -271,7 +269,7 @@ class Subcategory extends React.Component {
                 </div>
                 {
                     editor && compares.length &&
-                    <Sidebar_compare compares = { compares } handle = { this.handleCompare } />
+                    <Sidebar_compare compares = { compares } property = { product_property }  handleCompare = { this.handleCompare } />
                 }
             </>
         );

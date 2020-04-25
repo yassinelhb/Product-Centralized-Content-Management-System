@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import Add from "../../theme1/components/description/add";
+import servicePage from "../../../services/page.service";
 import EditorText from "../components/editorText";
 import serviceProducts from '../../../services/product/Product.service'
 import serviceProductProperty from "../../../services/product/ProductProperty.service";

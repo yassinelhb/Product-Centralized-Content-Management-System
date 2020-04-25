@@ -1,85 +1,133 @@
 import React, {Suspense, Fragment} from 'react';
 import { LanguageData } from '../../views/website_editor/language-data';
 import onClickOutside from "react-onclickoutside";
+import serviceTranslator from "../../services/Translator/translator.service";
+import {Button, Modal} from "react-bootstrap";
 
 class Translator extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            website: JSON.parse(sessionStorage.getItem('webselect')),
             languages: LanguageData(),
-            search: false,
             sourceLang: 'auto',
-            targetLang: 'en'
+            targetLang: 'en',
+            sourceText: props.sourceText,
+            translatedText: ''
         }
+    }
+
+    componentDidMount() {
+        this.translate()
+    }
+
+    handleTranslator = (type, code) => {
+
+        type === 'source' ?
+            this.setState({
+                sourceLang: code
+            }, () => this.translate())
+            :
+            this.setState({
+                targetLang: code
+            }, () => this.translate())
 
     }
 
-    handleClickOutside() {
-        this.handleClose()
-    }
+    translate() {
 
-    handleLanguage = () => {
-        this.setState({
-            search: true
+        const { sourceText , sourceLang, targetLang } = this.state
+        serviceTranslator.translate(sourceText , sourceLang, targetLang).then(res => {
+            this.setState({
+                sourceLang: res[2],
+                translatedText: res[0][0][0]
+            })
         })
+
     }
 
-    handleClose = () => {
-        this.setState({
-            search: false
-        })
+    handleClose(type) {
+        type === 'save' ?
+            this.props.save(this.state.translatedText)
+            :
+            this.props.save()
     }
-
 
 
     render() {
-        const { languages, search } = this.state
-        const list_language = languages.map(language =>
-            <div className="item_language">
-                <span className="language_name"> { language.name }</span>
-            </div>
-        )
-         return (
-             <div className="content_trans">
-                 <div className="select_header">
-                     {
-                         search ?
-                             <div className="search_language">
-                                 <input type="text" className="form-control" placeholder="Search ..."/>
-                                 <span className="close_search" onClick={ this.handleClose }>
-                                     <i className="nc-icon nc-simple-remove"></i>
-                                 </span>
-                             </div>
-                             :
-                             <>
-                                 <div className="select_language">
-                                     <span className="select_text"> ARABIC </span>
-                                     <span className="select_icon">
-                             <i className="nc-icon nc-minimal-down"></i>
-                         </span>
-                                 </div>
-                                 <span className="revert-icon">
-                                     <i className="nc-icon nc-refresh-69"></i>
-                                 </span>
-                                 <div className="select_language" onClick={ this.handleLanguage }>
-                                     <span className="select_text"> FRENSH </span>
-                                     <span className="select_icon">
-                                         <i className="nc-icon nc-minimal-down"></i>
-                                     </span>
-                                 </div>
-                             </>
-                     }
+
+        const { languages, translatedText } = this.state
+
+        const list_language = (type) => languages.map(language =>
+
+             type === 'source' && language.code === this.state.sourceLang ?
+                 <div className={ language.code === this.state.sourceLang ? 'item_language active' : 'item_language' }  key={ language.code }>
+                     <span className="language_name"> { language.name }</span>
                  </div>
-                 <div className="select_body">
-                     <div className="list_language">
-                         { list_language }
+                 :
+                 type === 'target' && language.code === this.state.targetLang ?
+                     <div className={ language.code === this.state.targetLang ? 'item_language active' : 'item_language' }  key={ language.code }>
+                         <span className="language_name"> { language.name }</span>
                      </div>
-                 </div>
-             </div>
+                     :
+                    <div className="item_language" key={ language.code } onClick={ () => this.handleTranslator(type, language.code) }>
+                        <span className="language_name"> { language.name }</span>
+                    </div>
+        )
+
+        const select_language = (type) => languages.map( language =>
+            type === 'source' && language.code === this.state.sourceLang ?
+                language.name
+                :
+                type === 'target' && language.code === this.state.targetLang &&
+                language.name
+        )
+
+        return (
+            <Modal show={ true }
+                   size="lg"
+                   centered
+                   onHide={ () => this.handleClose('cancel') }
+            >
+                <Modal.Body>
+                    <div className="content_trans">
+                     <div className="trans_header">
+                         <div className="select_language dropdown">
+                             <span className="btn-toggle dropdown-toggle" data-toggle="dropdown">
+                                 { select_language('source') }
+                             </span>
+                             <div className="list_language dropdown-menu dropdown-menu-left">
+                                 { list_language('source') }
+                             </div>
+                         </div>
+                         <img className="revers-icon" src={ require('../../assets/img/sync.png')}/>
+                         <div className="select_language dropdown">
+                             <span className="btn-toggle dropdown-toggle" data-toggle="dropdown">
+                                 { select_language('target') }
+                             </span>
+                             <div className="list_language dropdown-menu dropdown-menu-left">
+                                 { list_language('target') }
+                             </div>
+                     </div>
+                     </div>
+                     <p className="trans_text">
+                         { translatedText }
+                     </p>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={ () => this.handleClose('cancel') }>
+                        Cancel
+                    </Button>
+                    <Button variant="info" onClick={ () => this.handleClose('save') }>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 
 }
 
-export default onClickOutside(Translator);
+export default Translator;

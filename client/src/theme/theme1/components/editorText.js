@@ -14,31 +14,34 @@ class EditorText extends React.Component {
         super(props);
         this.state = {
             editorState: EditorState.createWithContent(ContentState.createFromText(props.editorState)),
-            sourceLang: '',
-            targetLang: 'en',
+            translator: false
         };
 
     }
 
-    handleClickOutside() {
+    saveClick() {
        this.props.editor(this.state.editorState.getCurrentContent().getPlainText())
-    }
-
-    handleTranslator = (type) => {
-        const { editorState , sourceLang, targetLang } = this.state
-        serviceTranslator.translate(editorState.getCurrentContent().getPlainText(), sourceLang, targetLang).then(res => {
-            console.log(res[0][0][0])
-        })
     }
 
     onEditorStateChange = (editorState) => {
         this.setState({
             editorState,
-        }, () => this.handleTranslator('detected'));
+        });
+    }
+
+    saveTranslator = (translatedText) => {
+        translatedText &&
+            this.setState({
+                editorState: EditorState.createWithContent(ContentState.createFromText(translatedText))
+            })
+
+        this.setState({
+            translator: false
+        })
     }
 
     render() {
-        const editorState = this.state.editorState
+        const { editorState, translator } = this.state
         return (
            <div className="editor_text">
                <Editor
@@ -54,11 +57,21 @@ class EditorText extends React.Component {
                }}
                editorState={editorState}
                onEditorStateChange={this.onEditorStateChange}/>
-               <span onClick={ this.handleTranslator}>fvf</span>
-               <Translator/>
+               {
+                   translator ?
+                       <Translator sourceText = { editorState.getCurrentContent().getPlainText() } save = { this.saveTranslator } />
+                       :
+                       editorState.getCurrentContent().getPlainText() &&
+                       <span className="btn_translate" onClick={ () => this.setState({ translator : true })} >Translator</span>
+               }
+               <div className="toggle_btn">
+                    <span className="icon_btn" onClick={ () => this.saveClick() } >
+                        <i className="nc-icon nc-check-2"></i>
+                    </span>
+               </div>
            </div>
         );
     }
 }
 
-export default onClickOutside(EditorText);
+export default EditorText;

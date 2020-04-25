@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import Add from "../components/description/add";
 import servicePage from "../../../services/page.service";
-import EditorText from "../../theme2/components/editorText";
+import EditorText from "../components/editorText";
 import serviceProducts from "../../../services/product/Product.service";
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 

@@ -3,6 +3,7 @@ import '../../css/Style.css';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import onClickOutside from 'react-onclickoutside'
 import Compare from "./compare";
+import EditorInputText from "../editorInputText";
 
 
 
@@ -13,13 +14,18 @@ class Sidebar_compare extends React.Component {
         this.state = {
             minimize_width: true,
             show: false,
-            compares : props.compares
+            compares : props.compares,
+            property : props.property,
         }
     }
 
     componentWillReceiveProps = (props) => {
         this.setState({
             compares : props.compares,
+        })
+        props.compares.length < 2 &&
+        this.setState({
+            show : false,
         })
     }
 
@@ -31,7 +37,7 @@ class Sidebar_compare extends React.Component {
 
     handleClickOutside() {
         this.setState({
-            minimize_width: true
+            minimize_width: true,
         })
     }
 
@@ -50,11 +56,12 @@ class Sidebar_compare extends React.Component {
     }
 
     removeCompare = (page_product) => {
-        this.props.handle(page_product)
+        this.props.handleCompare(page_product)
     }
 
+
     render() {
-        const { minimize_width, show, compares } = this.state
+        const { minimize_width, show, compares, property } = this.state
         const products = compares.map(page =>
 
             <div className="product_item" key={ page._id}>
@@ -65,6 +72,7 @@ class Sidebar_compare extends React.Component {
                 </span>
             </div>
         )
+
         return (
             <div className={ minimize_width ? 'product_compare minimize_compare' : 'product_compare' }>
                 <div className="compare_header">
@@ -74,7 +82,7 @@ class Sidebar_compare extends React.Component {
                         <i className={ minimize_width ? 'nc-icon nc-minimal-left' : 'nc-icon nc-minimal-right' }></i>
                     </div>
                     <h3 className="compare_title">
-                        Compare products
+                       Compare Products
                     </h3>
                 </div>
                 <div className="compare_body">
@@ -88,7 +96,10 @@ class Sidebar_compare extends React.Component {
                         </button>
                     }
                 </div>
-                <Compare show={ show } compares = { compares } close = { this.handleClose } />
+                {
+                    show &&
+                    <Compare compares = { compares } property = { property } close = { this.handleClose } remove = { this.removeCompare } />
+                }
             </div>
         );
     }

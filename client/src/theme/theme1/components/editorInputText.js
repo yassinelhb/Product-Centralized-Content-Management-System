@@ -27,7 +27,7 @@ class EditorInputText extends React.Component {
     render() {
         const editorState = this.state.editorState
         return (
-           <input type="text" className="form-control editor_input" onChange={ this.handleTextChange } defaultValue={ editorState }   style={{width: `${10*(editorState.length)}px`}}/>
+           <input type="text" className="form-control editor_input" onChange={ this.handleTextChange } defaultValue={ editorState }   style={{width: `${10*(editorState.length)+ 10}px`}}/>
         );
     }
 }

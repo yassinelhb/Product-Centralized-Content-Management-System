@@ -13,7 +13,8 @@ class Compare extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            compares: props.compares,
+            property: props.property
         }
     }
 
@@ -21,12 +22,18 @@ class Compare extends React.Component {
         this.props.close()
     }
 
+    removeCompare = (page_product) => {
+        this.setState({
+            compares : this.state.compares.filter(compare => compare._id !== page_product._id)
+        }, () => this.props.remove(page_product))
+    }
+
     render() {
 
-        const { show } = this.props
+        const { property, compares } = this.state
 
         return (
-            <Modal show= {show}
+            <Modal show= { true }
                    size="xl"
                    onHide={ this.handleClose }
             >
@@ -36,67 +43,45 @@ class Compare extends React.Component {
                 <Modal.Body>
                     <table className="table content_compare_prod">
                             <tbody>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td className="compare_infos">
-                                        <img src={ require('../../../../assets/img/page/1586943891189-unnamed (1).png')} />
-                                        <Link className="product_title" to={''}>Annual Fee Credit Card</Link>
-                                    </td>
-                                    <td className="compare_infos">
-                                        <img src={ require('../../../../assets/img/page/1586943891189-unnamed (1).png')} />
-                                        <Link className="product_title" to={''}>Annual Fee Credit Card</Link>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Cotisation annuelle
-                                    </td>
-                                    <td>
-                                        0,00 €
-                                    </td>
-                                    <td>
-                                        0,00 €
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Compte supplémentaire
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Carte de crédit incluse
-                                    </td>
-                                    <td>
-                                        Oui
-                                    </td>
-                                    <td>
-                                        Oui
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td></td>
+                                {
+                                    compares.map( page_product =>
+                                        <td className="compare_infos" key={ page_product._id }>
+                                            <img src={ page_product.page_img ? require('../../../../assets/img/page/' + page_product.page_img) : require('../../../../../../assets/product/' + page_product.product.picture) } />
+                                            <Link className="product_title" to={'/website/' + page_product.SubTypePage.productTypePage.page_name + '/' + page_product.SubTypePage.page_name + '/' + page_product.page_name}>{ page_product.page_name } </Link>
+                                        </td>
+                                    )
+                                }
+                            </tr>
+                            {
+                                property.map((prop) =>
+                                    <tr key={ prop._id }>
+                                        <td>{ compares[0].product[prop]?.label ? compares[0].product[prop]?.label?.label : prop.name }</td>
+                                        {
+                                            compares.map(page_product =>
+                                                <td key={ page_product._id }>
+                                                    { page_product.product[prop.name].value ? page_product.product[prop.name].value : 'Na' }
+                                                </td>
+                                            )
+                                        }
+                                    </tr>
+                                )
+                            }
                                 <tr>
                                     <td>
 
                                     </td>
-                                    <td>
-                                        <span className="btn_remove">
-                                            <i className="nc-icon nc-simple-remove"></i>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span className="btn_remove">
-                                            <i className="nc-icon nc-simple-remove"></i>
-                                        </span>
-                                    </td>
+                                    {
+                                        compares.map(page_product =>
+                                            <td key={ page_product._id }>
+                                                <span className="btn_remove" onClick={ () => this.removeCompare(page_product)}>
+                                                    <i className="nc-icon nc-simple-remove"></i>
+                                                </span>
+                                            </td>
+                                        )
+                                    }
                                 </tr>
-
                             </tbody>
                         </table>
                 </Modal.Body>

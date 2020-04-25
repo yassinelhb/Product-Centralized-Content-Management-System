@@ -111,9 +111,7 @@ class Home extends React.Component {
                 [this.state.editor_text] : text
             },
             editor_text: ''
-        })
-
-        event && this.savePage()
+        },() => event && this.savePage())
 
     }
 

@@ -76,7 +76,7 @@ body {
     font-size: 17px;
     margin-bottom: 55px;
 }
-.section-best_category .toggle_btn {
+.best_category_list .toggle_btn {
     position: absolute;
     right: -17px;
     top: -25px;
@@ -315,6 +315,7 @@ body {
 }
 
 .wrapper-theme1 .toolbar_filter .filter_sort {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -322,10 +323,6 @@ body {
 .wrapper-theme1 .toolbar_filter .filter_sort .sort_text {
     width: 100%;
     text-transform: capitalize;
-}
-.wrapper-theme1 .toolbar_filter .filter_sort .editor_input {
-    font-family: Poppins;
-    padding: 0;
 }
 
 .wrapper-theme1 .toolbar_filter .filter_sort select {
@@ -405,10 +402,6 @@ body {
     position: relative;
     padding-left: 45px;
     padding-right: 45px;
-}
-
-.wrapper-theme1 .toolbar_bottom .more_product .editor_input {
-    text-align: center;
 }
 
 .wrapper-theme1 .toolbar_bottom .more_product .toggle_btn {
@@ -507,7 +500,7 @@ body {
 
     /* editor input */
 .wrapper-theme1 .editor_input {
-    text-align: right;
+    text-align: center;
     background: transparent;
     border: 0px;
     text-transform: capitalize;
@@ -548,6 +541,7 @@ body {
     padding: 15px;
     display: flex;
 }
+
 
 .wrapper-theme1 .compare_header .compare_title,
 .wrapper-theme1 .minimize_compare:hover .compare_header .compare_title {
@@ -612,7 +606,7 @@ body {
     font-size: 15px;
     text-transform: capitalize;
     margin-bottom: 15px;
-    width: 190px;
+    width: 290px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -642,6 +636,11 @@ body {
 
 .wrapper-theme1 .minimize_compare .compare_body .btn_compare {
     display: none;
+}
+
+.content_compare_prod {
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .content_compare_prod td {

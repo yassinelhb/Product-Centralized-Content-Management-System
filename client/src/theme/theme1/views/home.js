@@ -109,9 +109,8 @@ class Home extends React.Component {
                 [this.state.editor_text] : text
             },
             editor_text: ''
-        })
+        }, () => event && this.savePage())
 
-        event && this.savePage()
 
     }
 
@@ -124,7 +123,7 @@ class Home extends React.Component {
             let formData = new FormData();
 
             formData.append('page',JSON.stringify(page))
-
+            console.log(page)
             servicePage.editPage(formData)
                 .then(res => {
                     if (! res.message)
