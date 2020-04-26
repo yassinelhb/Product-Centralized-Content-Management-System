@@ -33,6 +33,10 @@ import Login from "views/Login/Login.jsx";
 import productTypes from "views/productType/productTypes";
 import productSubTypes from "./views/productSubType/ProductSubTypes";
 import productProperties from "./views/productProperty/productProperties";
+import Blog from "./views/Blog/Blog"
+import yourBlog from "./views/Blog/YourBlog.js"
+
+import Blogvalidation from "./views/Blog/BlogValidation.js"
 
 import Ads_banner from "./views/Ads_banner/Ads_banner";
 import Web from "./views/website_editor/Website";
@@ -129,6 +133,32 @@ var routes = [
     name: "Websites",
     icon: "nc-icon nc-globe",
     component: Web,
+    layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
+  },
+  {
+    path: "/validation",
+    name: "BlogValidation",
+    icon: "nc-icon nc-globe",
+    component: Blogvalidation,
+    layout: "/admin",
+    Roles: ["Administrator","Content director"]
+  },
+  {
+
+    path: "/CreateBlog",
+    name: "Create Blog",
+    icon: "nc-icon nc-globe",
+    component: Blog,
+    layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
+  },
+  {
+
+    path: "/Blog",
+    name: "Blog",
+    icon: "nc-icon nc-globe",
+    component: yourBlog,
     layout: "/admin",
     Roles: ["Administrator","Content director","Freelancer"]
   },

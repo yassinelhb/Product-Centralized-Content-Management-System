@@ -1,20 +1,37 @@
 const Blog = require('../models/Blog');
+var multer = require('multer');
 
-exports.addBlog = async  (req, res) => {
-                const blog = new Blog({
-                    Title: req.body.Title,
-                    Description: req.body.Description,
-                    Image: req.body.Image,
-                    website: req.body.website,
-                    users: req.body.users,
-                    Statut: "desactivated"
-                });
-                    blog.save((err, blog) => {
-                    if (err) res.json(err);
-                    else res.json(blog);
-                });
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'client/src/assets/img/theme')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname )
+    }
+})
+var upload = multer({ storage: storage });
 
-}
+
+exports.addBlog = [ upload.single('file'), async (req, res) => {
+    try {
+        const blog = new Blog({
+            Title: req.body.Title,
+            Description: req.body.Description,
+            Image: req.file.filename,
+            website: req.body.website,
+            users: req.body.users,
+            Statut: "desactivated"
+        });
+        blog.save((err, blog) => {
+            if (err) res.json(err);
+            else res.json(blog);
+        });
+    }catch (err) {
+        res.json({message: err});
+    }
+
+
+}]
 exports.getBlog = async  (req, res)=> {
     try {
         const blog = Blog.find().populate('website').populate('users').then(user => res.json(user));
@@ -23,7 +40,7 @@ exports.getBlog = async  (req, res)=> {
     }
 }
 
-    exports.updateBlog = async  (req, res) => {
+    exports.updateBlog =   async  (req, res) => {
         try {
             const updated = await Blog.updateOne(
                 { _id: req.params.id },
@@ -31,17 +48,19 @@ exports.getBlog = async  (req, res)=> {
                         Title:req.body.Title,
                         Description:req.body.Description,
                         Image:req.body.Image,
-                        website:req.body.website,
-                        users:req.body.users,
                     }},
 
                 {new: true, useFindAndModify: false}
             );
+            console.log('ok');
             res.json(updated);
         } catch (err) {
+            console.log(err);
+
             res.json({message: err});
         }
-    };
+    }
+
 
 
 
@@ -50,6 +69,9 @@ exports.validationBlog = async  (req, res) => {
         const updated = await Blog.updateOne(
             { _id: req.params.id },
             { $set: {
+                    Title:req.body.Title,
+                    Description:req.body.Description,
+                    Image:req.body.Image,
                     Statut: "Activated",
                 }},
 
@@ -61,3 +83,18 @@ exports.validationBlog = async  (req, res) => {
     }
 };
 
+exports.getByUser = async  (req, res) => {
+    const User = req.params.id ;
+
+    try {
+        const blog = Blog.find(
+
+        {users: User}).populate('website').then(user => res.json(user)
+
+        );
+    } catch (err) {
+        res.json({message: err});
+    }
+
+//        const Blog  = await Blog.find({Title: "Test226"});
+};

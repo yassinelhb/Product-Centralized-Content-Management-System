@@ -33,7 +33,7 @@ import BlockEditor from "./views/block-editor/layouts/block-editor";
 import Login from "./views/Login/Login.jsx";
 import register2 from "./views/register/register-freelancer-contentEditor"
 import register from "./views/register/register";
-
+import Blog from "./views/Blog/Editor.jsx"
 import Web_add from "./views/website_editor/web_add";
 const hist = createBrowserHistory();
 const test = 1;
@@ -56,6 +56,7 @@ ReactDOM.render(
       <Route path="/website" component={Website} />
       <Route exact path="/block-editor" component={BlockEditor} />
       <Route path="/block-editor/:pageId" component={BlockEditor} />
+        <Route  path={"/Blog"} component={Blog}/>
 
       <Route  path={"/login"} component={Login}/>
       <PrivateRoute path="/admin" render={props => <AdminLayout {...props} />} />

@@ -4,15 +4,20 @@
   "private": true,
   "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
+    "assets": "^3.0.1",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "bootstrap": "4.3.1",
     "chart.js": "2.8.0",
+    "ckeditor4-react": "^1.1.0",
     "draft-js": "^0.11.4",
     "fetch-intercept": "^2.3.1",
     "history": "4.9.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "4.12.0",
+    "npm-watch": "^0.6.0",
     "perfect-scrollbar": "1.4.0",
     "popper.js": "^1.16.1",
     "react": "16.8.6",
@@ -34,11 +39,20 @@
     "react-session-api": "^1.1.0",
     "react-simple-chatbot": "^0.6.1",
     "reactstrap": "8.0.0",
-    "styled-components": "^4.0.0",
+    "styled-components": "^4.4.1",
     "xlsx": "^0.15.6"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
+    "watch": "npm-watch",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -63,5 +77,11 @@
     "ajv": "6.10.0",
     "jquery": "3.4.1",
     "typescript": "3.4.5"
+  },
+  "devDependencies": {
+    "@editorjs/checklist": "^1.1.0",
+    "@editorjs/editorjs": "^2.17.0",
+    "@editorjs/paragraph": "^2.6.1",
+    "react-editor-js": "^1.5.0"
   }
 }
