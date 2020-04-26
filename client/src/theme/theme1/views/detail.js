@@ -2,7 +2,9 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import Add from "../components/description/add";
 import servicePage from "../../../services/page.service";
-import EditorText from "../../theme2/components/editorText";
+import EditorText from "../components/editorText";
+import serviceProducts from "../../../services/product/Product.service";
+import serviceProductProperty from "../../../services/product/ProductProperty.service";
 
 
 class Detail extends React.Component {
@@ -11,12 +13,36 @@ class Detail extends React.Component {
         super(props);
         this.state = {
             editor: props.editor,
+            website: props.website,
             page: props.page,
+            product_property: '',
             editor_text : '',
             alert: '',
             show: false
         }
     }
+
+    componentDidMount() {
+
+        serviceProducts.productDetails(this.state.page.product._id, this.state.website._id)
+            .then( res => {
+                this.setState({
+                    page : {
+                        ...this.state.page,
+                        product: res
+                    }
+                });
+            })
+
+        serviceProductProperty.getBySubType(this.state.page.productSubType._id)
+            .then( res => {
+                this.setState({
+                    product_property : res,
+                });
+            })
+
+    }
+
 
     addClick = () => {
         this.setState({
@@ -144,7 +170,7 @@ class Detail extends React.Component {
 
         const { imagePreviewUrl } = this.props
 
-        const { page, editor_text, alert, show } = this.state
+        const { page, editor_text, alert, show, product_property } = this.state
 
         const intro_product_text = editor_text === 'intro_product_text' ?
             <EditorText editorState = { page.intro_product_text ? page.intro_product_text : '' } editor = { this.handleTextChange } />
@@ -184,6 +210,14 @@ class Detail extends React.Component {
             </div>
         )
 
+        const list_property = product_property && product_property.map( prop =>
+            <tr key={ prop._id }>
+                <th> { page.product[prop.name].label ?  page.product[prop.name].label?.label : prop.name }</th>
+                <td> { page.product[prop.name].value ? page.product[prop.name].value : 'Na' } </td>
+            </tr>
+
+        )
+
         return (
 
             <div className="container">
@@ -205,7 +239,8 @@ class Detail extends React.Component {
                                     imagePreviewUrl ?
                                         <img src={ imagePreviewUrl }  className="product_img" />
                                         :
-                                        <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/'+page.product.picture)} className="product_img" />
+                                        <img src={ page.page_img ? require('../../../assets/img/page/'+page.page_img) : require('../../../../../assets/product/' + page.product.picture)} className="product_img" />
+
                                 }
                                 <h1 className="product_title"> { page.page_name } </h1>
                             </div>
@@ -226,30 +261,11 @@ class Detail extends React.Component {
 
                                 <table className="table table_prop">
                                     <tbody>
-                                    <tr>
-                                        <th>Cotisation annuelle</th>
-                                        <td>0,00 €</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Compte supplémentaire</th>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Carte de crédit incluse</th>
-                                        <td>Oui</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Type de carte de crédit</th>
-                                        <td>MasterCard</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Retrait zone Euro</th>
-                                        <td>0,00 € (5 retraits par mois, puis 2 €/retrait)</td>
-                                    </tr>
+                                    { list_property }
                                     </tbody>
                                 </table>
                             </div>
-                            <button className="btn btn-primary"> Go to web site </button>
+                            <a className="btn btn-primary" href={ page.product.bankLink }> Go to web site </a>
                         </div>
                     </div>
 
@@ -260,7 +276,6 @@ class Detail extends React.Component {
                         <span> { alert } </span>
                     </div>
                 }
-
             </div>
         );
     }

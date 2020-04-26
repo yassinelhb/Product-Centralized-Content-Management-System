@@ -90,9 +90,9 @@ class ProductType {
 
     };
 
-    getByWebsite = (websiteid) => {
+    getByWebsite = (websiteid,typeId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `productSubType/getByWebsite/`+websiteid)
+            axios.get(api + `productSubType/getByWebsite/`+websiteid+'/'+typeId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -115,7 +115,20 @@ class ProductType {
 
     };
 
+    assignTypeToWebsite = (website,subType) => {
 
+
+        return new Promise((resolve, reject) => {
+            axios.post(api + `productSubType/assignToWebsite/`+website, subType)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
     getSubTypePageByType = (pageId) => {
         return new Promise((resolve, reject) => {
             axios.get(api + `productSubType/subtypesPagesByType/` + pageId)

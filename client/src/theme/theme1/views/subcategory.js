@@ -6,6 +6,8 @@ import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import EditorInputText from "../components/editorInputText";
 import Sidebar_compare from "../components/compare/sidebar_compare";
+import serviceProductProperty from "../../../services/product/ProductProperty.service";
+import serviceProducts from "../../../services/product/Product.service";
 
 
 
@@ -14,28 +16,50 @@ class Subcategory extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            website: props.website,
             editor: props.editor,
             page: props.page,
-            products: '',
+            page_products: '',
+            product_property: '',
             editor_text : '',
             alert: '',
             compares : '',
             show: 2
         }
+
     }
 
     componentDidMount() {
 
-        this.setState({
-            compares : JSON.parse(sessionStorage.getItem("compares")) ? JSON.parse(sessionStorage.getItem("compares")): ''
-        })
-
         servicePage.getPagesBySubTypes(this.state.page._id)
-            .then( res =>
-                this.setState({
-                    products : res
+            .then( res => {
+                const page_products = res.map((page) => {
+                    return this.getProduct(page.product._id).then((product) => {
+                        page.product = product
+                        return page
+                    })
                 })
-            )
+                return Promise.all(page_products)
+            })
+            .then( page_products => {
+                this.setState({
+                    page_products: page_products
+                })
+            })
+
+        serviceProductProperty.getBySubType(this.state.page.productSubType._id)
+            .then( res => {
+                this.setState({
+                    product_property : res,
+                });
+            })
+    }
+
+
+    getProduct = (product_id) => {
+        return  serviceProducts.productDetails(product_id, this.state.website._id).then(res => {
+            return res
+        })
     }
 
     handleTextClick = (editor_text) => {
@@ -53,9 +77,7 @@ class Subcategory extends React.Component {
                 [this.state.editor_text] : text
             },
             editor_text: '',
-        })
-
-        event && this.savePage()
+        },() => event && this.savePage())
 
     }
 
@@ -77,18 +99,17 @@ class Subcategory extends React.Component {
 
         this.setState({
             compares : compares
-        }, () => sessionStorage.setItem("compares", JSON.stringify(this.state.compares)))
+        })
     }
 
     savePage() {
-        const { page } = this.state
+
+        const { page } =  this.state
 
         if ( this.state.editor ) {
-
             let formData = new FormData();
 
             formData.append('page',JSON.stringify(page))
-
             servicePage.editPage(formData)
                 .then(res =>
                     this.setState({
@@ -111,7 +132,7 @@ class Subcategory extends React.Component {
 
     render() {
 
-        const { page, editor_text, alert, products, show, editor, compares } = this.state
+        const { page, editor_text, alert, page_products, show, editor, compares, product_property } = this.state
 
         const intro_subcategory_text = editor_text === 'intro_subcategory_text' ?
             <EditorText editorState = { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description } editor = { this.handleTextChange } />
@@ -127,76 +148,57 @@ class Subcategory extends React.Component {
             <span className="sort_text" onClick={ () => this.handleTextClick('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
 
 
-        const list_products = products && products.map( (product_page, index ) =>
-                 show > index &&
-                 <div className="product_list_item" key={ product_page._id }>
-                     <div className="row">
-                            <div className="col-sm-3">
-                                <div className="product_item_img">
-                                    <img src={ product_page.page_img ? require('../../../assets/img/page/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
-                                </div>
-                            </div>
-                            <div className="col-sm-4">
-                                <h2 className="product_item_title">
-                                    { product_page.page_name }
-                                </h2>
-                            </div>
-                            <div className="col-sm-5">
-                                <div className="product_item_prop">
-                                    <div className="product_prop">
-                                       <span className="prop_title">
-                                           Cotisation annuelle
-                                       </span>
-                                        <span className="prop_info">
-                                           	0,00 €
-                                       </span>
-                                    </div>
-                                    <div className="product_prop">
-                                       <span className="prop_title">
-                                           Compte supplémentaire
-                                       </span>
-                                        <span className="prop_info">
-                                           	-
-                                       </span>
-                                    </div>
-                                    <div className="product_prop">
-                                       <span className="prop_title">
-                                          Carte de crédit incluse
-                                       </span>
-                                        <span className="prop_info">
-                                           Oui
-                                       </span>
-                                    </div>
-                                    <div className="product_prop">
-                                       <span className="prop_title">
-                                          Type de carte de crédit
-                                       </span>
-                                        <span className="prop_info">
-                                           MasterCard
-                                       </span>
-                                    </div>
-                                </div>
-                                <div className="product_item_btn">
-                                    <Link className="btn btn-secondary"
-                                          to={'/website/' + product_page.SubTypePage.productTypePage.page_name + '/' + product_page.SubTypePage.page_name + '/' + product_page.page_name}>
+        const list_property = (product) => product_property && product_property.map(prop =>
+            <div className="product_prop" key={ prop._id }>
+                <span className="prop_title">
+                    { product[prop.name].label ?  product[prop.name].label?.label : prop.name }
+                </span>
+                <span className="prop_info">
+                    { product[prop.name].value ?  product[prop.name].value : 'Na'}
+                </span>
+            </div>
+        )
+
+        const list_products = page_products && page_products.map( (product_page, index ) =>
+            show > index &&
+            <div className="product_list_item" key={ product_page._id }>
+                <div className="row">
+                    <div className="col-sm-3">
+                        <div className="product_item_img">
+                            <img src={ product_page.page_img ? require('../../../assets/img/page/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+                        <h2 className="product_item_title">
+                            { product_page.page_name }
+                        </h2>
+                    </div>
+                    <div className="col-sm-5">
+                        <div className="product_item_prop">
+                            { list_property(product_page.product)}
+                        </div>
+                        <div className="product_item_btn">
+                            <Link className="btn btn-secondary"
+                                  to={'/website/' + product_page.SubTypePage.productTypePage.page_name + '/' + product_page.SubTypePage.page_name + '/' + product_page.page_name}>
                                          <span className="icon_btn">
                                              <i className="nc-icon nc-minimal-right"></i>
                                              <i className="nc-icon nc-minimal-right"></i>
                                              <i className="nc-icon nc-minimal-right"></i>
                                          </span>
-                                        More info
-                                    </Link>
-                                </div>
-                            </div>
+                                More info
+                            </Link>
                         </div>
-                     <div className="product_item_check">
-                         <label className="custom-checkbox">
-                             <input type="checkbox" onChange={ () => this.handleCompare(product_page) } checked={ compares.find( page_prod => page_prod._id === product_page._id )}/>
-                             <span className="check_icon"></span>
-                         </label>
-                     </div>
-                 </div>
+                    </div>
+                </div>
+                <div className="product_item_check">
+                    <label className="custom-checkbox">
+                        <input type="checkbox" onChange={ () => this.handleCompare(product_page) } checked={ compares && compares.find( page_prod => page_prod._id === product_page._id )}/>
+                        <span className="check_icon"></span>
+                    </label>
+                </div>
+            </div>
         )
+
 
         const more_product = editor_text === 'more_product' ?
             <span className="btn btn-secondary">
@@ -211,9 +213,6 @@ class Subcategory extends React.Component {
                     </span>
                 </div>
             </>
-
-
-
 
         return (
             <>
@@ -252,7 +251,7 @@ class Subcategory extends React.Component {
                        { list_products }
                    </div>
                    {
-                       products.length > show &&
+                       page_products.length > show &&
                        <div className="toolbar_bottom">
                            <div className="more_product">
                                { more_product }
@@ -270,7 +269,7 @@ class Subcategory extends React.Component {
                 </div>
                 {
                     editor && compares.length &&
-                    <Sidebar_compare compares = { compares } handle = { this.handleCompare } />
+                    <Sidebar_compare compares = { compares } property = { product_property }  handleCompare = { this.handleCompare } />
                 }
             </>
         );

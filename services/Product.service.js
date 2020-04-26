@@ -112,12 +112,14 @@ exports.getById = async  (req, res) => {
         res.json({message: err});
     }
 };
+
 exports.productDetails = async  (req, res) => {
 
     Product.findById(req.params.productId).populate('subType').lean()
         .then( (product) => {
             const entries = Object.entries(product);
-            console.log(entries);
+            product.list_properties =[];
+
             for (const index in entries) {
 
 
@@ -129,6 +131,7 @@ exports.productDetails = async  (req, res) => {
 
                     Label.findOne({website:req.params.websiteId,property:prop._id}).then(label => {
                     product[entries[index][0]] = {label:label,value:entries[index][1]};
+                    product.list_properties.push({label:label,value:entries[index][1]});
                         if(index  == entries.length -2)
                         {
 

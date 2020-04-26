@@ -4,8 +4,9 @@ import { Link} from "react-router-dom";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
-import serviceSubType from "../../../services/product/ProductSubType.service";
 import EditorInputText from "../components/editorInputText";
+import serviceProductProperty from "../../../services/product/ProductProperty.service";
+import serviceProducts from "../../../services/product/Product.service";
 
 
 
@@ -14,9 +15,11 @@ class Subcategory extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            website: props.website,
             editor: props.editor,
             page: props.page,
-            products: '',
+            page_products: '',
+            product_property: '',
             editor_text : '',
             alert: '',
             show: 2
@@ -25,12 +28,35 @@ class Subcategory extends React.Component {
     }
 
     componentDidMount() {
+
         servicePage.getPagesBySubTypes(this.state.page._id)
-            .then( res =>
-                this.setState({
-                    products : res
+            .then( res => {
+                const page_products = res.map((page) => {
+                    return this.getProduct(page.product._id).then((product) => {
+                        page.product = product
+                        return page
+                    })
                 })
-            )
+                return Promise.all(page_products)
+            })
+            .then( page_products => {
+                this.setState({
+                    page_products: page_products
+                })
+            })
+
+        serviceProductProperty.getBySubType(this.state.page.productSubType._id)
+            .then( res => {
+                this.setState({
+                    product_property : res,
+                });
+            })
+    }
+
+    getProduct = (product_id) => {
+        return  serviceProducts.productDetails(product_id, this.state.website._id).then(res => {
+            return res
+        })
     }
 
     handleTextClick = (editor_text) => {
@@ -48,10 +74,7 @@ class Subcategory extends React.Component {
                 [this.state.editor_text] : text
             },
             editor_text: ''
-        })
-
-        event && this.savePage()
-
+        },() => event && this.savePage())
     }
 
     showMore = () => {
@@ -92,7 +115,7 @@ class Subcategory extends React.Component {
 
     render() {
 
-        const { page, editor_text, alert, products, show } = this.state
+        const { page, editor_text, alert, page_products, show, product_property } = this.state
 
         const intro_subcategory_text = editor_text === 'intro_subcategory_text' ?
             <EditorText editorState = { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description } editor = { this.handleTextChange } />
@@ -108,7 +131,19 @@ class Subcategory extends React.Component {
             <span className="sort_text" onClick={ () => this.handleTextClick('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
 
 
-        const list_products = products && products.map( (product_page, index ) =>
+        const list_property = (product) => product_property && product_property.map(prop =>
+            <div className="product_prop" key={ prop._id }>
+                <span className="prop_title">
+                    { product[prop.name].label ?  product[prop.name].label?.label : prop.name }
+                </span>
+                <span className="prop_info">
+                    { product[prop.name].value ?  product[prop.name].value : 'Na'}
+                </span>
+            </div>
+        )
+
+
+        const list_products = page_products && page_products.map( (product_page, index ) =>
             show > index &&
             <div className="product_list_item" key={ product_page._id }>
                 <div className="product_item_img">
@@ -118,38 +153,7 @@ class Subcategory extends React.Component {
                     { product_page.page_name }
                 </h2>
                 <div className="product_item_prop">
-                    <div className="product_prop">
-                           <span className="prop_title">
-                               Cotisation annuelle
-                           </span>
-                        <span className="prop_info">
-                                0,00 €
-                           </span>
-                    </div>
-                    <div className="product_prop">
-                           <span className="prop_title">
-                               Compte supplémentaire
-                           </span>
-                        <span className="prop_info">
-                                -
-                           </span>
-                    </div>
-                    <div className="product_prop">
-                           <span className="prop_title">
-                              Carte de crédit incluse
-                           </span>
-                        <span className="prop_info">
-                               Oui
-                           </span>
-                    </div>
-                    <div className="product_prop">
-                           <span className="prop_title">
-                              Type de carte de crédit
-                           </span>
-                        <span className="prop_info">
-                               MasterCard
-                           </span>
-                    </div>
+                    { list_property(product_page.product) }
                 </div>
                 <div className="product_item_btn">
                     <Link className="btn btn-secondary"
@@ -213,7 +217,7 @@ class Subcategory extends React.Component {
                        { list_products }
                    </div>
                    {
-                       products.length > show &&
+                       list_products.length > show &&
                        <div className="toolbar_bottom">
                            <div className="more_product">
                                { more_product }

@@ -17,31 +17,32 @@ import UpdateProductSubType from "../productSubType/UpdateProductSubType";
 import PropertyService from "../../services/product/ProductProperty.service";
 import UpdateProductProperty from "./UpdateProductProperty";
 import AddProductProperty from "./AddProductProperty";
+import AssignToWebsite from "./AssignToWebsite";
 class productProperties extends React.Component {
-  buttonstyle= (e)=>{
-    return{
-      "display":e
-    }
-  };
-  etat ='none';
+
   constructor(props) {
     super(props);
     let data =sessionStorage.getItem('webselect');
     this.data = JSON.parse(data);
-    if(this.data != null )
-    {
-      this.etat=''
-    }
+
     this.state = {
       properties: [],
-
+      websiteId: '',
+      countrycode: '',
 
     };
   }
 
 
   componentDidMount() {
-
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
+    if(this.data != null ) {
+      console.log(this.data._id);
+      this.setState({
+        websiteId: this.data._id,
+        countrycode: this.data.Contry,
+      });}
     PropertyService.getAll()
         .then( res => {
           this.setState({
@@ -75,7 +76,7 @@ class productProperties extends React.Component {
 
   }
   render() {
-    const { properties } = this.state ;
+    const { properties,websiteId } = this.state ;
     return (
         <>
           <div className="content">
@@ -83,8 +84,9 @@ class productProperties extends React.Component {
               <Col md="12">
                 <Card>
                   <CardHeader>
-                    <CardTitle tag="h4">Product Types</CardTitle>
+                    <CardTitle tag="h4">Product Properties</CardTitle>
                     <AddProductProperty refreshTable={this.refreshTable}/>
+                    <AssignToWebsite websiteId={websiteId} refreshTable={this.refreshTable}/>
                   </CardHeader>
                   <CardBody>
                     <Table responsive>

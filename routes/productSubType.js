@@ -10,7 +10,8 @@ router.get('/', SubTypeService.getAll);
 router.get('/byType/:typeId', SubTypeService.getByType);
 // create a new sub-type
 router.post('/', SubTypeService.create);
-
+//
+router.post('/assignToWebsite/:websiteId', SubTypeService.assignToWebsite);
 // get a sub-type by id
 router.get('/:subTypeId', SubTypeService.getById);
 
@@ -24,7 +25,8 @@ router.put('/:subTypeId', SubTypeService.update);
 router.put('/assignType/:subTypeId', SubTypeService.assignType);
 // get a type by id
 router.get('/pagesByWebsite/:websiteId', SubTypeService.getPagesByWebsite);
-
+// get sub-types by website and Product Type
+router.get('/getByWebsite/:websiteId/:typeId', SubTypeService.getByWebsite);
 // get subtype by type
 router.get('/subtypesPagesByType/:typeId', SubTypeService.getSubTypesPagesByType);
 

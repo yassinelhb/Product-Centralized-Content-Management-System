@@ -5,7 +5,9 @@ import servicePage from '../../services/page.service'
 import Category from "../../theme/theme1/views/category";
 import NavTools from "../../components/Navbars/NavTools";
 import Ads from "../../components/Ads/Ads"
-import Chatbots from "../../components/chatbot/chatbot"
+import Chatbots from "../../components/chatbot/chatbot";
+import '../../assets/css/website.css';
+
 import ChatBot from 'react-simple-chatbot';
 import Header from "../../components/Navbars/DemoNavbar";
 
@@ -24,7 +26,6 @@ class Website extends React.Component {
     }
 
     componentDidMount() {
-
         serviceSite.webSite()
             .then( res => {
             this.setState({
@@ -53,40 +54,29 @@ class Website extends React.Component {
    }
 
     loadComponent(page) {
-        if (page.layout.layout_name === 'home')
-            console.log(page)
        const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name))
-
-
-        return <Header links = { this.state.website.header.links} logo = { this.state.website.logo_pic } pages = { this.state.pages } />
+       return <Componant page={ page } editor = { true } website = { this.state.website } />
    }
-
-   loadComponent(page) {
-
-       const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name));
-       return <Componant page={ page } editor = { true } />
-   }
-
 
     render() {
         const { pages, website } = this.state
 
         const router = pages &&
             pages.map((page) =>
-                page.layout.layout_name === 'subcategory' ?
-                    <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                page.layout.layout_name === 'detail' ?
+                    <Route exact path={`${this.props.match.url}/` + page.SubTypePage.productTypePage.page_name + `/` + page.SubTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
                     :
-                    <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
-
+                    page.layout.layout_name === 'subcategory' ?
+                        <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
+                        :
+                        <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
             )
-
-
 
 
          return (
             <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>
                 <NavTools/>
-                <Ads/>
+                {/*<Ads/>*/}
                 <Suspense fallback={<div>Loading ...</div>}>
                     {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>

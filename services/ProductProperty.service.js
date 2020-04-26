@@ -79,3 +79,11 @@ exports.getAllBySubType =    (req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err));
 
 };
+// get all Product properties that doesn't belong to a specified subType
+exports.getNotAssigned =    (req, res) =>{
+
+    Property.find({ subType: {$ne :req.params.subTypeId} })
+        .then(propertyies => res.json(propertyies))
+        .catch(err => res.status(400).json('Error: ' + err));
+
+};

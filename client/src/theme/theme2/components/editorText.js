@@ -6,6 +6,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import onClickOutside from 'react-onclickoutside'
+import Translator from "../../../components/Translator/translator";
 
 
 class EditorText extends React.Component {
@@ -14,6 +15,8 @@ class EditorText extends React.Component {
         super(props);
         this.state = {
             editorState: EditorState.createWithContent(ContentState.createFromText(props.editorState)),
+            sourceLang: 'auto',
+            targetLang: 'en',
         };
 
     }
@@ -26,6 +29,16 @@ class EditorText extends React.Component {
         this.setState({
             editorState,
         });
+    }
+
+    handleLang = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    handleTranslator = () => {
+
     }
 
     render() {

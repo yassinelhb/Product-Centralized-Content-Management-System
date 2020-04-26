@@ -1,5 +1,6 @@
 const SubType = require('../models/ProductSubType.model');
 const Page = require('../models/page.model');
+const Layout = require('../models/layout.model');
 
 // get all Detail sub-Types
 exports.getAll =   (req, res) =>{
@@ -100,5 +101,53 @@ exports.getSubTypesPagesByType =   (req, res) =>{
 
         })
         .catch(err => res.status(400).json('Error: ' + err));
+
+};
+// get sub-types by website and Product Type
+exports.getByWebsite =   (req, res) =>{
+    Page.findOne({website:req.params.websiteId,type:"category",productType:req.params.typeId}).then( async (p) => {
+    await Page.find({website:req.params.websiteId,type:"subCategory",productTypePage:p._id})
+        .then(pages => {
+            const types =[];
+            pages.forEach( async  (page,i) =>{
+                    const type = await SubType.findById(page.get('productSubType'));
+                    types.push(type);
+
+                    if(i === pages.length -1){
+
+                        await res.json(types);
+                    }
+                }
+            );
+
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+    }).catch(err => res.status(400).json('Error: ' + err));
+
+};
+exports.assignToWebsite = async  (req, res) => {
+
+    const subCategoryLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'subcategory'}).then().catch(err => res.status(400).json('Error: ' + err));
+   await Page.findOne({website:req.params.websiteId,type:"category",productType:req.body.productType}).then( async (p) => {
+       console.log(req.body);
+
+       const b ={
+
+            "page_name":req.body.name,
+            "type":"subCategory",
+            "productSubType":req.body._id,
+            "productTypePage": p._id,
+            "website":req.params.websiteId,
+            "layout":subCategoryLayout._id
+
+
+
+        };
+
+       await Page.create(b).then(page =>res.json(page)).catch(err => res.status(400).json('Error: ' + err));
+    })
+        .catch(err => res.status(400).json('Error: ' + err));
+
 
 };

@@ -102,9 +102,9 @@ class Product {
         })
 
     };
-    productDetails = (productId,websiteId) => {
-        return new Promise((resolve, reject) => {
-            axios.get(api + `product/productDetails/`+websiteId+'/'+productId)
+    productDetails = async (productId,websiteId) => {
+        return new Promise(async (resolve, reject) => {
+            await axios.get(api + `product/productDetails/`+websiteId+'/'+productId)
                 .then(res => {
                     resolve(res.data);
                 })

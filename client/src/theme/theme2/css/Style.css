@@ -53,7 +53,7 @@
     font-size: 17px;
     margin-bottom: 55px;
 }
-.section-best_category .toggle_btn {
+.best_category_list .toggle_btn {
     position: absolute;
     right: -17px;
     top: -25px;
