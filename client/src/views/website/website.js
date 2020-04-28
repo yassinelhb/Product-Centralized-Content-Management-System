@@ -74,7 +74,7 @@ class Website extends React.Component {
          return (
             <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>
                 <NavTools/>
-                {/*<Ads/>*/}
+                <Ads/>
                 <Suspense fallback={<div>Loading ...</div>}>
                     {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>

@@ -7,7 +7,12 @@ import servicePage from '../../../services/page.service'
 import EditorInputText from "../components/editorInputText";
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 import serviceProducts from "../../../services/product/Product.service";
+import { ReactSortable, Sortable, MultiDrag, Swap} from "react-sortablejs";
+import jwt_decode from "jwt-decode";
+import Sidebar_compare from "../components/compare/sidebar_compare";
 
+
+const token = localStorage.getItem("token");
 
 
 class Subcategory extends React.Component {
@@ -22,7 +27,11 @@ class Subcategory extends React.Component {
             product_property: '',
             editor_text : '',
             alert: '',
-            show: 2
+            show: 2,
+            user: jwt_decode(token).users,
+            editor_item: '',
+            compares: ''
+
 
         }
     }
@@ -40,6 +49,7 @@ class Subcategory extends React.Component {
                 return Promise.all(page_products)
             })
             .then( page_products => {
+                page_products.sort((_page1, _page2) => _page1.pos - _page2.pos)
                 this.setState({
                     page_products: page_products
                 })
@@ -60,6 +70,7 @@ class Subcategory extends React.Component {
     }
 
     handleTextClick = (editor_text) => {
+        ( this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor' ) &&
         this.setState({
             editor_text: editor_text
         })
@@ -81,6 +92,44 @@ class Subcategory extends React.Component {
         this.setState({
             show : this.state.show + 2
         })
+    }
+
+    handleCompare = ( page_product ) => {
+        let compares = [...this.state.compares]
+        const exist = compares.find( page_prod => page_prod._id === page_product._id )
+
+        if ( ! exist ) {
+            compares.push(page_product)
+        } else {
+            compares = compares.filter( page_prod => page_prod._id !== page_product._id )
+        }
+
+        this.setState({
+            compares : compares
+        })
+    }
+
+
+    handleItemChange = (index) => {
+        this.setState({
+            editor_item: this.state.editor_item === '' ? index : ''
+        })
+    }
+
+    setList = (newState) => {
+
+        if ( JSON.stringify(this.state.page_products) !== JSON.stringify(newState) ) {
+
+            newState.map((page, index) => {
+                page.pos = index
+                servicePage.updatePosPage(page._id, index)
+            })
+
+            this.setState({
+                page_products: newState
+            })
+        }
+
     }
 
     savePage() {
@@ -115,7 +164,7 @@ class Subcategory extends React.Component {
 
     render() {
 
-        const { page, editor_text, alert, page_products, show, product_property } = this.state
+        const { page, editor_text, alert, page_products, editor, show, product_property, user, editor_item, compares} = this.state
 
         const intro_subcategory_text = editor_text === 'intro_subcategory_text' ?
             <EditorText editorState = { page.intro_subcategory_text ? page.intro_subcategory_text : page.productSubType.description } editor = { this.handleTextChange } />
@@ -130,6 +179,24 @@ class Subcategory extends React.Component {
             :
             <span className="sort_text" onClick={ () => this.handleTextClick('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
 
+        const more_info = editor_text === 'more_info' ?
+            <span className="btn btn-secondary">
+                <EditorInputText editorState = { page.more_info ? page.more_info :  'More info' } editor = { this.handleTextChange } />
+            </span>
+            :
+            <span className="btn btn-secondary" onClick={ () => this.handleTextClick('more_info') }>
+                <span className="icon_btn">
+                    <i className="nc-icon nc-minimal-right"></i>
+                    <i className="nc-icon nc-minimal-right"></i>
+                    <i className="nc-icon nc-minimal-right"></i>
+                </span>
+                {
+                    page.more_info ?
+                        page.more_info
+                        :
+                        'More info'
+                }
+            </span>
 
         const list_property = (product) => product_property && product_property.map(prop =>
             <div className="product_prop" key={ prop._id }>
@@ -142,31 +209,141 @@ class Subcategory extends React.Component {
             </div>
         )
 
-
-        const list_products = page_products && page_products.map( (product_page, index ) =>
-            show > index &&
-            <div className="product_list_item" key={ product_page._id }>
-                <div className="product_item_img">
-                    <img src={ product_page.page_img ? require('../../../assets/img/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
+        const list_products = page_products && (
+            editor_item !== '' ?
+                <div className="list_product">
+                     <div className="product_list_item">
+                    <div className="product_item_check">
+                        <label className="custom-checkbox">
+                            <input type="checkbox" onChange={ () => this.handleCompare(page_products[editor_item]) } checked={ compares && compares.find( page_prod => page_prod._id === page_products[editor_item]._id )}/>
+                            <span className="check_icon"></span>
+                        </label>
+                    </div>
+                    <div className="product_item_img">
+                        <img src={ page_products[editor_item].page_img ? require('../../../assets/img/page/' + page_products[editor_item].page_img) : require('../../../../../assets/product/' + page_products[editor_item].product.picture) }/>
+                    </div>
+                    <h2 className="product_item_title">
+                        { page_products[editor_item].page_name }
+                    </h2>
+                    <div className="product_item_prop">
+                        { list_property(page_products[editor_item].product) }
+                    </div>
+                    <div className="product_item_btn">
+                        { more_info }
+                    </div>
+                    {
+                        ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                        <div className="toggle_btn">
+                                <span className="icon_btn" onClick={ () => this.handleItemChange() }>
+                                    <i className="nc-icon nc-check-2"></i>
+                                </span>
+                        </div>
+                    }
                 </div>
-                <h2 className="product_item_title">
-                    { product_page.page_name }
-                </h2>
-                <div className="product_item_prop">
-                    { list_property(product_page.product) }
                 </div>
-                <div className="product_item_btn">
-                    <Link className="btn btn-secondary"
-                          to={'/website/' + product_page.SubTypePage.productTypePage.page_name + '/' + product_page.SubTypePage.page_name + '/' + product_page.page_name}>
-                             <span className="icon_btn">
-                                 <i className="nc-icon nc-minimal-right"></i>
-                                 <i className="nc-icon nc-minimal-right"></i>
-                                 <i className="nc-icon nc-minimal-right"></i>
-                             </span>
-                        More info
-                    </Link>
-                </div>
-            </div>
+                :
+                ( user.role === 'Administrator' || user.role === 'Content director' ) ?
+                    <ReactSortable
+                        animation={200}
+                        delayOnTouchStart={true}
+                        delay={2}
+                        className="list_product"
+                        list={ page_products }
+                        multiDrag
+                        setList={newState => this.setList(newState)}
+                    >
+                        {
+                            page_products.map((product_page, index) =>
+                                <div className="product_list_item" key={ product_page._id }>
+                                        <div className="product_item_check">
+                                            <label className="custom-checkbox">
+                                                <input type="checkbox" onChange={ () => this.handleCompare(product_page) } checked={ compares && compares.find( page_prod => page_prod._id === product_page._id )}/>
+                                                <span className="check_icon"></span>
+                                            </label>
+                                        </div>
+                                        <div className="product_item_img">
+                                            <img src={ product_page.page_img ? require('../../../assets/img/page/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
+                                        </div>
+                                        <h2 className="product_item_title">
+                                            { product_page.page_name }
+                                        </h2>
+                                        <div className="product_item_prop">
+                                            { list_property(product_page.product) }
+                                        </div>
+                                        <div className="product_item_btn">
+                                            <Link className="btn btn-secondary" to={'/website/' + product_page.SubTypePage.productTypePage.page_name + '/' + product_page.SubTypePage.page_name + '/' + product_page.page_name}>
+                        <span className="icon_btn">
+                            <i className="nc-icon nc-minimal-right"></i>
+                            <i className="nc-icon nc-minimal-right"></i>
+                            <i className="nc-icon nc-minimal-right"></i>
+                        </span>
+                                                {
+                                                    page.more_info ?
+                                                        page.more_info
+                                                        :
+                                                        'More info'
+                                                }
+                                            </Link>
+                                        </div>
+                                        {
+                                            ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                                            <div className="toggle_btn">
+                            <span className="icon_btn" onClick={ () => this.handleItemChange(index)}>
+                                <i className="nc-icon nc-ruler-pencil"></i>
+                            </span>
+                                            </div>
+                                        }
+                                    </div>
+                            )
+                        }
+                    </ReactSortable>
+                    :
+                    <div className="list_product">
+                        {
+                            page_products.map((product_page, index) =>
+                                <div className="product_list_item" key={ product_page._id }>
+                                        <div className="product_item_check">
+                                            <label className="custom-checkbox">
+                                                <input type="checkbox" onChange={ () => this.handleCompare(product_page) } checked={ compares && compares.find( page_prod => page_prod._id === product_page._id )}/>
+                                                <span className="check_icon"></span>
+                                            </label>
+                                        </div>
+                                        <div className="product_item_img">
+                                            <img src={ product_page.page_img ? require('../../../assets/img/page/' + product_page.page_img) : require('../../../../../assets/product/' + product_page.product.picture) }/>
+                                        </div>
+                                        <h2 className="product_item_title">
+                                            { product_page.page_name }
+                                        </h2>
+                                        <div className="product_item_prop">
+                                            { list_property(product_page.product) }
+                                        </div>
+                                        <div className="product_item_btn">
+                                            <Link className="btn btn-secondary" to={'/website/' + product_page.SubTypePage.productTypePage.page_name + '/' + product_page.SubTypePage.page_name + '/' + product_page.page_name}>
+                            <span className="icon_btn">
+                                <i className="nc-icon nc-minimal-right"></i>
+                                <i className="nc-icon nc-minimal-right"></i>
+                                <i className="nc-icon nc-minimal-right"></i>
+                            </span>
+                                                {
+                                                    page.more_info ?
+                                                        page.more_info
+                                                        :
+                                                        'More info'
+                                                }
+                                            </Link>
+                                        </div>
+                                        {
+                                            ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                                            <div className="toggle_btn">
+                                <span className="icon_btn" onClick={ () => this.handleItemChange(index)}>
+                                    <i className="nc-icon nc-ruler-pencil"></i>
+                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                            )
+                        }
+                    </div>
         )
 
         const more_product = editor_text === 'more_product' ?
@@ -176,11 +353,14 @@ class Subcategory extends React.Component {
             :
             <>
                 <span className="btn btn-secondary" onClick={ this.showMore }>{ page.more_product ? page.more_product + '...' :  'More product ...'  }</span>
-                <div className="toggle_btn">
-                    <span className="icon_btn" onClick={ () => this.handleTextClick('more_product') } >
-                        <i className="nc-icon nc-ruler-pencil"></i>
-                    </span>
-                </div>
+                {
+                    ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                    <div className="toggle_btn">
+                        <span className="icon_btn" onClick={() => this.handleTextClick('more_product')}>
+                            <i className="nc-icon nc-ruler-pencil"></i>
+                        </span>
+                    </div>
+                }
             </>
 
 
@@ -213,11 +393,11 @@ class Subcategory extends React.Component {
                             </select>
                         </div>
                    </div>
-                   <div className="list_product">
-                       { list_products }
-                   </div>
+
+                   { list_products }
+
                    {
-                       list_products.length > show &&
+                       ( ( page_products.length > show || user.role === 'Freelancer' || user.role === 'Content Editor' ) && ( user.role !== 'Administrator' &&  user.role !== 'Content director' )) &&
                        <div className="toolbar_bottom">
                            <div className="more_product">
                                { more_product }
@@ -232,6 +412,12 @@ class Subcategory extends React.Component {
                        <span> { alert } </span>
                    </div>
                }
+
+               {
+                   editor && compares.length &&
+                   <Sidebar_compare compares = { compares } property = { product_property }  handleCompare = { this.handleCompare } />
+               }
+
            </div>
         );
     }

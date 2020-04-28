@@ -3,7 +3,9 @@ import { Link} from "react-router-dom";
 import '../css/Style.css';
 import serviceSite from '../../../services/website.service'
 import Sidebar_compare from "./compare/sidebar_compare";
+import jwt_decode from "jwt-decode";
 
+const token = localStorage.getItem("token");
 
 class Header extends React.Component {
 
@@ -14,7 +16,9 @@ class Header extends React.Component {
             edit: false,
             links: this.props.links,
             toggle_edit : false,
-            alert : ''
+            alert : '',
+            user: jwt_decode(token).users
+
         }
     }
 
@@ -123,7 +127,7 @@ class Header extends React.Component {
 
     render() {
 
-        const { alert } = this.state
+        const { alert, user } = this.state
         const { logo } = this.props
 
         // fetch pages
@@ -132,7 +136,7 @@ class Header extends React.Component {
         )
 
         // fetch links
-        const links = this.state.links.map((link, index) => this.state.edit ? (
+        const links = this.state.links.filter(link => link.page.layout.layout_name !== 'Subcategory').map((link, index) => this.state.edit ? (
 
                 <li className="nav-item dropdown" key={ link._id } >
                     <a className="nav-link" data-toggle="dropdown" data-toggle-second="tooltip" title="Click to edit!"
@@ -226,7 +230,8 @@ class Header extends React.Component {
                     <div id="navbarNavDropdown" className="navbar-collapse collapse">
                         <ul className="navbar-nav mr-auto">
                             {links}
-                            { btn_setting }
+
+                            { ( user.role === 'Administrator' || user.role === 'Content director' ) &&   btn_setting }
 
                         </ul>
                     </div>

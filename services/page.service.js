@@ -157,3 +157,19 @@ exports.deletePage = async  (req, res) => {
         res.json({message: err});
     }
 }
+
+// update position page
+exports.updatePosPage = async  (req, res) => {
+    try {
+        const updatedPage = await Page.findOneAndUpdate(
+            { _id: req.params.pageId },
+            { $set: { pos : req.params.pos } },
+            { new: true, useFindAndModify: false })
+
+            res.json(updatedPage);
+
+    } catch (err) {
+        res.json({message: err});
+    }
+
+}

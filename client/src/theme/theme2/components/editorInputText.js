@@ -1,9 +1,5 @@
 import React, {Suspense} from 'react';
 import '../css/Style.css';
-import Header from "../components/header";
-import { Link} from "react-router-dom";
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import onClickOutside from 'react-onclickoutside'
 
@@ -19,7 +15,7 @@ class EditorInputText extends React.Component {
     }
 
     handleClickOutside = () => {
-       this.props.editor(this.state.editorState)
+        this.props.editor(this.state.editorState)
     }
 
     handleTextChange = (event) => {
@@ -31,7 +27,7 @@ class EditorInputText extends React.Component {
     render() {
         const editorState = this.state.editorState
         return (
-           <input type="text" className="form-control editor_input" onChange={ this.handleTextChange } defaultValue={ editorState }   style={{width: `${8*(editorState.length)}px`}}/>
+            <input type="text" className="form-control editor_input" onChange={ this.handleTextChange } defaultValue={ editorState }   style={{width: `${10*(editorState.length)+ 10}px`}}/>
         );
     }
 }

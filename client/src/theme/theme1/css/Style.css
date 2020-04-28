@@ -339,6 +339,17 @@ body {
     position: relative;
 }
 
+.wrapper-theme1 .product_list_item .toggle_btn {
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    display: none;
+}
+
+.wrapper-theme1 .product_list_item:hover .toggle_btn{
+    display: block;
+}
+
 .wrapper-theme1 .product_list_item .product_item_check {
     position: absolute;
     right: 15px;
@@ -356,9 +367,9 @@ body {
 }
 
 .wrapper-theme1 .product_list_item .product_item_btn {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 15px;
+    position: absolute;
+    right: 15px;
+    bottom: 5px;
 }
 
 .wrapper-theme1 .product_list_item .product_item_btn .btn .icon_btn {
@@ -373,6 +384,7 @@ body {
 .wrapper-theme1 .product_list_item .product_item_prop {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 35px;
 }
 
 .wrapper-theme1 .product_list_item .product_item_prop .product_prop {
@@ -486,6 +498,21 @@ body {
     display: block;
 }
 
+
+.wrapper-theme1 .btn_link_site {
+    position: relative;
+}
+
+.wrapper-theme1 .btn_link_site .toggle_btn {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    display: none;
+}
+
+.wrapper-theme1 .btn_link_site:hover .toggle_btn {
+    display: block;
+}
 
 
 
@@ -682,13 +709,13 @@ body {
 
 /* checkbox */
 
-.custom-checkbox {
+.wrapper-theme1 .custom-checkbox {
     position: absolute;
     cursor: pointer;
     font-size: 20px;
 }
 
-.custom-checkbox input {
+.wrapper-theme1 .custom-checkbox input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -696,7 +723,7 @@ body {
     width: 0;
 }
 
-.check_icon {
+.wrapper-theme1 .check_icon {
     position: absolute;
     top: 0;
     right: 0;
@@ -705,25 +732,25 @@ body {
     background-color: #eee;
 }
 
-.custom-checkbox:hover input ~ .check_icon {
+.wrapper-theme1 .custom-checkbox:hover input ~ .check_icon {
     background-color: #ccc;
 }
 
-.custom-checkbox input:checked ~ .check_icon {
+.wrapper-theme1 .custom-checkbox input:checked ~ .check_icon {
     background-color: #0e2453;
 }
 
-.check_icon:after {
+.wrapper-theme1 .check_icon:after {
     content: "";
     position: absolute;
     display: none;
 }
 
-.custom-checkbox input:checked ~ .check_icon:after {
+.wrapper-theme1 .custom-checkbox input:checked ~ .check_icon:after {
     display: block;
 }
 
-.custom-checkbox .check_icon:after {
+.wrapper-theme1 .custom-checkbox .check_icon:after {
     left: 7px;
     top: 2px;
     width: 7px;
@@ -744,13 +771,18 @@ body {
 /* color primary , secondary */
 
 .wrapper-theme1 .btn {
-    text-transform: none;
+    text-transform: capitalize;
     position: relative;
     font-family: Poppins;
+
 }
 
 .wrapper-theme1 .btn-primary {
     background: #0e2453;
+}
+
+.wrapper-theme1 .btn-primary input {
+    color: #FFFFFF !important;
 }
 
 .wrapper-theme1 .btn-primary:hover, .wrapper-theme1 .btn-primary:focus {

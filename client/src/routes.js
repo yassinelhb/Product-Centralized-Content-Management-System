@@ -71,7 +71,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Pages,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer","Content Editor"]
   },
   {
     path: "/themes",

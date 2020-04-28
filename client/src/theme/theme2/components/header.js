@@ -2,6 +2,9 @@ import React, {Suspense} from 'react';
 import { Link} from "react-router-dom";
 import '../css/Style.css';
 import serviceSite from '../../../services/website.service'
+import jwt_decode from "jwt-decode";
+
+const token = localStorage.getItem("token");
 
 class Header extends React.Component {
 
@@ -12,7 +15,8 @@ class Header extends React.Component {
             edit: false,
             links: this.props.links,
             toggle_edit : false,
-            alert : ''
+            alert : '',
+            user: jwt_decode(token).users
         }
     }
 
@@ -121,12 +125,12 @@ class Header extends React.Component {
 
     render() {
 
-        const { alert } = this.state
+        const { alert, user } = this.state
         const { logo } = this.props
 
         // fetch pages
-        const pages = this.props.pages.map(link =>
-            <option key={link._id} value={link._id}> { link.page_name} </option>
+        const pages = this.props.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.layout.layout_name !== 'detail').map(page =>
+            <option key={page._id} value={page._id}> { page.page_name} </option>
         )
 
         // fetch links
@@ -224,7 +228,7 @@ class Header extends React.Component {
                     <div id="navbarNavDropdown" className="navbar-collapse collapse">
                         <ul className="navbar-nav mr-auto">
                             {links}
-                            { btn_setting }
+                            { ( user.role === 'Administrator' || user.role === 'Content director' ) &&   btn_setting }
 
                         </ul>
                     </div>
