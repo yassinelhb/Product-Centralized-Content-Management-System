@@ -55,7 +55,7 @@ const UpdateProductProperty = (props) => {
     }
     return (
         <div>
-            <Button color="primary" onClick={toggle}>Update</Button>
+            <Button outline style={{ 'margin-left':"5px"}} color="primary" onClick={toggle}>Update</Button>
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Update product property</ModalHeader>
                 <form onSubmit={submitHandler}>

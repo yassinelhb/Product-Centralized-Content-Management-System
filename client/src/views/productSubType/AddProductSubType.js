@@ -38,7 +38,7 @@ props.refreshTable();
   },[ss]);
   return (
       <div>
-        <Button color="primary" onClick={toggle}>Add</Button>
+        <Button  color="primary" onClick={toggle}>Add</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Add new product Sub type</ModalHeader>
           <form onSubmit={submitHandler}>

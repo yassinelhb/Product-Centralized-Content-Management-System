@@ -123,7 +123,7 @@ const AssignToWebsite = (props) => {
     }
 
     return (
-      <div>
+      <div  style={{ 'margin-left':"10px"}}>
         <Button color="primary" onClick={toggle}>Assign</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign property to subtype</ModalHeader>

@@ -149,3 +149,14 @@ exports.getTypesPagesByWebsite =   (req, res) =>{
 
 };
 
+exports.checkExistence = async  (req, res) => {
+    Page.findOne({website:req.params.websiteId,type:"category",productType:req.params.typeId})
+        .then(page => {
+     if (page != null) {
+         res.json(true);
+     }
+     else res.json(false);
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+};

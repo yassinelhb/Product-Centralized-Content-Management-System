@@ -14,6 +14,8 @@ import TypeService from "../../services/product/ProductType.service";
 import AddProductType from "./AddProductType";
 import UpdateProductType from "./UpdateProductType";
 import AssignToWebsite from "./AssignToWebsite";
+import SubTypeService from "../../services/product/ProductSubType.service";
+import jwt_decode from "jwt-decode";
 
 class productTypes extends React.Component {
 
@@ -26,8 +28,8 @@ class productTypes extends React.Component {
     this.state = {
       types: [],
       website:{},
-      websiteId:''
-
+      websiteId:'',
+      role:''
     };
   }
 
@@ -35,7 +37,8 @@ class productTypes extends React.Component {
   componentDidMount() {
     let data =sessionStorage.getItem('webselect');
     this.data = JSON.parse(data);
-    console.log(this.data);
+    const token = localStorage.getItem("token");
+    this.setState({role: jwt_decode(token).users.role})
     if(this.data != null )
     {
 
@@ -44,13 +47,25 @@ class productTypes extends React.Component {
       website:this.data,
       websiteId:this.data._id
     };}
+    console.log(jwt_decode(token).users.role);
     TypeService.getAll()
         .then( res => {
-          this.setState({
-            types : res,
-            website:this.data,
-            websiteId:this.data._id
-          });
+          res.forEach((type,i) => {
+            TypeService.checkExistence(this.data._id,type._id)
+                .then( r => {
+                  type.exist =  r;
+                  if (res.length -1  == i) {
+                    this.setState({
+                      types : res,
+
+                    });
+                  }
+
+
+                })
+
+          })
+
         })
   }
   deleteHandler(id) {
@@ -62,9 +77,30 @@ class productTypes extends React.Component {
         })
 
   }
+  refreshTable = () => {
 
+    TypeService.getAll()
+        .then( res => {
+          this.setState({
+            types : res,
+          });
+        })
+
+  };
+  checkExistence = (typeId) => {
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
+    TypeService.checkExistence(this.data._id,typeId)
+        .then( res => {
+     //    console.log(res)
+      //   console.log(typeId)
+
+          return res ;
+        })
+
+  };
   render() {
-    const { types,website } = this.state ;
+    const { types,website,role } = this.state ;
     return (
       <>
         <div className="content">
@@ -89,7 +125,15 @@ class productTypes extends React.Component {
 
                       {
                         types.length ?
-                            types.map(type => <tr key={type._id}> <td>{type.name}</td><td>{type.description}</td><td><div className="row"><UpdateProductType typeId={type._id} /> <Button color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button><AssignToWebsite type={type} typeId={type._id} websiteId={this.state.websiteId}   website={website}   /></div></td></tr>) :
+                            types.map(type => <tr key={type._id}>
+                              <td>{type.name}</td><td>{type.description}</td>
+                              <td><div className="row">
+                                {role == 'Administrator' ?
+                              <div className="row">  <UpdateProductType typeId={type._id} /> <Button outline style={{ 'margin-left':"5px"}} color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button>
+                              </div>  :null }
+                                { type.exist ? null : <AssignToWebsite type={type} typeId={type._id} websiteId={this.state.websiteId}   website={website}   /> }
+                              </div></td>
+                            </tr>) :
                             null
                       }
 

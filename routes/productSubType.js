@@ -14,6 +14,7 @@ router.post('/', SubTypeService.create);
 router.post('/assignToWebsite/:websiteId', SubTypeService.assignToWebsite);
 // get a sub-type by id
 router.get('/:subTypeId', SubTypeService.getById);
+router.get('/checkExistence/:websiteId/:typeId/:subtypeId', SubTypeService.checkExistence);
 
 // delete a sub-type
 router.delete('/:subTypeId', SubTypeService.delete);

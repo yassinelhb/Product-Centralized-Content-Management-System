@@ -213,3 +213,14 @@ exports.assignToWebsite = async  (req, res) => {
 
 
 };
+exports.checkExistence = async  (req, res) => {
+    Page.findOne({website:req.params.websiteId,type:"product",product:req.params.productId})
+        .then(page => {
+            if (page != null) {
+                res.json(true);
+            }
+            else res.json(false);
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+};

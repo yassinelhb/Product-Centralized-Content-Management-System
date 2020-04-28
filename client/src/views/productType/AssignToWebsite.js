@@ -111,8 +111,8 @@ setDisplay(false);
 
     }
   return (
-      <div>
-        <Button color="primary" onClick={toggle2}  >Assign to website</Button>
+      <div  style={{ 'margin-left':"20px"}}>
+        <Button outline  color="primary" onClick={toggle2}  >Assign to website</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign to website</ModalHeader>
             {display ?

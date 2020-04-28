@@ -16,6 +16,7 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import ProductService from "../../services/product/Product.service";
 import Image from "react-bootstrap/Image";
 import {Redirect} from "react-router";
+import jwt_decode from "jwt-decode";
 
 
 class Products extends React.Component {
@@ -38,6 +39,8 @@ class Products extends React.Component {
   componentDidMount() {
     let data =sessionStorage.getItem('webselect');
     this.data = JSON.parse(data);
+    const token = localStorage.getItem("token");
+    this.setState({role: jwt_decode(token).users.role})
     if(this.data != null ) {
       console.log(this.data._id);
       this.setState({
@@ -111,7 +114,7 @@ class Products extends React.Component {
                         products.length ?
                             products.map(product =>{ const pic = 'http://localhost:3001/product/getPicture/'+product.picture; return(<tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td><td>{product.bankLink}</td>
                               <td>    <img src={pic} style={{width: "50px",height:"50px"}}  /> </td>
-                              <td><div className="row"><Button color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>)}) :
+                              <td><div className="row"><Button color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>)}) :
                             null
                       }
 

@@ -60,7 +60,7 @@ const AddProductProperty = (props) => {
 
     return (
       <div>
-        <Button color="primary" onClick={toggle}>Add</Button>
+        <Button style={{ 'margin-left':"5px"}} color="primary" onClick={toggle}>Add</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Add new product property</ModalHeader>
           <form onSubmit={submitHandler}>

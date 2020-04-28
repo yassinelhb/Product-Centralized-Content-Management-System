@@ -41,7 +41,7 @@ const UpdateProductSubType = (props) => {
   },[subTypeId]);
   return (
       <div>
-        <Button color="warning" onClick={toggle}>Update</Button>
+        <Button outline style={{ 'margin-left':"5px"}} color="warning" onClick={toggle}>Update</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Update product sub-type</ModalHeader>
           <form onSubmit={submitHandler}>
