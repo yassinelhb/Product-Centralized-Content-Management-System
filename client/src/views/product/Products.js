@@ -14,6 +14,8 @@ import {Link} from "react-router-dom";
 import SubTypeService from "../../services/product/ProductSubType.service";
 import PropertyService from "../../services/product/ProductProperty.service";
 import ProductService from "../../services/product/Product.service";
+import TrackingService from "../../services/product/tracking.service";
+
 import Image from "react-bootstrap/Image";
 import {Redirect} from "react-router";
 import jwt_decode from "jwt-decode";
@@ -83,6 +85,12 @@ class Products extends React.Component {
       return <Redirect to='/admin/product/add' />
     }
   }
+  Redirect = (id) => {
+    TrackingService.addBankClick(this.state.websiteId,id).then();
+  }
+  productClick = (id) => {
+    TrackingService.productClick(this.state.websiteId,id).then();
+  }
   render() {
     const { products } = this.state ;
     return (
@@ -112,7 +120,8 @@ class Products extends React.Component {
 
                       {
                         products.length ?
-                            products.map(product =>{ const pic = 'http://localhost:3001/product/getPicture/'+product.picture; return(<tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td><td>{product.bankLink}</td>
+                            products.map(product =>{ const pic = 'http://localhost:3001/product/getPicture/'+product.picture; return(<tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td>
+                              <td><a href={product.bankLink} onClick={() =>this.Redirect(product._id)} target="_blank">{product.bankLink} </a> <Button color="danger" outline onClick={(e) =>this.productClick(product._id)}  >to Bank</Button></td>
                               <td>    <img src={pic} style={{width: "50px",height:"50px"}}  /> </td>
                               <td><div className="row"><Button color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>)}) :
                             null

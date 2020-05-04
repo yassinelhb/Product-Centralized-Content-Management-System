@@ -71,7 +71,7 @@ class AddProduct extends React.Component {
   getSubTypes = (e) => {
 
     e.preventDefault();
-    SubTypeService.getByType(e.target.value)
+    SubTypeService.getByWebsite(this.state.websiteId,e.target.value)
         .then( res => {
           this.setState({
             subTypes : res
@@ -223,6 +223,7 @@ class AddProduct extends React.Component {
       var el = document.getElementById(this.state.property);
       el.value = scraped.value;
       this.doEvent( el, 'input' );
+
       const s = {
         url:this.state.url,
         selector:this.state.xpath,
@@ -233,7 +234,15 @@ class AddProduct extends React.Component {
       this.state.scrapedProperties.push(s)
       this.setState({
         modal: !this.state.modal,
-        scrapedProperties :this.state.scrapedProperties
+        scrapedProperties :this.state.scrapedProperties,
+        product: {
+          ...this.state.product,
+          [this.state.property]: scraped.value,
+        },
+        errors: {
+          ...this.state.errors,
+          [this.state.property]: ''
+        }
       })
     });
   };
@@ -304,7 +313,7 @@ class AddProduct extends React.Component {
                       <FormGroup>
                         <Label for="typeSelect">Product Type</Label>
                         <Input onChange={this.getSubTypes} type="select" name="type" id="typeSelect">
-
+                          <option disabled selected value> -- select an option -- </option>
                           {
 
                             types.length ?
@@ -316,6 +325,7 @@ class AddProduct extends React.Component {
                       <FormGroup>
                         <Label for="typeSelect">Product Sub-Type</Label>
                         <Input onChange={this.getProperties} type="select" name="type" id="typeSelect">
+                          <option disabled selected value> -- select an option -- </option>
 
                           {
                             subTypes.length ?
