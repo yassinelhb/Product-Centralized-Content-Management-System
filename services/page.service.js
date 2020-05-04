@@ -125,12 +125,22 @@ exports.updatePage = [ upload.single('page_img'), async  (req, res) => {
                 { new: true, useFindAndModify: false }
             ).populate('layout')
                .populate('productType')
-               .populate('product')
                .populate('productSubType')
-               .populate('SubTypePage')
+               .populate({
+                   path: 'SubTypePage',
+                   populate: {
+                       path: 'productTypePage'
+                   }
+               })
                .populate('productTypePage')
+               .populate('product')
                .populate('best_category_list')
-
+               .populate({
+                   path: 'website',
+                   populate: {
+                       path: 'theme'
+                   }
+               })
             res.json(updatedPage);
 
         } else {

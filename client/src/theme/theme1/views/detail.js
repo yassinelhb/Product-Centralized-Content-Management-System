@@ -28,16 +28,7 @@ class Detail extends React.Component {
 
     componentDidMount() {
 
-        serviceProducts.productDetails(this.state.page.product._id, this.state.website._id)
-            .then( res => {
-                this.setState({
-                    page : {
-                        ...this.state.page,
-                        product: res
-                    }
-                });
-            })
-
+        this.getProductDetails()
         serviceProductProperty.getBySubType(this.state.page.productSubType._id)
             .then( res => {
                 this.setState({
@@ -47,6 +38,17 @@ class Detail extends React.Component {
 
     }
 
+    getProductDetails = () => {
+        serviceProducts.productDetails(this.state.page.product._id, this.state.website._id)
+            .then( res => {
+                this.setState({
+                    page : {
+                        ...this.state.page,
+                        product: res
+                    }
+                });
+            })
+    }
 
     addClick = () => {
         this.setState({
@@ -92,16 +94,14 @@ class Detail extends React.Component {
     handleTextChange = (text) => {
 
         const event = this.state.page[this.state.editor_text] !== text
-
         this.setState({
             page: {
                 ...this.state.page,
                 [this.state.editor_text] : text
             },
             editor_text: ''
-        })
+        }, () => event && this.savePage())
 
-        event && this.savePage()
     }
 
     handleItemDescriptionClick = (type, index) => {
@@ -160,7 +160,7 @@ class Detail extends React.Component {
                         this.setState({
                             page : res,
                             alert : 'Page saved ...'
-                        })
+                        }, () => this.getProductDetails() )
                 })
 
             setTimeout(() =>{
@@ -231,12 +231,10 @@ class Detail extends React.Component {
         )
 
         const link_site = editor_text === 'link_site' ?
-            <span className="btn btn-primary">
-                <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
-            </span>
+            <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
             :
             <>
-                <a className="btn btn-primary" href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
+                <a href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
                 {
                     ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
                     <div className="toggle_btn">
@@ -299,7 +297,7 @@ class Detail extends React.Component {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="btn_link_site">
+                            <div className="btn btn-primary btn_link_site">
                                 { link_site }
                             </div>
                         </div>

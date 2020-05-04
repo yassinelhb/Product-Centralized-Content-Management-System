@@ -7,6 +7,7 @@ import serviceProducts from '../../../services/product/Product.service'
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 import jwt_decode from "jwt-decode";
 import EditorInputText from "../../theme1/components/editorInputText";
+import {ContentState, EditorState} from "draft-js";
 
 const token = localStorage.getItem("token");
 
@@ -127,9 +128,8 @@ class Detail extends React.Component {
                 list_description: list_description
             },
             editor_text: ''
-        })
+        }, () =>  event && this.savePage())
 
-        event && this.savePage()
     }
 
 
@@ -226,9 +226,7 @@ class Detail extends React.Component {
         )
 
         const link_site = editor_text === 'link_site' ?
-            <span className="btn btn-primary">
-                <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
-            </span>
+            <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
             :
             <>
                 <a className="btn btn-primary" href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>

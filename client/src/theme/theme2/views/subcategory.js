@@ -180,16 +180,9 @@ class Subcategory extends React.Component {
             <span className="sort_text" onClick={ () => this.handleTextClick('sort_word') } > { page.sort_word ? page.sort_word : 'Sort by' }</span>
 
         const more_info = editor_text === 'more_info' ?
-            <span className="btn btn-secondary">
-                <EditorInputText editorState = { page.more_info ? page.more_info :  'More info' } editor = { this.handleTextChange } />
-            </span>
+            <EditorInputText editorState = { page.more_info ? page.more_info :  'More info' } editor = { this.handleTextChange } />
             :
-            <span className="btn btn-secondary" onClick={ () => this.handleTextClick('more_info') }>
-                <span className="icon_btn">
-                    <i className="nc-icon nc-minimal-right"></i>
-                    <i className="nc-icon nc-minimal-right"></i>
-                    <i className="nc-icon nc-minimal-right"></i>
-                </span>
+            <span onClick={ () => this.handleTextClick('more_info') }>
                 {
                     page.more_info ?
                         page.more_info
@@ -228,7 +221,7 @@ class Subcategory extends React.Component {
                     <div className="product_item_prop">
                         { list_property(page_products[editor_item].product) }
                     </div>
-                    <div className="product_item_btn">
+                    <div className="btn btn-secondary product_item_btn">
                         { more_info }
                     </div>
                     {
@@ -347,12 +340,10 @@ class Subcategory extends React.Component {
         )
 
         const more_product = editor_text === 'more_product' ?
-            <span className="btn btn-secondary">
-                <EditorInputText editorState = { page.more_product ? page.more_product :  'More product' } editor = { this.handleTextChange } />
-            </span>
+            <EditorInputText editorState = { page.more_product ? page.more_product :  'More product' } editor = { this.handleTextChange } />
             :
             <>
-                <span className="btn btn-secondary" onClick={ this.showMore }>{ page.more_product ? page.more_product + '...' :  'More product ...'  }</span>
+                <span onClick={ this.showMore }>{ page.more_product ? page.more_product + '...' :  'More product ...'  }</span>
                 {
                     ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
                     <div className="toggle_btn">
@@ -399,7 +390,7 @@ class Subcategory extends React.Component {
                    {
                        ( ( page_products.length > show || user.role === 'Freelancer' || user.role === 'Content Editor' ) && ( user.role !== 'Administrator' &&  user.role !== 'Content director' )) &&
                        <div className="toolbar_bottom">
-                           <div className="more_product">
+                           <div className="btn btn-secondary more_product">
                                { more_product }
                            </div>
                        </div>
