@@ -6,6 +6,7 @@ const Layout = require('../models/layout.model');
 const Product = require('../models/Product.model');
 const Label = require('../models/PropertyLabel.model');
 const Property = require('../models/ProductProperty.model');
+const TrackedUrl = require('../models/TrackedUrl.model');
 
 
 var multer = require('multer');
@@ -74,15 +75,28 @@ exports.getPagesByWebsite =   (req, res) =>{
 };
 // create a new product
 exports.create = [ upload.single('file'),async  (req, res) => {
-
+       const trackedurl = new TrackedUrl({
+           name:req.body.title,
+           original:req.body.bankLink,
+           type:'bank',
+           short:req.body.title.replace(/ /g, '_'),
+           website:req.params.websiteId,
+           product:''
+       })
+  //  console.log(trackedurl)
        const prod = req.body;
-        prod.picture =req.file.filename;
+        prod.bankLink = 'http://localhost:3001/tracker/'+req.body.title.replace(/ /g, '_');
+  //  console.log(prod.bankLink)
+
+    prod.picture =req.file.filename;
         const saved = await Product.create(prod)
             .then( async (product) =>
                 {
+                    trackedurl.product = product._id;
+                    await trackedurl.save().then().catch();
                     const productLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'detail'}).then().catch();
                     const SubTypePage = await Page.findOne({website:req.params.websiteId,type:'subCategory',productSubType:product.subType}).then().catch();
-    console.log(productLayout);
+  //  console.log(SubTypePage);
                     const b ={
                         "page_name":product.title,
                         "type":"product",
@@ -92,9 +106,9 @@ exports.create = [ upload.single('file'),async  (req, res) => {
                         "website":req.params.websiteId,
                         "layout":productLayout._id
                     };
-                    console.log(b);
+               //     console.log(b);
 
-                    Page.create(b).then().catch();
+                    Page.create(b).then().catch(err => res.status(400).json('Error: ' + err));
                     res.json(product);
                 }
 
@@ -212,4 +226,15 @@ exports.assignToWebsite = async  (req, res) => {
 
 
 
+};
+exports.checkExistence = async  (req, res) => {
+    Page.findOne({website:req.params.websiteId,type:"product",product:req.params.productId})
+        .then(page => {
+            if (page != null) {
+                res.json(true);
+            }
+            else res.json(false);
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
 };

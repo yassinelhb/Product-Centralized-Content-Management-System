@@ -8,7 +8,7 @@ import {
   CardTitle,
   Table,
   Row,
-  Col, Button, Modal, FormGroup, Input, ModalBody, ModalFooter
+  Col, Button, Modal, FormGroup, Input, ModalBody, ModalFooter, ModalHeader
 } from "reactstrap";
 
 import SubTypeService from "../../services/product/ProductSubType.service";
@@ -16,6 +16,8 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import ProductService from "../../services/product/Product.service";
 import Label from "reactstrap/es/Label";
 import TypeService from "../../services/product/ProductType.service";
+import ScraperService from "../../services/product/Scraper.service";
+
 import {Redirect} from "react-router";
 
 class AddProduct extends React.Component {
@@ -41,8 +43,13 @@ class AddProduct extends React.Component {
       websiteId:'',
       countrycode:'',
       product:{},
-      redirect: false
-
+      redirect: false,
+      modal:false,
+      url:'',
+      xpath:'',
+      property:'',
+      scrapedProperties: [],
+      schedule:''
     };
   }
    getProperties = (e) => {
@@ -64,7 +71,7 @@ class AddProduct extends React.Component {
   getSubTypes = (e) => {
 
     e.preventDefault();
-    SubTypeService.getByType(e.target.value)
+    SubTypeService.getByWebsite(this.state.websiteId,e.target.value)
         .then( res => {
           this.setState({
             subTypes : res
@@ -72,7 +79,6 @@ class AddProduct extends React.Component {
         })
   };
   handleChange = async (e) => {
-    console.log( e.target.name);
     this.setState({
       product: {
         ...this.state.product,
@@ -135,10 +141,15 @@ class AddProduct extends React.Component {
      this.state.properties.map(p=>{
        formData.set(p.name, product[p.name]);
      });
-        ProductService.create(formData,this.state.websiteId).then(s =>
-            this.setState({
-          redirect: true
-        }));
+        ProductService.create(formData,this.state.websiteId).then(prod => {
+          this.state.scrapedProperties.forEach(s => {
+            s.product = prod._id;
+            ScraperService.create(s).then();
+          })
+          this.setState({
+            redirect: true
+          })
+        });
    };
   componentDidMount() {
     let data =sessionStorage.getItem('webselect');
@@ -172,8 +183,71 @@ class AddProduct extends React.Component {
       return <Redirect to='/admin/products' />
     }
   };
+  setSchedule = (e) => {
+
+    e.preventDefault();
+
+          this.setState({
+            schedule : e.target.value
+          });
+
+  }
+  changeValue = (name) => {
+    this.setState({
+      property: name,
+      modal: !this.state.modal
+
+    })
+  }
+   doEvent( obj, event ) {
+    var event = new Event( event, {target: obj, bubbles: true} );
+    return obj ? obj.dispatchEvent(event) : false;
+  }
+   toggle = () => {
+    this.setState({
+     modal: !this.state.modal
+   })};
+  modalHandleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })};
+  modalSubmit = (e) => {
+    e.preventDefault();
+
+    const model =   {
+
+      "abv": [{"type": "xpath", "selector": this.state.xpath}],
+      "urls": this.state.url,
+    }
+    ScraperService.scrap(model).then(scraped => {
+      var el = document.getElementById(this.state.property);
+      el.value = scraped.value;
+      this.doEvent( el, 'input' );
+
+      const s = {
+        url:this.state.url,
+        selector:this.state.xpath,
+        product:'',
+        property:this.state.property,
+        schedule: this.state.schedule
+      }
+      this.state.scrapedProperties.push(s)
+      this.setState({
+        modal: !this.state.modal,
+        scrapedProperties :this.state.scrapedProperties,
+        product: {
+          ...this.state.product,
+          [this.state.property]: scraped.value,
+        },
+        errors: {
+          ...this.state.errors,
+          [this.state.property]: ''
+        }
+      })
+    });
+  };
   render() {
-    const { properties } = this.state ;
+    const { properties,modal } = this.state ;
     const { imagePreviewUrl, errors, types,subTypes } = this.state;
     return (
         <>
@@ -196,7 +270,7 @@ class AddProduct extends React.Component {
                             type="text"
                             name="title"
                             onChange={this.handleChange}
-
+                            required
                         />
                       </FormGroup>
                       <FormGroup>
@@ -206,7 +280,7 @@ class AddProduct extends React.Component {
                             type="text"
                             name="bankLink"
                             onChange={this.handleChange}
-
+                            required
                         />
                       </FormGroup>
                       <FormGroup>
@@ -214,7 +288,7 @@ class AddProduct extends React.Component {
                         <div className="form_theme row">
                         <div className="col-md-5 ">
                           <div className=" input_file">
-                            <input type="file" className="form-control" accept=".png, .jpg, .jpeg" onChange={ this.handleImageChange }/>
+                            <input required type="file" className="form-control" accept=".png, .jpg, .jpeg" onChange={ this.handleImageChange }/>
 
                             <div className="file_preview">
                               {
@@ -238,8 +312,8 @@ class AddProduct extends React.Component {
 
                       <FormGroup>
                         <Label for="typeSelect">Product Type</Label>
-                        <Input onChange={this.getSubTypes} type="select" name="type" id="typeSelect">
-
+                        <Input required onChange={this.getSubTypes} type="select" name="type" id="typeSelect">
+                          <option disabled selected value> -- select an option -- </option>
                           {
 
                             types.length ?
@@ -250,7 +324,8 @@ class AddProduct extends React.Component {
                       </FormGroup>
                       <FormGroup>
                         <Label for="typeSelect">Product Sub-Type</Label>
-                        <Input onChange={this.getProperties} type="select" name="type" id="typeSelect">
+                        <Input required onChange={this.getProperties} type="select" name="type" id="typeSelect">
+                          <option disabled selected value> -- select an option -- </option>
 
                           {
                             subTypes.length ?
@@ -265,13 +340,23 @@ class AddProduct extends React.Component {
                         properties.length ?
                             properties.map(property =>
                                 <FormGroup>
-                                  <label>{property.name} type : {property.type}</label>
-                                  <Input
-                                      placeholder="title"
+                                  <label>{property.name}  type : {property.type}</label>
+                                  <div className="row align-items-center">
+                                    <div className="col-6">
+
+                                    <Input
+                                      placeholder= {property.name}
                                       type="text"
                                       name={property.name}
+                                      id={property.name}
                                       onChange={this.handleChange}
+                                      required
                                   />
+                                    </div>
+                                    <div className="col-6">
+                                    <Button color="primary" onClick={e => this.changeValue(property.name)} >Scrap</Button>{' '}
+                                    </div>
+                                  </div>
                                 </FormGroup>
                             ) :
                             null
@@ -279,6 +364,48 @@ class AddProduct extends React.Component {
                       <Button color="primary" type="submit" >Add</Button>{' '}
 
                     </form>
+                    <Modal isOpen={modal} toggle={this.toggle} >
+                      <ModalHeader toggle={this.toggle}>Add new product type</ModalHeader>
+                      <form onSubmit={this.modalSubmit}>
+                        <ModalBody>
+                          <FormGroup>
+                            <label>url</label>
+                            <Input
+                                placeholder="url"
+                                type="text"
+                                name="url"
+                                onChange={this.modalHandleChange}
+
+                            />
+                          </FormGroup>
+                          <FormGroup>
+                            <label>xpath</label>
+                            <Input
+                                placeholder="title"
+                                type="xpath"
+                                name="xpath"
+                                onChange={this.modalHandleChange}
+
+                            />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label for="scheduleSelect">repeat</Label>
+                            <Input onChange={this.setSchedule} type="select" name="type" id="scheduleSelect">
+
+                           <option value="daily">daily</option>
+                              <option value="weekly">weekly</option>
+                              <option value="monthly">monthly</option>
+                              <option value="yearly">yearly</option>
+
+                            </Input>
+                          </FormGroup>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button color="primary" type="submit" >Scrap</Button>{' '}
+                          <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                        </ModalFooter>
+                      </form>
+                    </Modal>
                   </CardBody>
                 </Card>
               </Col>

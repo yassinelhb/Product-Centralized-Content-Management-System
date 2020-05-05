@@ -41,7 +41,7 @@ const UpdateProductSubType = (props) => {
   },[subTypeId]);
   return (
       <div>
-        <Button color="warning" onClick={toggle}>Update</Button>
+        <Button outline style={{ 'margin-left':"5px"}} color="warning" onClick={toggle}>Update</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Update product sub-type</ModalHeader>
           <form onSubmit={submitHandler}>
@@ -55,7 +55,7 @@ const UpdateProductSubType = (props) => {
                   name="name"
                   value={name}
                   onChange={e => setName(e.target.value)}
-
+                  required
               />
             </FormGroup>
             <FormGroup>
@@ -66,13 +66,13 @@ const UpdateProductSubType = (props) => {
                   name="description"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
-
+                  required
               />
             </FormGroup>
 
               <FormGroup>
                   <Label for="typeSelect">Product Type</Label>
-                  <Input onChange={e => setTypeId(e.target.value)} type="select" name="type" id="typeSelect">
+                  <Input onChange={e => setTypeId(e.target.value)} type="select" required name="type" id="typeSelect">
 
                       {
                           types.length ?

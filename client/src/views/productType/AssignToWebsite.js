@@ -108,8 +108,8 @@ setDisplay(false);
 
     }
   return (
-      <div>
-        <Button color="primary" onClick={toggle2}  >Assign to website</Button>
+      <div  style={{ 'margin-left':"20px"}}>
+        <Button outline  color="primary" onClick={toggle2}  >Assign to website</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign to website</ModalHeader>
             {display ?
@@ -119,7 +119,7 @@ setDisplay(false);
                 name="subTypes"
                 options={options}
                 onChange={e => multiSelectHandler(e)}
-
+                required
             />
             <Button color="primary" onClick={addSubTypes} >Add</Button>
             <hr/>
@@ -132,15 +132,13 @@ setDisplay(false);
                       properties.map((property,i) =>
             <FormGroup>
               <label>{property.name}</label>
-                <div className="input_icon">
-                  <Input defaultValue={property.name}
-                      placeholder="label "
-                      type="text"
-                      name={i}
-                      onChange={e => {changeHandler(e,property);}}
-                  />
-                  <span className="btn_trans"><i className="nc-icon nc-refresh-69"></i></span>
-                </div>
+              <Input
+                  placeholder="label "
+                  type="text"
+                  name={i}
+                  onChange={e => {changeHandler(e,property);}}
+                  required
+              />
             </FormGroup>
                       )
                       : null

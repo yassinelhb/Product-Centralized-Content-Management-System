@@ -73,7 +73,7 @@ const AssignToWebsite = (props) => {
 
     return (
       <div>
-        <Button color="primary" onClick={toggle}>Assign</Button>
+        <Button color="primary" outline style={{ 'margin-left':"5px"}} onClick={toggle}>Assign</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign SubType to Website</ModalHeader>
           <form onSubmit={submitHandler}>

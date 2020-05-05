@@ -38,7 +38,7 @@ props.refreshTable();
   },[ss]);
   return (
       <div>
-        <Button color="primary" onClick={toggle}>Add</Button>
+        <Button  color="primary" onClick={toggle}>Add</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Add new product Sub type</ModalHeader>
           <form onSubmit={submitHandler}>
@@ -52,7 +52,7 @@ props.refreshTable();
                   name="name"
                   value={name}
                   onChange={e => setName(e.target.value)}
-
+                  required
               />
             </FormGroup>
             <FormGroup>
@@ -63,7 +63,7 @@ props.refreshTable();
                   name="description"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
-
+                  required
               />
             </FormGroup>
             <FormGroup>

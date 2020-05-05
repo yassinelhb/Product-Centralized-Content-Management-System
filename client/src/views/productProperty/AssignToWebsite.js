@@ -123,7 +123,7 @@ const AssignToWebsite = (props) => {
     }
 
     return (
-      <div>
+      <div  style={{ 'margin-left':"10px"}}>
         <Button color="primary" onClick={toggle}>Assign</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign property to subtype</ModalHeader>
@@ -138,7 +138,7 @@ const AssignToWebsite = (props) => {
 
 
                 <Select
-
+                    required
                     name="Types"
                     options={types}
                     onChange={e => SelectHandler(e)}
@@ -150,7 +150,7 @@ const AssignToWebsite = (props) => {
 
 
                     <Select
-
+                        required
                         name="subTypes"
                         options={subTypes}
                         onChange={e => getProperties(e)}
@@ -167,7 +167,7 @@ const AssignToWebsite = (props) => {
                         name="properties"
                         options={options}
                         onChange={e => multiSelectHandler(e)}
-
+                        required
                     />
                 </FormGroup>
                 {
@@ -180,7 +180,7 @@ const AssignToWebsite = (props) => {
                                     type="text"
                                     name={i}
                                     onChange={e => {changeHandler(e,property);}}
-
+                                    required
                                 />
                             </FormGroup>
                         )

@@ -18,6 +18,7 @@ import PropertyService from "../../services/product/ProductProperty.service";
 import UpdateProductProperty from "./UpdateProductProperty";
 import AddProductProperty from "./AddProductProperty";
 import AssignToWebsite from "./AssignToWebsite";
+import jwt_decode from "jwt-decode";
 class productProperties extends React.Component {
 
   constructor(props) {
@@ -29,7 +30,7 @@ class productProperties extends React.Component {
       properties: [],
       websiteId: '',
       countrycode: '',
-
+      role:''
     };
   }
 
@@ -37,6 +38,8 @@ class productProperties extends React.Component {
   componentDidMount() {
     let data =sessionStorage.getItem('webselect');
     this.data = JSON.parse(data);
+    const token = localStorage.getItem("token");
+    this.setState({role: jwt_decode(token).users.role})
     if(this.data != null ) {
       console.log(this.data._id);
       this.setState({
@@ -84,9 +87,11 @@ class productProperties extends React.Component {
               <Col md="12">
                 <Card>
                   <CardHeader>
+                    <div className="row">
                     <CardTitle tag="h4">Product Properties</CardTitle>
                     <AddProductProperty refreshTable={this.refreshTable}/>
                     <AssignToWebsite websiteId={websiteId} refreshTable={this.refreshTable}/>
+                    </div>
                   </CardHeader>
                   <CardBody>
                     <Table responsive>
@@ -106,7 +111,7 @@ class productProperties extends React.Component {
                         properties.length ?
                             properties.map(property => <tr key={property._id}> <td>{property.name}</td><td>{property.description}</td><td>{property.type}</td>
                               <td><ul>{property.subType.length ? property.subType.map(subtype => <li> {subtype.name} </li> )  : null}</ul></td>
-                              <td><div className="row"><UpdateProductProperty refreshTable={this.refreshTable} propertyId={property._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(property._id)} >Delete</Button></div></td></tr>) :
+                              <td><div className="row"><UpdateProductProperty refreshTable={this.refreshTable} propertyId={property._id}/> <Button color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(property._id)} >Delete</Button></div></td></tr>) :
                             null
                       }
 
