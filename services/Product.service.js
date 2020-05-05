@@ -136,8 +136,6 @@ exports.productDetails = async  (req, res) => {
 
             for (const index in entries) {
 
-
-
                 Property.findOne({name:entries[index][0],subType:product.subType._id}).then(prop => {
 
 

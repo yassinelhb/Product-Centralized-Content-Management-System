@@ -17,4 +17,8 @@ router.delete('/:pageId', PageService.deletePage)
 // get pages by subTypes
 router.get('/subtypePage/:subTypePage_id', PageService.getPagesBySubTypes)
 
+// update position page
+router.patch('/updatePosPage/:pageId/:pos', PageService.updatePosPage)
+
+
 module.exports = router;

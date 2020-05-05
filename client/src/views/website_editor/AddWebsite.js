@@ -56,10 +56,6 @@ const AddWebsite = (props) => {
                     "layout_img": "home.png"
                 },
                 {
-                    "layout_name": "index",
-                    "layout_img": "index.png"
-                },
-                {
                     "layout_name": "category",
                     "layout_img": "category.png"
                 },
@@ -68,8 +64,8 @@ const AddWebsite = (props) => {
                     "layout_img": "detail.png"
                 },
                 {
-                    "layout_name": "help",
-                    "layout_img": "help.png"
+                    "layout_name": "subcategory",
+                    "layout_img": "subcategory.png"
                 }
             ]
         } ;

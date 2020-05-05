@@ -12,6 +12,10 @@ const PageSchema  = new Schema({
         ref: "Layout",
         required: true
     },
+    pos: {
+        type: Number,
+        required: false
+    },
     date: {
         type: Date,
         default: Date.now

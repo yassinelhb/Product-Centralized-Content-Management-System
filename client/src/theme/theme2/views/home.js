@@ -4,6 +4,9 @@ import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import EditorList from "../components/editorList";
 import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+const token = localStorage.getItem("token");
 
 
 class Home extends React.Component {
@@ -19,7 +22,8 @@ class Home extends React.Component {
             page_category: '',
             best_category_list_edit : false,
             editor_text : '',
-            alert: ''
+            alert: '',
+            user: jwt_decode(token).users
 
         }
 
@@ -97,6 +101,7 @@ class Home extends React.Component {
     }
 
     handleTextClick = (editor_text) => {
+        ( this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor' ) &&
         this.setState({
             editor_text: editor_text
         })
@@ -111,9 +116,7 @@ class Home extends React.Component {
                 [this.state.editor_text] : text
             },
             editor_text: ''
-        })
-
-        event && this.savePage()
+        },() => event && this.savePage())
 
     }
 
@@ -149,7 +152,7 @@ class Home extends React.Component {
 
     render() {
 
-        const { page, page_category , best_category_list_edit, toggle_btn, editor_text, alert } = this.state
+        const { page, page_category , best_category_list_edit, toggle_btn, editor_text, alert, user } = this.state
 
         const best_category_text =  editor_text === 'best_category_text' ?
             <EditorText editorState = { page.best_category_text ? page.best_category_text : '' } editor = { this.handleTextChange } />
@@ -210,7 +213,9 @@ class Home extends React.Component {
                         { best_category_desc }
                         <div className="best_category_list">
                             <div className={ best_category_list?.length && best_category_list_edit === false ? 'list_category' : 'list_category best_category_border'}>
-                                { toggle }
+                                {
+                                    ( user.role === 'Administrator' || user.role === 'Content director' ) && toggle
+                                }
                                 <div className="row">
                                     { best_category_list }
                                 </div>

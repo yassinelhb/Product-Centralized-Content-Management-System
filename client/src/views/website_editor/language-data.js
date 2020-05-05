@@ -1,5 +1,5 @@
 export function LanguageData() {
-    return [
+   /* return [
 
         {"code":"ab","name":"Abkhaz","nativeName":"аҧсуа"},
         {"code":"aa","name":"Afar","nativeName":"Afaraf"},
@@ -183,10 +183,24 @@ export function LanguageData() {
         {"code":"yi","name":"Yiddish","nativeName":"ייִדיש"},
         {"code":"yo","name":"Yoruba","nativeName":"Yorùbá"},
         {"code":"za","name":"Zhuang, Chuang","nativeName":"Saɯ cueŋƅ, Saw cuengh"}
-
-
-
-
+    ]
+    */
+    return [
+        {"code":"de","name":"Allemand"},
+        {"code":"en","name":"Anglais"},
+        {"code":"ar","name":"Arabe"},
+        {"code":"zh-CN","name":"Chinois"},
+        {"code":"es","name":"Espagnol"},
+        {"code":"fr","name":"Français"},
+        {"code":"iw","name":"Hébreu"},
+        {"code":"it","name":"Italien"},
+        {"code":"ja","name":"Japonais"},
+        {"code":"nl","name":"Néerlandais"},
+        {"code":"pl","name":"Polonais"},
+        {"code":"pt","name":"Portugais"},
+        {"code":"ro","name":"Roumain"},
+        {"code":"ru","name":"Russe"},
+        {"code":"tr","name":"Turc"},
 
     ]
 }
