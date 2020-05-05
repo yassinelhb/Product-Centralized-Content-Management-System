@@ -35,7 +35,7 @@ class Category extends React.Component {
 
     handleTextClick = (editor_text) => {
 
-        this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor' &&
+        ( this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor') &&
         this.setState({
             editor_text: editor_text
         })

@@ -156,12 +156,20 @@ exports.updatePage = [ upload.single('page_img'), async  (req, res) => {
 exports.deletePage = async  (req, res) => {
     try {
 
-        const removedPage =  await Link.remove({ page : req.params.pageId  }, async function() {
-             await Page.remove({ _id : req.params.pageId  })
-        });
+
+
+        const removedPage =  await Page.findOneAndRemove({ _id : req.params.pageId }).then( async page => {
+                await Link.remove({ page : page._id})
+                await Page.find({productTypePage: page._id}).then(async subTypePages => {
+                    await subTypePages.map(async subTypePage => {
+                         await Page.remove({ SubTypePage : subTypePage._id })
+                         await Page.remove({ _id: subTypePage._id })
+                    })
+                })
+            }
+        )
 
         res.json(removedPage)
-
 
     } catch (err) {
         res.json({message: err});

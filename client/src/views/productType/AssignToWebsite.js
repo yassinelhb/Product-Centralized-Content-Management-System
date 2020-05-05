@@ -76,18 +76,15 @@ setDisplay(false);
           })
   };
 
-    function  changeHandler(e,property) {
+    function changeHandler(e,property) {
 
        labels.map((l,i) =>{
              if( l.property === property._id){
             l.label = e.target.value;
-
              }
 
          });
         setLabels(labels);
-
-
     }
   useEffect(() => {
       console.log(website);
@@ -135,13 +132,15 @@ setDisplay(false);
                       properties.map((property,i) =>
             <FormGroup>
               <label>{property.name}</label>
-              <Input
-                  placeholder="label "
-                  type="text"
-                  name={i}
-                  onChange={e => {changeHandler(e,property);}}
-
-              />
+                <div className="input_icon">
+                  <Input defaultValue={property.name}
+                      placeholder="label "
+                      type="text"
+                      name={i}
+                      onChange={e => {changeHandler(e,property);}}
+                  />
+                  <span className="btn_trans"><i className="nc-icon nc-refresh-69"></i></span>
+                </div>
             </FormGroup>
                       )
                       : null

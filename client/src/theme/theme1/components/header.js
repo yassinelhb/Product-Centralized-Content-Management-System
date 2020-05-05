@@ -17,8 +17,7 @@ class Header extends React.Component {
             links: this.props.links,
             toggle_edit : false,
             alert : '',
-            user: jwt_decode(token).users
-
+            user: jwt_decode(token).users,
         }
     }
 
@@ -124,6 +123,7 @@ class Header extends React.Component {
             toggle_edit: false
         })
     }
+
 
     render() {
 
