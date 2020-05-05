@@ -13,9 +13,9 @@ class Tracking {
         })
 
     };
-    getAll = () => {
+    getAll = (websiteId) => {
         return new Promise((resolve, reject) => {
-            axios.get(api + `tracker`)
+            axios.get(api + `tracker/findAll/`+websiteId)
                 .then(res => {
                     resolve(res.data);
                 })

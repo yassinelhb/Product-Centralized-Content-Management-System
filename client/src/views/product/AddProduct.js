@@ -270,7 +270,7 @@ class AddProduct extends React.Component {
                             type="text"
                             name="title"
                             onChange={this.handleChange}
-
+                            required
                         />
                       </FormGroup>
                       <FormGroup>
@@ -280,7 +280,7 @@ class AddProduct extends React.Component {
                             type="text"
                             name="bankLink"
                             onChange={this.handleChange}
-
+                            required
                         />
                       </FormGroup>
                       <FormGroup>
@@ -288,7 +288,7 @@ class AddProduct extends React.Component {
                         <div className="form_theme row">
                         <div className="col-md-5 ">
                           <div className=" input_file">
-                            <input type="file" className="form-control" accept=".png, .jpg, .jpeg" onChange={ this.handleImageChange }/>
+                            <input required type="file" className="form-control" accept=".png, .jpg, .jpeg" onChange={ this.handleImageChange }/>
 
                             <div className="file_preview">
                               {
@@ -312,7 +312,7 @@ class AddProduct extends React.Component {
 
                       <FormGroup>
                         <Label for="typeSelect">Product Type</Label>
-                        <Input onChange={this.getSubTypes} type="select" name="type" id="typeSelect">
+                        <Input required onChange={this.getSubTypes} type="select" name="type" id="typeSelect">
                           <option disabled selected value> -- select an option -- </option>
                           {
 
@@ -324,7 +324,7 @@ class AddProduct extends React.Component {
                       </FormGroup>
                       <FormGroup>
                         <Label for="typeSelect">Product Sub-Type</Label>
-                        <Input onChange={this.getProperties} type="select" name="type" id="typeSelect">
+                        <Input required onChange={this.getProperties} type="select" name="type" id="typeSelect">
                           <option disabled selected value> -- select an option -- </option>
 
                           {
@@ -350,6 +350,7 @@ class AddProduct extends React.Component {
                                       name={property.name}
                                       id={property.name}
                                       onChange={this.handleChange}
+                                      required
                                   />
                                     </div>
                                     <div className="col-6">

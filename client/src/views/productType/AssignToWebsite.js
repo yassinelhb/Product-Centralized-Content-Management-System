@@ -122,7 +122,7 @@ setDisplay(false);
                 name="subTypes"
                 options={options}
                 onChange={e => multiSelectHandler(e)}
-
+                required
             />
             <Button color="primary" onClick={addSubTypes} >Add</Button>
             <hr/>
@@ -140,7 +140,7 @@ setDisplay(false);
                   type="text"
                   name={i}
                   onChange={e => {changeHandler(e,property);}}
-
+                  required
               />
             </FormGroup>
                       )

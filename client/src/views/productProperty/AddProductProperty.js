@@ -74,7 +74,7 @@ const AddProductProperty = (props) => {
                     name="name"
                     value={name}
                     onChange={e => setName(e.target.value)}
-
+                    required
                 />
               </FormGroup>
               <FormGroup>
@@ -85,7 +85,7 @@ const AddProductProperty = (props) => {
                   name="description"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
-
+                  required
               />
             </FormGroup>
               <FormGroup>
@@ -97,7 +97,7 @@ const AddProductProperty = (props) => {
                   name="description"
                   value={type}
                   onChange={e => setType(e.target.value)}
-
+                  required
               />
             </FormGroup>
 
@@ -110,7 +110,7 @@ const AddProductProperty = (props) => {
                     name="subTypes"
                     options={options}
                     onChange={e => multiSelectHandler(e)}
-
+                    required
                 />
             </ModalBody>
             <ModalFooter>

@@ -17,6 +17,7 @@ import {FiSend} from "react-icons/fi";
 import {GiClick} from "react-icons/all";
 import {Doughnut} from "react-chartjs-2";
 import Chart from "react-google-charts";
+import AddTracker from "./AddTracker";
 
 class tracking extends React.Component {
 
@@ -50,7 +51,16 @@ class tracking extends React.Component {
         TrackingService.findById(id).then(link => {
         this.setState({
             Link: link,
-
+            uniqueClicks:'',
+            topWebsite:'',
+            topCountry:'',
+            topReferrer:'',
+            referrersData:[],
+            countriesData:[],
+            websitesData:[],
+            conversionData:[],
+            conversionRate:'',
+            mapData:[],
         })
 
         TrackingService.TopCountry(link._id).then(country =>
@@ -213,8 +223,8 @@ class tracking extends React.Component {
         let data = sessionStorage.getItem('webselect');
         this.data = JSON.parse(data);
         const token = localStorage.getItem("token");
-        this.setState({role: jwt_decode(token).users.role})
-        TrackingService.getAll().then(links => {
+        this.setState({role: jwt_decode(token).users.role,websiteId:data._id})
+        TrackingService.getAll(this.data._id).then(links => {
             this.setState({
                 trackers:links
             })
@@ -228,17 +238,20 @@ class tracking extends React.Component {
             <div style={{'padding':'0','width':'100%'}} className="content">
                 <div className="row no-gutters">
                     <div style={{'padding':'0'}} className="col col-md-3 " >
-                        <div style={{'backgroundColor':'white','height':'800px'}} className="card-plain mb-3 border-right border-dark ">
+                        <div style={{'backgroundColor':'white','height':'100%'}} className="card-plain mb-3 border-right border-dark ">
                             <div className="card-header bg-transparent">
-                                Tracked URLs
-                            </div>
-                            <div  className="card-body">
+                            <div className="row align-items-center">   <div className="col">Tracked URLs
+                            </div>      <div className="col"> <AddTracker/></div></div>
+                        </div>
+                            <div style={{'overflow':'scroll'}} className="card-body ps">
                                 {trackers.length ?
                                     trackers.map(link =>
                                     <div onClick={e=>this.getLink(link._id)} style={{'backgroundColor':'white'}}  className="card  ">
                                         <div className="card-body">
                                             <h6 style={{'fontSize':'12px'}}>{link.name}</h6>
-                                          <p style={{'color':'green','fontSize':'7px'}}>http://localhost:3001/tracker/{link.short}</p>
+                                            {link.type == 'bank' ? <p style={{'color':'green','fontSize':'7px'}}>http://localhost:3001/tracker/{link.short}</p>:
+                                                <p style={{'color':'green','fontSize':'7px'}}>http://localhost:3001/tracker/short/{link.short}</p>
+                                            }
                                         </div>
                                     </div>
                                     )
@@ -247,9 +260,15 @@ class tracking extends React.Component {
                             </div>
                     </div>
                     <div  className="col col-md-9 " >
-                        <div style={{'backgroundColor':'white','height':'800px'}}  className="card-plain  ">
+                        <div style={{'backgroundColor':'white','height':'100%'}}  className="card-plain  ">
                             <div className="card-header bg-transparent ">
-                                { Link !== '' ?<div className="row "> <div className="col col-8 "><h6>{Link.name}</h6> </div> <div className="col col-4 "> Total Clicks : {Link.clicks}<i className="nc-icon nc-chart-bar-32"/></div></div>: null}
+                                { Link !== '' ?<div className="row "> <div className="col col-4 "><h6>{Link.name}</h6>
+                                </div> <div className="col col-5  "> <div className="row align-items-center"> <p>URL :</p>
+                                    {Link.type == 'bank' ?
+                                    <p style={{'color':'green'}}>http://localhost:3001/tracker/{Link.short}</p>:
+                                    <p style={{'color':'green'}}>http://localhost:3001/tracker/short/{Link.short}</p>
+                                } </div></div>
+                                    <div className="col col-3 "> Total Clicks : {Link.clicks}<i className="nc-icon nc-chart-bar-32"/></div></div>: null}
                             </div>
                             { Link !== '' ?
                             <div className="card-body">
@@ -360,7 +379,7 @@ class tracking extends React.Component {
                                     </div>          :
                                         null
                                     }
-                                    { websitesData != [] ?     <div className="col-6">
+                                    { websitesData != null ?     <div className="col-6">
                                             <div className="card">
                                                 <div className="card-header"> Websites</div>
 
@@ -374,7 +393,7 @@ class tracking extends React.Component {
                                         </div>          :
                                         null
                                     }
-                                    { conversionData != [] ?     <div className="col-6">
+                                    { conversionData != null ?     <div className="col-6">
                                             <div className="card">
                                                 <div className="card-header"> conversion Rate : {conversionRate} % </div>
 

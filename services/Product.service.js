@@ -80,6 +80,7 @@ exports.create = [ upload.single('file'),async  (req, res) => {
            original:req.body.bankLink,
            type:'bank',
            short:req.body.title.replace(/ /g, '_'),
+           website:req.params.websiteId,
            product:''
        })
   //  console.log(trackedurl)

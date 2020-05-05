@@ -69,7 +69,7 @@ const UpdateProductProperty = (props) => {
                                 name="name"
                                 value={name}
                                 onChange={e => setName(e.target.value)}
-
+                                required
                             />
                         </FormGroup>
                         <FormGroup>
@@ -80,7 +80,7 @@ const UpdateProductProperty = (props) => {
                                 name="description"
                                 value={description}
                                 onChange={e => setDescription(e.target.value)}
-
+                                required
                             />
                         </FormGroup>
                         <FormGroup>
@@ -92,13 +92,13 @@ const UpdateProductProperty = (props) => {
                                 name="description"
                                 value={type}
                                 onChange={e => setType(e.target.value)}
-
+                                required
                             />
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="typeSelect">Product SubType</Label>
-                            <Input onChange={e => multiSelectHandler(e)} type="select" name="type" id="typeSelect" multiple>
+                            <Input required onChange={e => multiSelectHandler(e)} type="select" name="type" id="typeSelect" multiple>
 
                                 {
                                     subTypes.length ?

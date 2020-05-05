@@ -5,13 +5,15 @@ var TrackingService = require('../services/Tracking.service');
 
 router.post('/', TrackingService.create);
 router.get('/:shortUrl', TrackingService.redirectToBank);
-router.get('/', TrackingService.findAll);
+router.get('/findAll/:websiteId', TrackingService.findAll);
 router.get('/findById/:trackId', TrackingService.findById);
+router.get('/short/:shortUrl', TrackingService.redirect);
 
 router.get('/addBankClick/:websiteId/:productId', TrackingService.addBankClick);
 router.get('/productClick/:websiteId/:productId', TrackingService.productClick);
 
 router.get('/uniqueClicks/:trackedUrl', TrackingService.uniqueClicks);
+router.get('/clicksByMonth/:trackedUrl', TrackingService.clicksByMonth);
 
 router.get('/clicksByReferrer/:trackedUrl', TrackingService.clicksByReferrer);
 router.get('/clicksByReferrerProduct/:productId', TrackingService.clicksByReferrerProduct);

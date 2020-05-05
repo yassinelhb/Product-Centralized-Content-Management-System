@@ -20,7 +20,9 @@ exports.redirect = async  (req, res) => {
                   referrer:referrer,
                   TrackedUrl:url._id,
                   ip:ip,
-                  country:geo.country ? geo.country: "Unknown",
+              website:req.params.websiteId,
+
+              country:geo.country ? geo.country: "Unknown",
                   region:geo.region ? geo.region: "Unknown",
                   city:geo.city ? geo.city: "Unknown"
           });
@@ -112,7 +114,7 @@ exports.create = async  (req, res) => {
     }
 };
 exports.findAll =   (req, res) =>{
-    TrackedUrl.find()
+    TrackedUrl.find({website:req.params.websiteId})
         .then(urls => res.json(urls))
         .catch(err => res.status(400).json('Error: ' + err));
 
@@ -358,6 +360,27 @@ exports.TopWebsite =  async (req, res) =>{
 
 
 };
+exports.clicksByMonth =  async (req, res) =>{
+
+    const clicks =[];
+    await Click.aggregate([{$match :{TrackedUrl:req.params.trackedUrl}}, {
+        $group: {
+
+                _id: new Date("$date").getMonth()
+            ,
+
+            count: { $sum: 1 }
+        }
+    }])
+        .then( (months) => {
+      res.json(months)
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+
+
+};
+
 const countryCodes = [
     {name: 'Afghanistan', code: 'AF'},
     {name: 'Åland Islands', code: 'AX'},

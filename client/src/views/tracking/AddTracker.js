@@ -3,21 +3,25 @@
 import React, { useState } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col} from 'reactstrap';
 import TypeService from "../../services/product/ProductType.service";
+import TrackingService from "../../services/product/tracking.service";
 
-const AddProductType = () => {
+const AddTracker = () => {
 
 
   const [modal, setModal] = useState(false);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [original, setOriginal] = useState("");
+  const [short, setShort] = useState("");
 
   const toggle = () => setModal(!modal);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const data = {"name":name,"description":description};
+    let website =sessionStorage.getItem('webselect');
+    website = JSON.parse(website);
+    const data = {"name":name,"original":original,"short":short,type:"tracker",website:website._id};
     console.log(data);
-    TypeService.create(data)
+    TrackingService.create(data)
         .then( res => {
           console.log(res);
         })
@@ -25,7 +29,7 @@ const AddProductType = () => {
 
   return (
       <div>
-        <Button color="primary" onClick={toggle}>Add</Button>
+        <button onClick={toggle} className="btn btn-primary btn-round btn-icon"><i className="nc-icon nc-simple-add"/></button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Add new product type</ModalHeader>
           <form onSubmit={submitHandler}>
@@ -43,18 +47,29 @@ const AddProductType = () => {
               />
             </FormGroup>
             <FormGroup>
-              <label>Description</label>
+              <label>Url to track</label>
               <Input
-                  placeholder="Type description"
+                  placeholder="ex:https://www.exemple.com"
                   type="text"
                   required
-                  name="description"
-                  value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  name="original"
+                  value={original}
+                  onChange={e => setOriginal(e.target.value)}
 
               />
             </FormGroup>
+            <FormGroup>
+              <label>short </label>
+              <Input
+                  placeholder="custom url"
+                  type="text"
+                  required
+                  name="original"
+                  value={short}
+                  onChange={e => setShort(e.target.value)}
 
+              />
+            </FormGroup>
 
           </ModalBody>
           <ModalFooter>
@@ -67,4 +82,4 @@ const AddProductType = () => {
   );
 };
 
-export default AddProductType;
+export default AddTracker;

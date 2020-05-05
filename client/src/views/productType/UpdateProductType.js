@@ -45,6 +45,7 @@ const UpdateProductType = (props) => {
                   type="text"
                   name="name"
                   value={name}
+                  required
                   onChange={e => setName(e.target.value)}
 
               />
@@ -56,6 +57,7 @@ const UpdateProductType = (props) => {
                   type="text"
                   name="description"
                   value={description}
+                  required
                   onChange={e => setDescription(e.target.value)}
 
               />

@@ -52,7 +52,7 @@ props.refreshTable();
                   name="name"
                   value={name}
                   onChange={e => setName(e.target.value)}
-
+                  required
               />
             </FormGroup>
             <FormGroup>
@@ -63,7 +63,7 @@ props.refreshTable();
                   name="description"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
-
+                  required
               />
             </FormGroup>
             <FormGroup>
