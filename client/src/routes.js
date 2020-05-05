@@ -1,21 +1,4 @@
-/*!
 
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Detail Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import Dashboard from "views/Dashboard.jsx";
 import Notifications from "views/Notifications.jsx";
 import Icons from "views/Icons.jsx";
@@ -40,6 +23,7 @@ import Users from "./views/Users/Users.jsx"
 import AddProduct from "./views/product/AddProduct";
 import Products from "./views/product/Products";
 import CountryProducts from "./views/product/CountryProducts";
+import tracking from "./views/tracking/tracking";
 var routes = [
   {
     path: "/dashboard",
@@ -71,7 +55,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Pages,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer","Content Editor"]
   },
   {
     path: "/themes",
@@ -119,6 +103,14 @@ var routes = [
     name: "Product Properties",
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
+    layout: "/admin",
+    Roles: ["Administrator","Content director"]
+  },
+  {
+    path: "/tracking",
+    name: "Url Tracking",
+    icon: "nc-icon nc-single-copy-04",
+    component: tracking,
     layout: "/admin",
     Roles: ["Administrator","Content director"]
   },

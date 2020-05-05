@@ -15,15 +15,10 @@ import AddProductSubType from "./AddProductSubType";
 import UpdateProductSubType from "./UpdateProductSubType";
 import TypeService from "../../services/product/ProductType.service";
 import AssignToWebsite from "./AssignToWebsite";
+import jwt_decode from "jwt-decode";
 
 class productSubTypes extends React.Component {
-  buttonstyle= (e)=>{
-    return{
-      "display":e
-    }
-  };
 
-  etat ='none';
   constructor() {
     super();
     let data =sessionStorage.getItem('webselect');
@@ -34,19 +29,34 @@ class productSubTypes extends React.Component {
     }
     this.state = {
       subTypes: [],
-
+      role:''
 
     };
   }
 
 
   componentDidMount() {
-
+    let data =sessionStorage.getItem('webselect');
+    this.data = JSON.parse(data);
+    const token = localStorage.getItem("token");
+    this.setState({role: jwt_decode(token).users.role})
     SubTypeService.getAll()
         .then( res => {
-          this.setState({
-            subTypes : res
-          });
+          res.forEach((subtype,i) => {
+            SubTypeService.checkExistence(this.data._id,subtype.productType._id,subtype._id)
+                .then( r => {
+                  subtype.exist =  r;
+                  if (res.length -1  == i) {
+                    this.setState({
+                      subTypes : res
+                    });
+                  }
+
+
+                })
+
+          })
+
         })
   }
   refreshTable = () => {
@@ -81,7 +91,7 @@ class productSubTypes extends React.Component {
 
   }
   render() {
-    const { subTypes } = this.state ;
+    const { subTypes,role } = this.state ;
     return (
       <>
         <div className="content">
@@ -107,7 +117,14 @@ class productSubTypes extends React.Component {
 
                       {
                         subTypes.length ?
-                            subTypes.map(subType => <tr key={subType._id}> <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row"><UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> <Button color="danger"  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button> <AssignToWebsite subtype={subType} refreshTable={this.refreshTable}  /></div></td></tr>) :
+                            subTypes.map(subType => <tr key={subType._id}>
+
+                              <td>{subType.name}</td><td>{subType.description}</td><td>{subType.productType.name}</td><td><div className="row">
+                              {role == 'Administrator' ?
+                                  <div className="row"> <UpdateProductSubType refreshTable={this.refreshTable} subTypeId={subType._id}/> {' '} <Button outline  color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(subType._id)} >Delete</Button>{' '}
+                                  </div>  :null }
+                              { subType.exist ?   <AssignToWebsite subtype={subType} refreshTable={this.refreshTable}  /> : null }
+                              </div></td></tr>) :
                             null
                       }
 

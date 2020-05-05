@@ -1,19 +1,50 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import Add from "../../theme1/components/description/add";
+import Add from "../components/description/add";
+import servicePage from "../../../services/page.service";
 import EditorText from "../components/editorText";
-import servicePage from '../../../services/page.service'
+import serviceProducts from '../../../services/product/Product.service'
+import serviceProductProperty from "../../../services/product/ProductProperty.service";
+import jwt_decode from "jwt-decode";
+import EditorInputText from "../../theme1/components/editorInputText";
+import {ContentState, EditorState} from "draft-js";
+
+const token = localStorage.getItem("token");
 
 class Detail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             editor: props.editor,
+            website: props.website,
             page: props.page,
+            product_property: '',
             editor_text : '',
             alert: '',
-            show: false
+            show: false,
+            user: jwt_decode(token).users
+
         }
+    }
+
+    componentDidMount() {
+
+        serviceProducts.productDetails(this.state.page.product._id, this.state.website._id)
+            .then( res => {
+                this.setState({
+                    page : {
+                        ...this.state.page,
+                        product: res
+                    }
+                });
+            })
+
+        serviceProductProperty.getBySubType(this.state.page.productSubType._id)
+            .then( res => {
+                this.setState({
+                    product_property : res,
+                });
+            })
     }
 
     addClick = () => {
@@ -50,6 +81,8 @@ class Detail extends React.Component {
     }
 
     handleTextClick = (editor_text) => {
+
+        ( this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor' ) &&
         this.setState({
             editor_text: editor_text
         })
@@ -70,6 +103,7 @@ class Detail extends React.Component {
     }
 
     handleItemDescriptionClick = (type, index) => {
+        ( this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor' ) &&
         this.setState({
             editor_text: {
                 index: index,
@@ -94,9 +128,8 @@ class Detail extends React.Component {
                 list_description: list_description
             },
             editor_text: ''
-        })
+        }, () =>  event && this.savePage())
 
-        event && this.savePage()
     }
 
 
@@ -141,8 +174,7 @@ class Detail extends React.Component {
     render() {
 
         const { imagePreviewUrl } = this.props
-
-        const { page, editor_text, alert, show } = this.state
+        const { page, editor_text, alert, show, product_property, user } = this.state
 
         const intro_product_text = editor_text === 'intro_product_text' ?
             <EditorText editorState = { page.intro_product_text ? page.intro_product_text : '' } editor = { this.handleTextChange } />
@@ -154,11 +186,14 @@ class Detail extends React.Component {
 
         const list_description = page.list_description && page.list_description.map((description, index) =>
             <div className="product_desc" key={ index }>
-                <div className="toggle_btn">
-                   <span className="icon_btn" onClick={ () => this.removeDescription(index) }>
-                      <i className="nc-icon nc-simple-remove"></i>
-                   </span>
-                </div>
+                {
+                    ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                    <div className="toggle_btn">
+                        <span className="icon_btn" onClick={ () => this.removeDescription(index) }>
+                            <i className="nc-icon nc-simple-remove"></i>
+                        </span>
+                    </div>
+                }
 
                 {
                     editor_text.index === index  && editor_text.type === 'title' ?
@@ -181,6 +216,31 @@ class Detail extends React.Component {
 
             </div>
         )
+
+        const list_property = product_property && product_property.map( prop =>
+            <tr key={ prop._id }>
+                <th> { page.product[prop.name].label ?  page.product[prop.name].label?.label : prop.name }</th>
+                <td> { page.product[prop.name].value ? page.product[prop.name].value : 'Na' } </td>
+            </tr>
+
+        )
+
+        const link_site = editor_text === 'link_site' ?
+            <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
+            :
+            <>
+                <a className="btn btn-primary" href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
+                {
+                    ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                    <div className="toggle_btn">
+                        <span className="icon_btn" onClick={() => this.handleTextClick('link_site')}>
+                            <i className="nc-icon nc-ruler-pencil"></i>
+                        </span>
+                    </div>
+                }
+            </>
+
+
 
         return (
             <div className="container">
@@ -209,7 +269,9 @@ class Detail extends React.Component {
                                 <h1 className="product_title">
                                     { page.page_name }
                                 </h1>
-                                <button className="btn btn-primary"> Go to web site </button>
+                                <div className="btn_link_site">
+                                    { link_site }
+                                </div>
                             </div>
                         </div>
 
@@ -222,9 +284,12 @@ class Detail extends React.Component {
 
                                 { list_description }
 
-                                <button className="btn btn-secondary" onClick={ this.addClick }>
-                                    Add description
-                                </button>
+                                {
+                                    ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
+                                    <button className="btn btn-secondary" onClick={this.addClick}>
+                                        Add description
+                                    </button>
+                                }
                                 <Add show = { show }  add={ this.addDescription } hide={ this.handleClose }/>
 
                             </div>
@@ -236,33 +301,19 @@ class Detail extends React.Component {
                                 </h3>
                                 <table className="table table_prop">
                                     <tbody>
-                                    <tr>
-                                        <th>Cotisation annuelle</th>
-                                        <td>0,00 €</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Compte supplémentaire</th>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Carte de crédit incluse</th>
-                                        <td>Oui</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Type de carte de crédit</th>
-                                        <td>MasterCard</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Retrait zone Euro</th>
-                                        <td>0,00 € (5 retraits par mois, puis 2 €/retrait)</td>
-                                    </tr>
+                                    { list_property }
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                 </div>
+                {
+                    alert &&
+                    <div className="alert_saved">
+                        <span> { alert } </span>
+                    </div>
+                }
             </div>
         );
     }

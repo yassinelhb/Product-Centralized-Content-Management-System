@@ -79,7 +79,23 @@ class Page {
         })
     }
 
+
+    updatePosPage = (_id,pos) => {
+
+        return new Promise((resolve, reject) => {
+            axios.patch(api + `page/updatePosPage/` + _id + `/` + pos)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
     }
+
+    }
+
+
 
 const instance = new Page()
 

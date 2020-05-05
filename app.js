@@ -27,6 +27,8 @@ var ProductPropertyRouter = require('./routes/productProperty');
 var PropertyLabelRouter = require('./routes/propertyLabel');
 var ProductRouter = require('./routes/product');
 var layoutRouter = require('./routes/layout');
+var ScraperRouter = require('./routes/scraper');
+var TrackerRouter = require('./routes/tracking');
 
 var Ads_bannerRouter = require('./routes/ads_banner');
 
@@ -69,6 +71,8 @@ app.use('/ads_banner', Ads_bannerRouter);
 app.use('/links_box', links_boxRouter);
 
 app.use('/product', ProductRouter);
+app.use('/scraper', ScraperRouter);
+app.use('/tracker', TrackerRouter);
 
 
 

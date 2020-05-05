@@ -102,6 +102,19 @@ class Product {
         })
 
     };
+    checkExistence = (website,productId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `product/checkExistence/`+website+'/'+productId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
     productDetails = (productId,websiteId) => {
         return new Promise((resolve, reject) => {
             axios.get(api + `product/productDetails/`+websiteId+'/'+productId)

@@ -37,7 +37,7 @@ const AddProductType = () => {
                   placeholder="Type Name"
                   type="text"
                   name="name"
-
+                  required
                   onChange={e => {setName(e.target.value);}}
 
               />
@@ -47,6 +47,7 @@ const AddProductType = () => {
               <Input
                   placeholder="Type description"
                   type="text"
+                  required
                   name="description"
                   value={description}
                   onChange={e => setDescription(e.target.value)}

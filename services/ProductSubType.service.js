@@ -151,3 +151,23 @@ exports.assignToWebsite = async  (req, res) => {
 
 
 };
+exports.checkExistence = async  (req, res) => {
+    Page.findOne({website:req.params.websiteId,type:"category",productType:req.params.typeId})
+        .then(page => {
+            if (page != null)
+            {
+                Page.findOne({website:req.params.websiteId,type:"subCategory",productSubType:req.params.subtypeId})
+                    .then(p => {
+                        if (p != null){
+                            res.json(false);
+                        }
+                        else res.json(true);
+
+                    }).catch(err => res.status(400).json('Error: ' + err));
+
+            }
+            else res.json(false);
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+};

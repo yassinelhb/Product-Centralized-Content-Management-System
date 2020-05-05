@@ -76,18 +76,15 @@ setDisplay(false);
           })
   };
 
-    function  changeHandler(e,property) {
+    function changeHandler(e,property) {
 
        labels.map((l,i) =>{
              if( l.property === property._id){
             l.label = e.target.value;
-
              }
 
          });
         setLabels(labels);
-
-
     }
   useEffect(() => {
       console.log(website);
@@ -111,8 +108,8 @@ setDisplay(false);
 
     }
   return (
-      <div>
-        <Button color="primary" onClick={toggle2}  >Assign to website</Button>
+      <div  style={{ 'margin-left':"20px"}}>
+        <Button outline  color="primary" onClick={toggle2}  >Assign to website</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Assign to website</ModalHeader>
             {display ?
@@ -122,7 +119,7 @@ setDisplay(false);
                 name="subTypes"
                 options={options}
                 onChange={e => multiSelectHandler(e)}
-
+                required
             />
             <Button color="primary" onClick={addSubTypes} >Add</Button>
             <hr/>
@@ -140,7 +137,7 @@ setDisplay(false);
                   type="text"
                   name={i}
                   onChange={e => {changeHandler(e,property);}}
-
+                  required
               />
             </FormGroup>
                       )
