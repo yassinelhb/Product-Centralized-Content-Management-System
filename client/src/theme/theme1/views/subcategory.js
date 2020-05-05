@@ -234,7 +234,7 @@ class Subcategory extends React.Component {
 
                </div>
                     <div className="subcategory_pub">
-                    <img className="img_pub" src={ require('../../../assets/img/pub/damir-bosnjak.jpg') }/>
+                    <img className="img_pub" src={ require('../../../assets/img/damir-bosnjak.jpg') }/>
                     </div>
                     <div className="subcategory_product">
                    <div className="toolbar_filter">

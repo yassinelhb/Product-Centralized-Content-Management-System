@@ -40,11 +40,11 @@ class Compare extends React.Component {
                                     <td>
                                     </td>
                                     <td className="compare_infos">
-                                        <img src={ require('../../../../assets/img/page/1586943891189-unnamed (1).png')} />
+                                        <img src={ require('../../../../assets/img/add.png')} />
                                         <Link className="product_title" to={''}>Annual Fee Credit Card</Link>
                                     </td>
                                     <td className="compare_infos">
-                                        <img src={ require('../../../../assets/img/page/1586943891189-unnamed (1).png')} />
+                                        <img src={ require('../../../../assets/img/add.png')} />
                                         <Link className="product_title" to={''}>Annual Fee Credit Card</Link>
                                     </td>
                                 </tr>
