@@ -6,6 +6,8 @@ import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import serviceSubType from '../../../services/product/ProductSubType.service'
 import EditorInputText from "../components/editorInputText";
+import Ads from '../../../components/Ads/Ads2'
+
 
 
 
@@ -107,12 +109,14 @@ class Category extends React.Component {
 
 
         return (
+            <div className="" > <Ads/>
             <div className="container">
                 <div className="breadcrumb">
                     <Link to={'/'} className="navigation_page"> Home </Link>
                     <span className="navigation_pipe">/</span>
                     <span className="navigation_page"> { page.page_name } </span>
                 </div>
+
                 <div className="category_intro">
                     <h1 className="category_name">
                         { page.page_name }
@@ -134,6 +138,7 @@ class Category extends React.Component {
                     </div>
                 }
 
+            </div>
             </div>
         );
     }

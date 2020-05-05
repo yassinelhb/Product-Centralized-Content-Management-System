@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import Add from "../components/description/add";
 import servicePage from "../../../services/page.service";
 import EditorText from "../../theme2/components/editorText";
+import Ads from "../../../components/Ads/Ads";
 
 
 class Detail extends React.Component {
@@ -186,6 +187,8 @@ class Detail extends React.Component {
 
         return (
 
+            <div className="">
+                <Ads/>
             <div className="container">
                 <div className="breadcrumb">
                     <Link to={'/website/home'} className="navigation_page"> Home </Link>
@@ -261,6 +264,7 @@ class Detail extends React.Component {
                     </div>
                 }
 
+            </div>
             </div>
         );
     }

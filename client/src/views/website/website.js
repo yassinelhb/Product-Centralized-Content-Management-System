@@ -7,6 +7,7 @@ import NavTools from "../../components/Navbars/NavTools";
 import Ads from "../../components/Ads/Ads"
 import Chatbots from "../../components/chatbot/chatbot"
 import ChatBot from 'react-simple-chatbot';
+import Header from "../../components/Navbars/DemoNavbar";
 
 
 class Website extends React.Component {
@@ -83,12 +84,16 @@ class Website extends React.Component {
 
          return (
             <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>
+
                 <NavTools/>
-                <Ads/>
+
                 <Suspense fallback={<div>Loading ...</div>}>
+
                     {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>
                 <div className="wrapper-content">
+
+
                     <Suspense fallback={<div>Loading ...</div>}>
                         { router }
                     </Suspense>

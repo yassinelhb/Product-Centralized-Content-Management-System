@@ -151,7 +151,7 @@ var routes = [
 
   {
     path: "/maps",
-    name: "Maps",
+    name: "Info_web",
     icon: "nc-icon nc-pin-3",
     component: Maps,
     layout: "/admin",

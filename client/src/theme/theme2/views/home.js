@@ -4,8 +4,7 @@ import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import EditorList from "../components/editorList";
 import { Link } from "react-router-dom";
-
-
+import Ads from '../../../components/Ads/Ads2'
 class Home extends React.Component {
 
 
@@ -155,8 +154,10 @@ class Home extends React.Component {
             <EditorText editorState = { page.best_category_text ? page.best_category_text : '' } editor = { this.handleTextChange } />
             :
             <h1 className="best_category_text" onClick={ () => this.handleTextClick('best_category_text') }>
+
                 { page.best_category_text  ? page.best_category_text : 'Title of best category'  }
             </h1>
+
 
 
         const best_category_desc =  editor_text === 'best_category_desc' ?
@@ -184,8 +185,10 @@ class Home extends React.Component {
         const best_category_list =  page.best_category_list &&
             page.best_category_list.map(page =>
                 <div className="col-md-3" key={ page._id}>
+
                     {
                         best_category_list_edit ?
+
                             <p className="best_category_item">
                                 <img src={ page.page_img ? require('../../../assets/img/page/icons8-best-seller-100.png') : require('../../../assets/img/page/default_image.png') }/>
                                 { page.page_name}
@@ -203,9 +206,11 @@ class Home extends React.Component {
             )
 
         return (
-            <>
+
+            <> <Ads/>
                 <div className="section-best_category" onMouseEnter={ () => this.mouseEnterHandle() } onMouseLeave={ () => this.mouseLeaveHandle() }>
                     <div className="container">
+
                         { best_category_text }
                         { best_category_desc }
                         <div className="best_category_list">
