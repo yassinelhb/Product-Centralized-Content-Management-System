@@ -22,6 +22,8 @@ exports.addBlog = [ upload.single('file'), async (req, res) => {
             users: req.body.users,
             Statut: "desactivated"
         });
+        console.log(blog);
+
         blog.save((err, blog) => {
             if (err) res.json(err);
             else res.json(blog);
@@ -39,6 +41,15 @@ exports.getBlog = async  (req, res)=> {
         res.json({message: err});
     }
 }
+exports.getBlogByWebsite = async  (req, res)=> {
+    const WebId = req.params.id ;
+    try {
+        const blog = Blog.find({website: WebId}).populate('website').populate('users').then(user => res.json(user));
+    } catch (err) {
+        res.json({message: err});
+    }
+}
+
 
     exports.updateBlog =   async  (req, res) => {
         try {
@@ -59,7 +70,26 @@ exports.getBlog = async  (req, res)=> {
 
             res.json({message: err});
         }
+    };
+exports.Asseign = async  (req, res) => {
+    try {
+        const updated = await Blog.updateOne(
+            { _id: req.params.id },
+            { $set: {
+                    Blog:req.body.Blog,
+
+                }},
+
+            {new: true, useFindAndModify: false}
+        );
+        console.log('ok');
+        res.json(updated);
+    } catch (err) {
+        console.log(err);
+
+        res.json({message: err});
     }
+};
 
 
 
@@ -98,3 +128,4 @@ exports.getByUser = async  (req, res) => {
 
 //        const Blog  = await Blog.find({Title: "Test226"});
 };
+

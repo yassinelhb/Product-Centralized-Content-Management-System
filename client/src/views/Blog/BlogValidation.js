@@ -25,6 +25,8 @@ import Blog from "./Blog";
 import EditBlog from "./EditBlog";
 import blog from "../../services/Blog/Blog";
 import EditBlogValidation from "./EditBlogValidation";
+import Asseign from "./AsseignBlog";
+
 class BlogValidation extends React.Component {
 
 
@@ -97,7 +99,7 @@ class BlogValidation extends React.Component {
                                             <td><Button color="danger">{blogs.Statut}</Button></td>
 
                                             }
-                                            <td><EditBlogValidation typeId={blogs}/></td>
+                                            <td><EditBlogValidation typeId={blogs}/> </td>
                                         </tr>) :
                                     null
                             }

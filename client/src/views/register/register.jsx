@@ -45,6 +45,7 @@ class register extends React.Component {
             }
         }
          this.setState({website: value});
+         console.log(this.state.website);
 
     }
     handleSubmit = event => {
@@ -64,6 +65,7 @@ class register extends React.Component {
                 console.log(this.state.function);
                 this.state.data = {"username": this.state.username,"email":this.state.email,"password":this.state.password, "role":this.state.role,"website":this.state.website,"function":this.state.function, "token":token};
             }
+            console.log(this.state.data);
 
             registerr.register(this.state.data).then(res => {
                 if(res.data.error!=null){

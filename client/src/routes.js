@@ -35,7 +35,7 @@ import productSubTypes from "./views/productSubType/ProductSubTypes";
 import productProperties from "./views/productProperty/productProperties";
 import Blog from "./views/Blog/Blog"
 import yourBlog from "./views/Blog/YourBlog.js"
-
+import TextApi from "./views/Blog/TextApi";
 import Blogvalidation from "./views/Blog/BlogValidation.js"
 
 import Ads_banner from "./views/Ads_banner/Ads_banner";
@@ -159,6 +159,16 @@ var routes = [
     name: "Blog",
     icon: "nc-icon nc-globe",
     component: yourBlog,
+    layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
+  },
+
+  {
+
+    path: "/Verify_text",
+    name: "Verify text",
+    icon: "nc-icon nc-globe",
+    component: TextApi,
     layout: "/admin",
     Roles: ["Administrator","Content director","Freelancer"]
   },

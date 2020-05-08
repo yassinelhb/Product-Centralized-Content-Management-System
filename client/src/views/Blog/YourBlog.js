@@ -16,7 +16,7 @@ import user from "../../services/User/user";
 import blog from "../../services/Blog/Blog.js"
 import EditBlog from "./EditBlog.js";
 import Input from "reactstrap/es/Input";
-
+import Asseign from "./AsseignBlog"
 class YourBlog extends React.Component {
 
 
@@ -109,7 +109,7 @@ console.log(this.state.blogs);
                                         <td><Button color="danger">{blogs.Statut}</Button></td>
 
                                         }
-                                        <td><EditBlog typeId={blogs}/></td>
+                                        <td><EditBlog typeId={blogs}/> <Asseign typeId={blogs} /></td>
                                     </tr>) :
                                 null
                                         }

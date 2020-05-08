@@ -19,6 +19,20 @@ class Blog {
         })
 
     };
+
+    Check = (e,language) => {
+        return new Promise((resolve, reject) => {
+
+            axios.post( `https://languagetool.org/api/v2/check?text=`+e+'&language='+language+'&enabledOnly=false')
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+
+                })
+        })
+
+    };
     yourblog = (typeId) => {
         return new Promise((resolve, reject) => {
             console.log(api + `Blog/test`+typeId);
@@ -35,6 +49,19 @@ class Blog {
     blog = () => {
         return new Promise((resolve, reject) => {
             axios.get(api + `Blog`)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    }
+    blogBywebsite = (typeId) => {
+        return new Promise((resolve, reject) => {
+
+            axios.get(api + `Blog/BlogBySite`+typeId)
                 .then(res => {
                     resolve(res.data);
                 })
@@ -65,8 +92,28 @@ class Blog {
 
     EditBlogValidation = (type,typeId) => {
         return new Promise((resolve, reject) => {
+            console.log(typeId)
             axios.put(api + `Blog/validation/`+typeId, type )
                 .then(res => {
+                    resolve(res.data);
+                    console.log(res.data);
+
+                })
+                .catch(error => {
+                    console.log("2");
+
+                    reject(error)
+                })
+        })
+
+    };
+    AsseignBlog = (typeId,e) => {
+        return new Promise((resolve, reject) => {
+            console.log(typeId);
+            axios.put(api + `Blog/Asseign/`+typeId, e )
+                .then(res => {
+                    console.log("1");
+
                     resolve(res.data);
                     console.log(res.data);
 

@@ -30,7 +30,8 @@ const usersSchema  = new Schema({
     function: {
         type:String,
         require: true
-    }
+    },
+
 })
 //d
 module.exports = mongoose.model('users' , usersSchema)

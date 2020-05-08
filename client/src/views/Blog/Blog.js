@@ -19,8 +19,10 @@ import FormGroup from "reactstrap/es/FormGroup";
 import Input from "reactstrap/es/Input";
 import CKEditor from 'ckeditor4-react';
 import jwt_decode from "jwt-decode";
-
+import ReactHtmlParser from "react-html-parser";
 import Blogservice from '../../services/Blog/Blog.js';
+import blog from "../../services/Blog/Blog";
+import Label from "reactstrap/es/Label";
 class Blog extends React.Component {
     constructor( props ) {
         super( props );
@@ -28,23 +30,35 @@ class Blog extends React.Component {
         this.state = {
             test:"",
             data2:{},
+            check:null,
             Title:'',
             data: '<p>React is really <em>nice</em>!</p>',
             Image: null,
-            website:"5e975a214ed93f17e0581ff5",
-            users:"5e93bd22ae5dd9223453d4f4",
+            test2: [] ,
+            Blog: [],
+
+            website:"",
+            users:"",
             imagePreviewUrl: null,
         };
 
         this.handleChange = this.handleChange.bind( this );
         this.onEditorChange = this.onEditorChange.bind( this );
     }
-
-
-    componentDidMount() {
-
-
+    multiSelectHandler(e) {
+        var options = e.target.options;
+        var value = [];
+        for (var i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+        this.setState({Blog: value});
+           console.log(this.state.Blog);
     }
+
+
+
     handleChangee(e) {
         this.setState({ [e.target.name] : e.target.value });
     }
@@ -55,22 +69,24 @@ class Blog extends React.Component {
         this.state.test=JSON.parse(web);
         this.setState({users: jwt_decode(token).users._id});
         this.setState({website: this.state.test._id});
-
         this.state.data2 = {"Title": this.state.Title,
+            "Blog":this.state.Blog,
             "Description":this.state.data,
             "Image":this.state.imagePreviewUrl,
             "website":this.state.website
-            ,"users":this.state.users};
+            ,"users":this.state.users,
+        };
         const fd = new FormData();
         fd.set('Title' , this.state.Title   );
         fd.set('Description' , this.state.data  );
         fd.append('file' , this.state.imagePreviewUrl );
-        fd.set('website' , this.state.website );
-        fd.set('users' , this.state.users );
-console.log(this.state.data2);
+        fd.set('website' , this.state.test._id );
+        fd.set('users' , jwt_decode(token).users._id );
+        fd.set('Blog' , this.state.Blog );
+
         Blogservice.register(fd).then(res => {
 
-                alert("User added Successfully");
+                alert("Blog added Successfully");
 
 
         })
@@ -80,6 +96,33 @@ console.log(this.state.data2);
 
 
     }
+
+    componentDidMount() {
+        const token = localStorage.getItem("token");
+        blog.yourblog(jwt_decode(token).users._id)
+            .then(res => {
+                this.setState({
+                    test2: res
+                });
+            });
+
+
+
+    }
+
+    test = () => {
+        blog.Check(" suiss","fr")
+            .then(res => {
+                this.setState({
+                    check: res
+                });
+                console.log('this.state.check');
+
+                console.log(this.state.check.language);
+
+            });
+    }
+
     handleonchangeblog = (e, editor) => {
     }
     onEditorChange( evt ) {
@@ -106,6 +149,8 @@ console.log(this.state.data2);
 
                 <form className="register-page" onSubmit={this.ajoutblog} >
                     <h1  >Your content </h1>
+
+
                     <FormGroup>
                         <label>Title  </label>
                         <Input
@@ -141,12 +186,20 @@ console.log(this.state.data2);
                     </FormGroup>
                     <FormGroup>
                         <div className="App">
-                            <h2>Using CKEditor 5 build in React</h2>
                             <CKEditor
                                 data="<p>Hello froom CKEditor 4!</p>"
                                 onChange={this.onEditorChange}
                             />
                         </div>
+
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>site</Label>
+                        <select name="Blog"  multiple className="form-control" onChange={e => this.multiSelectHandler(e)}>
+                            <option selected>Choose...</option>
+                            {this.state.test2.map(test22 => <option value={test22._id}>{test22.Title}</option>)}
+                        </select>
+
 
                     </FormGroup>
                     <button type="submit" className="btn-lg btn-dark btn-block"> save Blog </button>
