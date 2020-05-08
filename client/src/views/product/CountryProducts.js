@@ -39,7 +39,9 @@ class CountryProducts extends React.Component {
       products: [],
       websiteId: '',
       countrycode: '',
-      websiteProducts:[]
+        role: '',
+
+        websiteProducts:[]
     };
   }
 
@@ -49,6 +51,7 @@ class CountryProducts extends React.Component {
     this.data = JSON.parse(data);
       const token = localStorage.getItem("token");
       this.setState({role: jwt_decode(token).users.role})
+
     if(this.data != null ) {
       this.setState({
         websiteId: this.data._id,
@@ -107,7 +110,7 @@ class CountryProducts extends React.Component {
 
   }
   render() {
-    const { products,websiteProducts } = this.state ;
+    const { products,websiteProducts,role } = this.state ;
     return (
         <>
           <div className="content">
@@ -135,8 +138,9 @@ class CountryProducts extends React.Component {
                         products.length ?
                             products.map(product =>{const pic = 'http://localhost:3001/product/getPicture/'+product.picture; return ( <tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td><td>{product.bankLink}</td>
                               <td>    <img src={pic} style={{width: "50px",height:"50px"}}  /> </td>
-                              <td><div className="row"><Button outline style={{ 'margin-left':"5px"}} color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button>
-                                { product.exist ? null :    <Button color="success" outline style={{ 'margin-left':"5px"}} onClick={() =>this.assignToWebsite(product)} >Add To Website</Button> }
+                              <td><div className="row">
+                                  {["Administrator","Content director","Content coordinator"].includes(role) ?       <Button outline style={{ 'marginLeft':"5px"}} color="danger"  onClick={() =>this.deleteHandler(product._id)} >Delete</Button> :null}
+                                { product.exist ? null :    <Button color="success" outline style={{ 'marginLeft':"5px"}} onClick={() =>this.assignToWebsite(product)} >Add To Website</Button> }
                               </div>
                               </td>
                             </tr>)}

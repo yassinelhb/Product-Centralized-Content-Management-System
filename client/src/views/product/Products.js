@@ -32,8 +32,8 @@ class Products extends React.Component {
       products: [],
       websiteId: '',
       countrycode: '',
-      redirect: false
-
+      redirect: false,
+      role:''
     };
   }
 
@@ -91,8 +91,18 @@ class Products extends React.Component {
   productClick = (id) => {
     TrackingService.productClick(this.state.websiteId,id).then();
   }
+  activate =  (product) => {
+    const p = {active:!product.active}
+    ProductService.update(p,product._id).then()
+    this.refreshTable();
+  }
+  sponsor =  (product) => {
+    const p = {sponsored:!product.sponsored}
+    ProductService.update(p,product._id).then()
+    this.refreshTable();
+  }
   render() {
-    const { products } = this.state ;
+    const { products,role } = this.state ;
     return (
         <>
           {this.renderRedirect()}
@@ -101,8 +111,13 @@ class Products extends React.Component {
               <Col md="12">
                 <Card>
                   <CardHeader>
+                    <div className="row">
+                      <div className="col-2">
                     <CardTitle tag="h4">Products </CardTitle>
-                    <Button color="success" onClick={this.setRedirect} > Add  </Button>
+                      </div>   <div className="col">
+                    <Button color="primary" onClick={this.setRedirect} > Add  </Button>
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardBody>
                     <Table responsive>
@@ -111,6 +126,10 @@ class Products extends React.Component {
                         <th>Title</th>
                         <th>sub-Type</th>
                         <th>bank Link</th>
+                        {["Administrator","Content director","Content coordinator"].includes(role) ?
+                      <>  <th>Active</th>
+                        <th> Sponsored</th></>
+:null}
                         <th>Picture</th>
                         <th>Actions</th>
 
@@ -122,6 +141,20 @@ class Products extends React.Component {
                         products.length ?
                             products.map(product =>{ const pic = 'http://localhost:3001/product/getPicture/'+product.picture; return(<tr key={product._id}> <td>{product.title}</td><td>{product.subType.name}</td>
                               <td><a href={product.bankLink} onClick={() =>this.Redirect(product._id)} target="_blank">{product.bankLink} </a> <Button color="danger" outline onClick={(e) =>this.productClick(product._id)}  >to Bank</Button></td>
+                              {["Administrator","Content director","Content coordinator"].includes(role) ?
+                             <>     <td>
+                                { product.active == true ?
+                                  <Button color="danger" outline onClick={(e) => this.activate(product)}>deactivate</Button>
+                                :  <Button color="success" outline onClick={(e) => this.activate(product)}  >activate</Button>
+                                }
+                              </td>
+                              <td>
+                                { product.sponsored == true ?
+                                    <Button color="danger" outline onClick={(e) => this.sponsor(product)}>unsponsor</Button>
+                                    :  <Button color="success" outline onClick={(e) => this.sponsor(product)}  >sponsor</Button>
+                                }
+                              </td> </> : null}
+
                               <td>    <img src={pic} style={{width: "50px",height:"50px"}}  /> </td>
                               <td><div className="row"><Button color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(product._id)} >Delete</Button></div></td></tr>)}) :
                             null

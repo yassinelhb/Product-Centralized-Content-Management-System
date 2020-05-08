@@ -18,6 +18,7 @@ import {GiClick} from "react-icons/all";
 import {Doughnut} from "react-chartjs-2";
 import Chart from "react-google-charts";
 import AddTracker from "./AddTracker";
+import PropertyService from "../../services/product/ProductProperty.service";
 
 class tracking extends React.Component {
 
@@ -218,7 +219,14 @@ class tracking extends React.Component {
         })
 
     };
+    refresh = () => {
+        TrackingService.getAll(this.state.websiteId).then(links => {
+            this.setState({
+                trackers:links
+            })
+        })
 
+    };
     componentDidMount() {
         let data = sessionStorage.getItem('webselect');
         this.data = JSON.parse(data);
@@ -241,7 +249,7 @@ class tracking extends React.Component {
                         <div style={{'backgroundColor':'white','height':'100%'}} className="card-plain mb-3 border-right border-dark ">
                             <div className="card-header bg-transparent">
                             <div className="row align-items-center">   <div className="col">Tracked URLs
-                            </div>      <div className="col"> <AddTracker/></div></div>
+                            </div>      <div className="col"> <AddTracker refresh={this.refresh}/></div></div>
                         </div>
                             <div style={{'overflow':'scroll'}} className="card-body ps">
                                 {trackers.length ?
@@ -379,7 +387,9 @@ class tracking extends React.Component {
                                     </div>          :
                                         null
                                     }
-                                    { websitesData != null ?     <div className="col-6">
+                                        {Link.type === 'bank' ?   <>
+                                            { websitesData !== null ?
+                                            <div className="col-6">
                                             <div className="card">
                                                 <div className="card-header"> Websites</div>
 
@@ -390,10 +400,12 @@ class tracking extends React.Component {
 
                                             </div>
 
-                                        </div>          :
+                                        </div>  : null}   </>     :
                                         null
                                     }
-                                    { conversionData != null ?     <div className="col-6">
+                                    {  Link.type === 'bank' ? <>
+                                            {conversionData !== null ?
+                                            <div className="col-6">
                                             <div className="card">
                                                 <div className="card-header"> conversion Rate : {conversionRate} % </div>
 
@@ -404,7 +416,7 @@ class tracking extends React.Component {
 
                                             </div>
 
-                                        </div>          :
+                                        </div> : null}   </>      :
                                         null
                                     }
                                     { mapData != [] ?     <div className="col-12" >

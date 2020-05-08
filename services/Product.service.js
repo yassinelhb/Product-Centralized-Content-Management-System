@@ -8,6 +8,7 @@ const Label = require('../models/PropertyLabel.model');
 const Property = require('../models/ProductProperty.model');
 const TrackedUrl = require('../models/TrackedUrl.model');
 
+var akin = require('@asymmetrik/akin');
 
 var multer = require('multer');
 
@@ -235,4 +236,18 @@ exports.checkExistence = async  (req, res) => {
 
         })
         .catch(err => res.status(400).json('Error: ' + err));
+};
+exports.addRecommendation = async (req,res) => {
+
+    const ip = '149.91.89.33';
+    // const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
+    akin.activity.log(ip, req.params.productId, { type: 'product' }, 'view');
+    akin.run();
+};
+exports.getRecommendations = async (req,res) => {
+    const ip = '51.158.99.52';
+    // const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
+    akin.recommendation.sampleRecommendationsForUser(ip,2).then(products => res.json(products)) .catch(err => res.status(400).json('Error: ' + err));
 };

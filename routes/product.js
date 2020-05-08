@@ -3,6 +3,7 @@ const router = express.Router();
 var ProductService = require('../services/Product.service');
 
 
+router.get('/getRecommendations', ProductService.getRecommendations);
 
 // get all products
 router.get('/', ProductService.getAll);
@@ -24,12 +25,13 @@ router.post('/assignToWebsite/:websiteId', ProductService.assignToWebsite);
 router.get('/getPicture/:picture', ProductService.getPicture);
 // get a product by id
 router.get('/:productId', ProductService.getById);
+router.get('/addRecommendation/:productId', ProductService.addRecommendation);
 
 // delete a product
 router.delete('/:productId', ProductService.delete);
 // delete a product from a website
 router.delete('/removeFromWebsite/:websiteId/:productId', ProductService.removeFromWebsite);
 // update a product
-router.put('/:propertyId', ProductService.update);
+router.put('/:productId', ProductService.update);
 
 module.exports = router;

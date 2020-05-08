@@ -3,13 +3,14 @@ const Product = require('../models/Product.model');
 const Click = require('../models/Click.model');
 const TrackedUrl = require('../models/TrackedUrl.model');
 const Website = require('../models/website.model');
-
+var akin = require('@asymmetrik/akin');
 var geoip = require('geoip-lite');
 const extractDomain = require('extract-domain');
+
 exports.redirect = async  (req, res) => {
      await TrackedUrl.findOne({short: req.params.shortUrl})
          .then(url=> {
-            const ip = '176.83.54.49';
+            const ip = '149.91.89.33';
                 // const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null);
             const referrer = req.headers['referer'] ? extractDomain(req.headers['referer']) ?  extractDomain(req.headers['referer']) : 'direct' : 'direct';
              //    console.log(extractDomain(req.headers['referer']))
@@ -51,7 +52,7 @@ exports.redirectToBank = async  (req, res) => {
 exports.addBankClick = async  (req, res) => {
     await TrackedUrl.findOne({product: req.params.productId})
         .then(url=> {
-                const ip = '176.83.54.49';
+                const ip = '149.91.89.33';
                 // const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null);
                 const referrer = req.headers['referer'] ? extractDomain(req.headers['referer']) ?  extractDomain(req.headers['referer']) : 'direct' : 'direct';
                 //    console.log(extractDomain(req.headers['referer']))
@@ -80,7 +81,7 @@ exports.addBankClick = async  (req, res) => {
 }
 exports.productClick = async  (req, res) => {
 
-                const ip = '176.83.54.49';
+                const ip = '149.91.89.33';
                 // const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || (req.connection.socket ? req.connection.socket.remoteAddress : null);
                 const referrer = req.headers['referer'] ? extractDomain(req.headers['referer']) ?  extractDomain(req.headers['referer']) : 'direct' : 'direct';
                 //    console.log(extractDomain(req.headers['referer']))
@@ -97,7 +98,8 @@ exports.productClick = async  (req, res) => {
                     city:geo.city ? geo.city: "Unknown"
                 });
                 click.save();
-
+    akin.activity.log(ip, req.params.productId, { type: 'product' }, 'view');
+    akin.run();
 
 
 }

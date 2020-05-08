@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col} from 'reactstrap';
 import TypeService from "../../services/product/ProductType.service";
 
-const AddProductType = () => {
+const AddProductType = (props) => {
 
 
   const [modal, setModal] = useState(false);
@@ -20,6 +20,7 @@ const AddProductType = () => {
     TypeService.create(data)
         .then( res => {
           console.log(res);
+          props.refreshTable();
         })
   };
 

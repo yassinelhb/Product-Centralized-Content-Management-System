@@ -7,6 +7,7 @@ import serviceProducts from "../../../services/product/Product.service";
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 import jwt_decode from "jwt-decode";
 import EditorInputText from "../components/editorInputText";
+import TrackingService from "../../../services/product/tracking.service";
 
 const token = localStorage.getItem("token");
 
@@ -25,12 +26,16 @@ class Detail extends React.Component {
             user: jwt_decode(token).users
         }
     }
-
+    RedirectToBank = (id) => {
+        TrackingService.addBankClick(this.state.websiteId,id).then();
+    }
     componentDidMount() {
 
         this.getProductDetails()
         serviceProductProperty.getBySubType(this.state.page.productSubType._id)
             .then( res => {
+                TrackingService.productClick(this.state.website._id,res._id).then();
+
                 this.setState({
                     product_property : res,
                 });
@@ -234,7 +239,7 @@ class Detail extends React.Component {
             <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
             :
             <>
-                <a href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
+                <a onClick={() =>this.RedirectToBank(page.product._id)} href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
                 {
                     ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
                     <div className="toggle_btn">
