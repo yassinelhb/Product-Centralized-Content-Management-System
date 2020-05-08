@@ -32,7 +32,7 @@ const UpdateProductType = (props) => {
   },[typeId]);
   return (
       <div>
-        <Button color="warning" onClick={toggle}>Update</Button>
+        <Button outline style={{ 'margin-left':"5px"}} color="warning" onClick={toggle}>Update</Button>
         <Modal isOpen={modal} toggle={toggle} >
           <ModalHeader toggle={toggle}>Add new product type</ModalHeader>
           <form onSubmit={submitHandler}>
@@ -45,6 +45,7 @@ const UpdateProductType = (props) => {
                   type="text"
                   name="name"
                   value={name}
+                  required
                   onChange={e => setName(e.target.value)}
 
               />
@@ -56,6 +57,7 @@ const UpdateProductType = (props) => {
                   type="text"
                   name="description"
                   value={description}
+                  required
                   onChange={e => setDescription(e.target.value)}
 
               />

@@ -3,7 +3,10 @@ const Ads_banner = require('../models/Ads_banner.model');
 
 // get back all the Ads_banners
 exports.getAds_banners = async function (req, res) {
+
     try {
+
+
         const Ads_banners = await Ads_banner.find();
         res.json(Ads_banners)
     } catch (err) {

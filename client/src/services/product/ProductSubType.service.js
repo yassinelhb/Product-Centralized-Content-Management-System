@@ -141,7 +141,18 @@ class ProductType {
         })
 
     };
+    checkExistence = (website,typeId,subtypeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productSubType/checkExistence/`+website+'/'+typeId+'/'+subtypeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
 }
 
 const instance = new ProductType();

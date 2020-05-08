@@ -1,14 +1,6 @@
 import axios from 'axios';
 const api = 'http://localhost:3001/';
-//const websiteId = '5e7ce3309f0d3737e8980743';
-//const layout='5e7ce3309f0d3737e8980748';
-let layout;
-let websiteId ='';
-let datas =sessionStorage.getItem('webselect');
-let web = JSON.parse(datas);
-if (web!=null){
-    websiteId = web._id;
-}
+
 
 class ProductType {
 
@@ -42,7 +34,7 @@ class ProductType {
 
 
         return new Promise((resolve, reject) => {
-            const t ={"page_name":type.name, "type":"category", "productType":type._id,subTypes:subTypes, "website":website, "layout":layout};
+            const t ={"page_name":type.name, "type":"category", "productType":type._id,subTypes:subTypes, "website":website};
             axios.post(api + `productType/assignTypeToWebsite`, t)
                 .then(res => {
                     resolve(res.data);
@@ -114,7 +106,18 @@ class ProductType {
         })
 
     };
+    checkExistence = (website,typeId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `productType/checkExistence/`+website+'/'+typeId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
 
+    };
 }
 
 const instance = new ProductType();

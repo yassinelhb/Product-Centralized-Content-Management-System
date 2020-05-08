@@ -339,6 +339,17 @@ body {
     position: relative;
 }
 
+.wrapper-theme1 .product_list_item .toggle_btn {
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    display: none;
+}
+
+.wrapper-theme1 .product_list_item:hover .toggle_btn{
+    display: block;
+}
+
 .wrapper-theme1 .product_list_item .product_item_check {
     position: absolute;
     right: 15px;
@@ -356,10 +367,19 @@ body {
 }
 
 .wrapper-theme1 .product_list_item .product_item_btn {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    right: 15px;
+    bottom: 5px;
 }
+
+.wrapper-theme1 .product_list_item .product_item_btn .toggle_btn {
+    position: relative;
+    left: auto;
+    bottom: auto;
+}
+
 
 .wrapper-theme1 .product_list_item .product_item_btn .btn .icon_btn {
     font-size: 9px;
@@ -373,6 +393,7 @@ body {
 .wrapper-theme1 .product_list_item .product_item_prop {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 35px;
 }
 
 .wrapper-theme1 .product_list_item .product_item_prop .product_prop {
@@ -399,21 +420,20 @@ body {
 }
 
 .wrapper-theme1 .toolbar_bottom .more_product {
+    display: inline-flex;
+    align-items: center;
     position: relative;
     padding-left: 45px;
     padding-right: 45px;
 }
 
 .wrapper-theme1 .toolbar_bottom .more_product .toggle_btn {
-    position: absolute;
     display: none;
-    z-index: 1;
-    right: 0px;
-    top: 10px;
+    margin-left: 15px;
 }
 
 
-.wrapper-theme1 .toolbar_bottom .more_product:hover .toggle_btn {
+.wrapper-theme1 .toolbar_bottom .more_product .toggle_btn.active , .wrapper-theme1 .toolbar_bottom .more_product:hover .toggle_btn {
     display: block;
 }
 
@@ -487,10 +507,39 @@ body {
 }
 
 
+.wrapper-theme1 .btn_link_site {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.wrapper-theme1 .btn_link_site > a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
 
 
+.wrapper-theme1 .btn_link_site .toggle_btn {
+    margin-left: 15px;
+    display: none;
+}
+
+.wrapper-theme1 .btn_link_site .toggle_btn.active , .wrapper-theme1 .btn_link_site:hover .toggle_btn {
+    display: block;
+}
 
 
+.input_icon {
+    position: relative;
+}
+
+.input_icon .btn_trans {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 17px;
+    cursor: pointer;
+}
 
 
 
@@ -499,6 +548,20 @@ body {
 
 
     /* editor input */
+
+.wrapper-theme1 .input_editor_icon {
+    position: relative;
+    margin-right: 15px;
+}
+
+.wrapper-theme1 .input_editor_icon .btn_trans {
+    position: absolute;
+    right: -5px;
+    top: 0px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
 .wrapper-theme1 .editor_input {
     text-align: center;
     background: transparent;
@@ -509,6 +572,7 @@ body {
     font-size: 14px;
     font-family: Poppins;
     padding: 0;
+    display: inline-block;
 }
 
 .editor_input:focus {
@@ -682,13 +746,13 @@ body {
 
 /* checkbox */
 
-.custom-checkbox {
+.wrapper-theme1 .custom-checkbox {
     position: absolute;
     cursor: pointer;
     font-size: 20px;
 }
 
-.custom-checkbox input {
+.wrapper-theme1 .custom-checkbox input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -696,7 +760,7 @@ body {
     width: 0;
 }
 
-.check_icon {
+.wrapper-theme1 .check_icon {
     position: absolute;
     top: 0;
     right: 0;
@@ -705,25 +769,25 @@ body {
     background-color: #eee;
 }
 
-.custom-checkbox:hover input ~ .check_icon {
+.wrapper-theme1 .custom-checkbox:hover input ~ .check_icon {
     background-color: #ccc;
 }
 
-.custom-checkbox input:checked ~ .check_icon {
+.wrapper-theme1 .custom-checkbox input:checked ~ .check_icon {
     background-color: #0e2453;
 }
 
-.check_icon:after {
+.wrapper-theme1 .check_icon:after {
     content: "";
     position: absolute;
     display: none;
 }
 
-.custom-checkbox input:checked ~ .check_icon:after {
+.wrapper-theme1 .custom-checkbox input:checked ~ .check_icon:after {
     display: block;
 }
 
-.custom-checkbox .check_icon:after {
+.wrapper-theme1 .custom-checkbox .check_icon:after {
     left: 7px;
     top: 2px;
     width: 7px;
@@ -744,13 +808,18 @@ body {
 /* color primary , secondary */
 
 .wrapper-theme1 .btn {
-    text-transform: none;
+    text-transform: capitalize;
     position: relative;
     font-family: Poppins;
+
 }
 
 .wrapper-theme1 .btn-primary {
     background: #0e2453;
+}
+
+.wrapper-theme1 .btn-primary input {
+    color: #FFFFFF !important;
 }
 
 .wrapper-theme1 .btn-primary:hover, .wrapper-theme1 .btn-primary:focus {

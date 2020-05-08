@@ -109,7 +109,7 @@ class Pages extends React.Component {
   render() {
 
     const pages = this.state.pages ? (
-        this.state.pages.map(page =>
+        this.state.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.layout.layout_name !== 'detail').map(page =>
            <option key={page._id} value={page._id}> { page.page_name} </option>
         )
     ) : ''

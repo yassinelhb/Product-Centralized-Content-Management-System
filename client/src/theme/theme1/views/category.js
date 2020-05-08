@@ -5,7 +5,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import serviceSubType from '../../../services/product/ProductSubType.service'
+import jwt_decode from "jwt-decode";
 
+const token = localStorage.getItem("token");
 
 
 class Category extends React.Component {
@@ -17,7 +19,8 @@ class Category extends React.Component {
             page : props.page,
             subcategory_page : '',
             editor_text : '',
-            alert: ''
+            alert: '',
+            user: jwt_decode(token).users
         }
     }
 
@@ -31,6 +34,8 @@ class Category extends React.Component {
     }
 
     handleTextClick = (editor_text) => {
+
+        ( this.state.user.role === 'Freelancer' || this.state.user.role === 'Content Editor') &&
         this.setState({
             editor_text: editor_text
         })

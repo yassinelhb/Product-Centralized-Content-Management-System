@@ -1,5 +1,10 @@
 import React, {Suspense, Fragment} from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import Translator from "../../../components/Translator/translator";
+
+const token = localStorage.getItem("token");
+
 
 class Sidebar extends React.Component {
 
@@ -8,6 +13,9 @@ class Sidebar extends React.Component {
         this.state = {
             page : props.page,
             imagePreviewUrl: '',
+            user: jwt_decode(token).users,
+            translator: ''
+
         }
     }
 
@@ -77,9 +85,30 @@ class Sidebar extends React.Component {
     }
 
 
+    sourceTranslator = (type) => {
+        this.setState({
+            translator: type
+        })
+    }
+
+    saveTranslator = async (translatedText) => {
+
+        translatedText &&
+        this.setState({
+            page: {
+                ...this.state.page,
+                [this.state.translator] : translatedText
+            },
+        }, () => this.props.handle(this.state.page))
+
+        this.setState({
+            translator: ''
+        })
+
+    }
 
     render() {
-        const { page, imagePreviewUrl } = this.state
+        const { page, imagePreviewUrl, user, translator } = this.state
         return (
             <div className="sidebar-editor">
                 <ul className="nav nav-tabs">
@@ -106,7 +135,13 @@ class Sidebar extends React.Component {
                                     <div className="item-body">
                                         <div className="form-group">
                                             <label>Title</label>
-                                            <input type="text" className='form-control' name='page_name' onChange={ this.handleChange } defaultValue={ page.page_name } />
+                                            <div className="input_icon">
+                                                <input type="text" className='form-control' name='page_name' disabled={ ( user.role === 'Freelancer' || user.role === 'Content Editor' ) } onChange={ this.handleChange } defaultValue={ page.page_name } value={ page.page_name } />
+                                                {
+                                                    page.page_name &&
+                                                    <span className="btn_trans" onClick={ () => this.sourceTranslator('page_name') }><i className="nc-icon nc-refresh-69"></i></span>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +156,9 @@ class Sidebar extends React.Component {
                                     </span>
                                 </div>
                                 <div id="collapse2" className="collapse show" data-parent="#sidebar-config">
-                                    <div className="item-body">
+                                    {
+                                        ( user.role === 'Administrator' || user.role === 'Content director' ) &&
+                                        <div className="item-body">
                                         <div className="form-group">
                                             <label>Image</label>
                                             <div className="input_file">
@@ -143,6 +180,7 @@ class Sidebar extends React.Component {
                                             </div>
                                         </div>
                                     </div>
+                                    }
                                 </div>
                             </div>
 
@@ -154,6 +192,10 @@ class Sidebar extends React.Component {
                             commodo consequat.</p>
                     </div>
                 </div>
+                {
+                    translator &&
+                    <Translator sourceText = { page[translator] } save = { this.saveTranslator } />
+                }
             </div>
         );
     }

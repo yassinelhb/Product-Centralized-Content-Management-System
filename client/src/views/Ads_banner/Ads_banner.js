@@ -101,12 +101,24 @@ class Ads_banner extends React.Component {
     }
 
 
-    componentDidMount() {
+    async componentDidMount() {
+
+
+/*
+       var scraperapiClient = require('scraperapi-sdk')('5c3675bbf9261a7ed21b2d4191ef8fe0')
+        var response = await scraperapiClient.get('http://esprit.tn/specialites/specialite-informatique/')
+        console.log(response)
+        alert (response) */
+
+            fetch((  'https://api.html2pdf.app/v1/generate?url=https://www.leaders.com.tn/&apiKey=62db2d5b2e82fe35b0c2e6125111519041643b7acc5e7eafb39bdebad957a584'),{
+                method: 'POST'
+            });
+
 
         Ads_serv.getAll()
-            .then( res => {
+            .then(res => {
                 this.setState({
-                    ads_banner : res
+                    ads_banner: res
                 });
             })
     }
@@ -121,6 +133,8 @@ class Ads_banner extends React.Component {
         /*
        console.log(this.state.ads_banner);
         console.log(subtype);
+        <img className="group list-group-image"
+                                     src={require("assets/img/"+this.ads)}/>
              this.setState({
                 ads_banner : this.state.ads_banner.push(subtype)
               });

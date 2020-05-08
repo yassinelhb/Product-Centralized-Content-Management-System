@@ -53,7 +53,7 @@ class Link extends React.Component {
 
   render() {
     const pages = this.props.pages ? (
-        this.props.pages.map((page) =>
+        this.props.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.layout.layout_name !== 'detail').map((page) =>
           <div className="menu-page_item" key={page._id} onClick={ () => this.addLinkClick(page)}>
               <p className="page-item_title">
                 <span className="item-title_text">

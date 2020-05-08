@@ -16,7 +16,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React , {useEffect, useState} from "react";
+import axios from "axios";
 // react plugin used to create google maps
 import {
   withScriptjs,
@@ -25,154 +26,54 @@ import {
   Marker
 } from "react-google-maps";
 // reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Row,
+  Col,
+  FormGroup,
+  Input,
+  ModalBody,
+  Button,
+  ModalFooter,
+  Modal
+} from "reactstrap";
+import Ads_serv from "../services/Ads_banner/Ads_banner.service";
 
-const MapWrapper = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap
-      defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
-      defaultOptions={{
-        scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-        styles: [
-          {
-            featureType: "water",
-            stylers: [
-              {
-                saturation: 43
-              },
-              {
-                lightness: -11
-              },
-              {
-                hue: "#0088ff"
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                hue: "#ff0000"
-              },
-              {
-                saturation: -100
-              },
-              {
-                lightness: 99
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [
-              {
-                color: "#808080"
-              },
-              {
-                lightness: 54
-              }
-            ]
-          },
-          {
-            featureType: "landscape.man_made",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                color: "#ece2d9"
-              }
-            ]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                color: "#ccdca1"
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [
-              {
-                color: "#767676"
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.stroke",
-            stylers: [
-              {
-                color: "#ffffff"
-              }
-            ]
-          },
-          {
-            featureType: "poi",
-            stylers: [
-              {
-                visibility: "off"
-              }
-            ]
-          },
-          {
-            featureType: "landscape.natural",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                visibility: "on"
-              },
-              {
-                color: "#b8cb93"
-              }
-            ]
-          },
-          {
-            featureType: "poi.park",
-            stylers: [
-              {
-                visibility: "on"
-              }
-            ]
-          },
-          {
-            featureType: "poi.sports_complex",
-            stylers: [
-              {
-                visibility: "on"
-              }
-            ]
-          },
-          {
-            featureType: "poi.medical",
-            stylers: [
-              {
-                visibility: "on"
-              }
-            ]
-          },
-          {
-            featureType: "poi.business",
-            stylers: [
-              {
-                visibility: "simplified"
-              }
-            ]
-          }
-        ]
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
+
 
 class Map extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { url_to_pdf: '' , url_to_html: '' , html:''  };
+  }
+  myChangeHandler = (event) => {
+    this.setState({url_to_pdf: event.target.value});
+  }
+  myChangeHandler2 = (event) => {
+    this.setState({url_to_html: event.target.value});
+  }
+
+
+  async getweb_html(e){
+
+    var scraperapiClient = require('scraperapi-sdk')('5c3675bbf9261a7ed21b2d4191ef8fe0')
+    var response = await scraperapiClient.get(e)
+    console.log(response)
+    alert (e)
+    alert (response)
+    this.html= response
+    this.setState({
+      html : response
+    })
+  }
+  getweb_pdf(e){
+
+    window.location.href = 'https://api.html2pdf.app/v1/generate?url='+e+'&apiKey=62db2d5b2e82fe35b0c2e6125111519041643b7acc5e7eafb39bdebad957a584'
+  }
+
   render() {
     return (
       <>
@@ -180,19 +81,48 @@ class Map extends React.Component {
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>Google Maps</CardHeader>
+                <CardHeader>WEB INFO </CardHeader>
                 <CardBody>
                   <div
                     id="map"
                     className="map"
                     style={{ position: "relative", overflow: "hidden" }}
                   >
-                    <MapWrapper
-                      googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
-                      loadingElement={<div style={{ height: `100%` }} />}
-                      containerElement={<div style={{ height: `100%` }} />}
-                      mapElement={<div style={{ height: `100%` }} />}
-                    />
+
+                    <form onSubmit={this.handleSubmit}>
+
+
+                    <FormGroup>
+                      <label>Website html </label>
+                      <Input
+                          placeholder="Type url page "
+                          type="text"
+                          name="name"
+                          value={this.url_to_html}
+                          onChange={this.myChangeHandler2}
+
+
+                      />
+                      <Button color="primary"   onClick={() =>this.getweb_html(this.state.url_to_html)} >Html</Button>{' '}
+                    </FormGroup>
+
+                    <CardHeader>{this.state.html}</CardHeader>
+                    <br/><br/>
+                    <FormGroup>
+                      <label>website pdf form</label>
+                      <Input
+                          placeholder="Type url page to convert "
+
+                          name="name"
+                          type='text'
+                          onChange={this.myChangeHandler}
+
+
+                      />
+                      <Button color="primary"  onClick={() =>this.getweb_pdf(this.state.url_to_pdf)} >pdf</Button>{' '}
+                    </FormGroup>
+
+                    </form>
                   </div>
                 </CardBody>
               </Card>

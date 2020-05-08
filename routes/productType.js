@@ -23,6 +23,8 @@ router.put('/:typeId', ProductTypeService.update);
 router.post('/assignTypeToWebsite', ProductTypeService.assignTypeToWebsite);
 // get a type by id
 router.get('/getByWebsite/:websiteId', ProductTypeService.getByWebsite);
+//
+router.get('/checkExistence/:websiteId/:typeId', ProductTypeService.checkExistence);
 // get a type by id
 router.get('/typesPagesByWebsite/:websiteId', ProductTypeService.getTypesPagesByWebsite);
 

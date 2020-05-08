@@ -102,9 +102,22 @@ class Product {
         })
 
     };
-    productDetails = async (productId,websiteId) => {
-        return new Promise(async (resolve, reject) => {
-            await axios.get(api + `product/productDetails/`+websiteId+'/'+productId)
+    checkExistence = (website,productId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `product/checkExistence/`+website+'/'+productId)
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+
+    };
+
+    productDetails = (productId,websiteId) => {
+        return new Promise((resolve, reject) => {
+            axios.get(api + `product/productDetails/`+websiteId+'/'+productId)
                 .then(res => {
                     resolve(res.data);
                 })
