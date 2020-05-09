@@ -16,7 +16,7 @@ const BlogSchema  = new Schema({
     },
     website: {
         type: Schema.Types.ObjectId,
-        ref: "website",
+        ref: "Website",
         required: true,
     },
     users: {
@@ -24,10 +24,15 @@ const BlogSchema  = new Schema({
         ref: "users",
         required: true,
     },
+    Blog: [{
+        type: Schema.Types.ObjectId,
+        ref: "Blog",
+    }],
     Statut: {
         type: String,
         required: true,
-    }
+    },
+
 })
 
 module.exports = mongoose.model('Blog' , BlogSchema)

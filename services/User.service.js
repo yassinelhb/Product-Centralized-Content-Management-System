@@ -33,10 +33,10 @@ exports.getuser = async  (req, res)=>
 
 exports.register = async  (req, res) => {
     const user = res.locals.user;
-    console.log(user);
     if(user.role==="Administrator"){
     users.findOne({ email: req.body.email }).then(user => {
         if (!user) {
+            console.log(req.body.website);
             const User = new users({
                 username: req.body.username,
                 email: req.body.email,

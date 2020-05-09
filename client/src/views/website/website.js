@@ -19,7 +19,8 @@ class Website extends React.Component {
         this.state = {
             website: '',
             pages: '',
-            links: ''
+            links: '',
+
         }
 
     }
@@ -88,8 +89,8 @@ class Website extends React.Component {
                         { router }
                     </Suspense>
                 </div>
-
                 <Chatbots  />
+
             </div>
         );
     }
