@@ -73,6 +73,7 @@ class Website extends React.Component {
 
 
          return (
+
             <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>
 
                 <NavTools/>
@@ -87,7 +88,8 @@ class Website extends React.Component {
                         { router }
                     </Suspense>
                 </div>
-                <Chatbots/>
+
+                <Chatbots  />
             </div>
         );
     }
