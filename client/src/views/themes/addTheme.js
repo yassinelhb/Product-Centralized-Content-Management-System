@@ -125,7 +125,6 @@ class AddTheme extends React.Component {
           if ( theme._id ) {
 
               formData.set('_id', theme._id);
-
               serviceTheme.editTheme(formData)
 
                   .then(res => {

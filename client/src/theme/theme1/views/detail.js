@@ -2,11 +2,14 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import Add from "../components/description/add";
 import servicePage from "../../../services/page.service";
+
+import Ads from "../../../components/Ads/Ads";
 import EditorText from "../components/editorText";
 import serviceProducts from "../../../services/product/Product.service";
 import serviceProductProperty from "../../../services/product/ProductProperty.service";
 import jwt_decode from "jwt-decode";
 import EditorInputText from "../components/editorInputText";
+
 
 const token = localStorage.getItem("token");
 
@@ -248,6 +251,8 @@ class Detail extends React.Component {
 
         return (
 
+            <div className="">
+                <Ads/>
             <div className="container">
                 <div className="breadcrumb">
                     <Link to={'/website/home'} className="navigation_page"> Home </Link>
@@ -310,6 +315,7 @@ class Detail extends React.Component {
                         <span> { alert } </span>
                     </div>
                 }
+            </div>
             </div>
         );
     }

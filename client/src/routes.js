@@ -16,6 +16,10 @@ import Login from "views/Login/Login.jsx";
 import productTypes from "views/productType/productTypes";
 import productSubTypes from "./views/productSubType/ProductSubTypes";
 import productProperties from "./views/productProperty/productProperties";
+import Blog from "./views/Blog/Blog"
+import yourBlog from "./views/Blog/YourBlog.js"
+import TextApi from "./views/Blog/TextApi";
+import Blogvalidation from "./views/Blog/BlogValidation.js"
 
 import Ads_banner from "./views/Ads_banner/Ads_banner";
 import Web from "./views/website_editor/Website";
@@ -71,7 +75,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productTypes,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/productSubTypes",
@@ -79,7 +83,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productSubTypes,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
 
   {
@@ -88,7 +92,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: Products,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/countryproducts",
@@ -96,7 +100,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: CountryProducts,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/productProperties",
@@ -104,7 +108,7 @@ var routes = [
     icon: "nc-icon nc-single-copy-04",
     component: productProperties,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/tracking",
@@ -122,7 +126,43 @@ var routes = [
     icon: "nc-icon nc-globe",
     component: Web,
     layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
+  },
+  {
+    path: "/validation",
+    name: "BlogValidation",
+    icon: "nc-icon nc-globe",
+    component: Blogvalidation,
+    layout: "/admin",
     Roles: ["Administrator","Content director"]
+  },
+  {
+
+    path: "/CreateBlog",
+    name: "Create Blog",
+    icon: "nc-icon nc-globe",
+    component: Blog,
+    layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
+  },
+  {
+
+    path: "/Blog",
+    name: "Blog",
+    icon: "nc-icon nc-globe",
+    component: yourBlog,
+    layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
+  },
+
+  {
+
+    path: "/Verify_text",
+    name: "Verify text",
+    icon: "nc-icon nc-globe",
+    component: TextApi,
+    layout: "/admin",
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/Ads_banner",
@@ -130,7 +170,7 @@ var routes = [
     icon: "nc-icon nc-calendar-60",
     component: Ads_banner,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Freelancer"]
   },
   {
     path: "/component",
@@ -143,7 +183,7 @@ var routes = [
 
   {
     path: "/maps",
-    name: "Maps",
+    name: "Info_web",
     icon: "nc-icon nc-pin-3",
     component: Maps,
     layout: "/admin",

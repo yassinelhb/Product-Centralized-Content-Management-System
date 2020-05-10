@@ -2,7 +2,6 @@ import React, { useState,useEffect } from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Col, Label} from 'reactstrap';
 import userService from "../../services/User/user.js";
 import TypeService from "../../services/product/ProductType.service";
-import bcrypt from 'bcryptjs'
 const EditUser = (props) => {
 
     const {typeId} =props;

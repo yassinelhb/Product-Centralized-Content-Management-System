@@ -38,12 +38,33 @@ import {
 
 import routes from "routes.js";
 import '../../assets/css/ads_front.css';
+import '../../assets/css/ads _theme1.css';
 import propTypes from 'prop-types';
 import Web_serv from "../../services/website.service";
 import Ads_serv from "../../services/Ads_banner/Ads_banner.service";
 
 class Ads extends React.Component {
+    adsstyle= (e)=>{
+        if( e === "5e6e2d5dbb31d31ed84c002e")
+         return{
+             'visibility': 'hidden'
+        }
+        if( this.ads==='loading.png')
+            return{
+                'visibility': 'hidden'
+            }
 
+    };
+    ads2style= (e)=>{
+        if( e === '5e6e2d4fbb31d31ed84c002d')
+            return{
+                'visibility': 'hidden'
+            }
+        if( this.ads==='loading.png')
+            return{
+                'visibility': 'hidden'
+            }
+    };
     Styleimage= ()=>{
         return{
             padding: '5px',
@@ -52,11 +73,27 @@ class Ads extends React.Component {
 
         }
     };
-    web = window.location.href.split(/(\\|\/)/g).pop() ;
     ads='loading.png'
     etat_add=''
+    theme=''
+    etat=''
+    ads_desc=''
+    ads_name=''
     constructor() {
         super();
+        let data =sessionStorage.getItem('webselect');
+        this.data = JSON.parse(data);
+
+        if(this.data != null )
+        {
+            this.etat=''
+            this.web= this.data._id;
+            this.theme=this.data.theme ;
+           // alert(this.theme)
+
+
+        }
+
         this.state = {
             website: {},
             ads_banner:{}
@@ -81,8 +118,13 @@ class Ads extends React.Component {
                     website : res
                 }
                 );
-                 this.ads= this.state.website.ads_banners.Ads_img;
-                this.etat_add= this.state.website.ads_banners.Valide_ads;
+                if(this.state.website.ads_banners != null){ this.ads= this.state.website.ads_banners.Ads_img;
+                    this.ads_desc= this.state.website.ads_banners.description;
+                    this.etat_add= this.state.website.ads_banners.Valide_ads;
+                    this.ads_name = this.state.website.ads_banners.Ads_banner_name;
+                }
+
+
 
             })
 
@@ -102,29 +144,29 @@ class Ads extends React.Component {
         if(this.etat_add !== false){this.etat=''}
         return (
 
-            <div className="nav-tools">
-                <div className="container">
-            <div id="ads">
-                <div className="threshold"  >
-                    <div className="container">
-
-
-                        <div className="banner-holder" >
-
-
-                            <div className="banner bottom" style={this.Styleimage()} >
-
-
-                                <img className="group list-group-image"
-                                     src={require("assets/img/"+this.ads)}/>
-                            </div>
-
-                        </div>
+            <html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+            <head>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+                <link href='https://fonts.googleapis.com/css?family=Satisfy|Roboto+Slab:400,700' rel='stylesheet' type='text/css'/>
+            </head>
+            <body style={this.adsstyle(this.theme)} >
+            <div id="container-popup">
+                <div className="popup"> <p className="pheader">{this.ads_name}</p><a className="close"
+                                                                                                     title="Close"
+                                                                                                     href="#container-popup">×</a>
+                    <img id="product"  src={require("assets/img/"+this.ads)}/>
+<br/><br/>
+                    <p className="pbody"> {this.ads_desc} </p>
                     </div>
-                </div>
             </div>
-                </div>
-            </div>
+
+
+
+
+            </body>
+
+            </html>
+
 
         );
     }
