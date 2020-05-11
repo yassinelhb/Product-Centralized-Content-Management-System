@@ -4,6 +4,8 @@ import EditorText from "../components/editorText";
 import servicePage from '../../../services/page.service'
 import EditorList from "../components/editorList";
 import { Link } from "react-router-dom";
+import Ads from '../../../components/Ads/Ads'
+import '../../../assets/css/ads _theme1.css';
 import jwt_decode from "jwt-decode";
 
 const token = localStorage.getItem("token");
@@ -209,6 +211,7 @@ class Home extends React.Component {
 
         return (
             <>
+               <Ads/>
                 <div className="section-best_category" onMouseEnter={ () => this.mouseEnterHandle() } onMouseLeave={ () => this.mouseLeaveHandle() }>
                     <div className="container">
                         { best_category_text }

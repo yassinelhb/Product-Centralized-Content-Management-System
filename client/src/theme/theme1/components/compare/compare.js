@@ -68,6 +68,7 @@ class Compare extends React.Component {
                                     </tr>
                                 )
                             }
+
                                 <tr>
                                     <td>
 

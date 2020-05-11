@@ -206,14 +206,16 @@ exports.getPicture = (req, res) => {
 exports.assignToWebsite = async  (req, res) => {
 
 
-
                 const productLayout = await Layout.findOne({website:req.params.websiteId,layout_name:'detail'}).then().catch();
                 console.log(productLayout);
-                const b ={
 
+                const SubTypePage = await Page.findOne({website:req.params.websiteId,type:'subCategory',productSubType: req.body.subType }).then().catch();
+
+                const b ={
                     "page_name":req.body.title,
                     "type":"product",
                     "productSubType":req.body.subType,
+                    "SubTypePage":SubTypePage._id,
                     "product":req.body._id,
                     "website":req.params.websiteId,
                     "layout":productLayout._id

@@ -62,6 +62,7 @@ class Users extends React.Component {
                         userss: res
 
                     });
+                    console.log(this.state.userss)
                 })
         } else {
             this.setState({error: "you need to sign in"})

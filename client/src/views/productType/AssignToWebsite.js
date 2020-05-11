@@ -76,18 +76,15 @@ setDisplay(false);
           })
   };
 
-    function  changeHandler(e,property) {
+    function changeHandler(e,property) {
 
        labels.map((l,i) =>{
              if( l.property === property._id){
             l.label = e.target.value;
-
              }
 
          });
         setLabels(labels);
-
-
     }
   useEffect(() => {
       console.log(website);
