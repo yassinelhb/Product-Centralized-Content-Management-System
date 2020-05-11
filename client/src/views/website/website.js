@@ -92,12 +92,9 @@ class Website extends React.Component {
                         { router }
                     </Suspense>
                 </div>
-<<<<<<< HEAD
                  <Chatbots/>
-=======
                 <Chatbots  />
 
->>>>>>> cec1d3886ccc0715c9e47abaeb659638670815b0
             </div>
         );
     }

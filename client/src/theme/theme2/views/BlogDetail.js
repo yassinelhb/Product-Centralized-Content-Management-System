@@ -8,7 +8,7 @@ import jwt_decode from "jwt-decode";
 import blog from "../../../services/Blog/Blog";
 import serviceBlog from "../../../services/Blog/Blog.js"
 import ReactHtmlParser from "react-html-parser";
-import Blog from "./blog";
+import Blog from "./Blog";
 
 
 class BlogDetail extends React.Component {
