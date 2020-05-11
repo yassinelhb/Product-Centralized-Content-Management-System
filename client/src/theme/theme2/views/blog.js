@@ -91,8 +91,10 @@ class Blog extends React.Component {
 
                  <div>
 
-                      {ReactHtmlParser(blog.Description.substr(0,120)+' ... ')}</div><div
-                        class="read-more"><a href={"/website/BlogDetail/"+blog._id}> <h3>Read more</h3></a></div>
+                      {ReactHtmlParser(blog.Description.substr(0,120)+' ... ')}</div>
+                                <Link to={ {pathname: '/website/BlogDetail' ,   s: {id: 1, name: 'Ford', color: 'red'} } } className="navigation_page"> Lire plus </Link>
+
+
                     </span>
 
                         </article>
