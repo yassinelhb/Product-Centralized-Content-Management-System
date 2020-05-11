@@ -40,8 +40,6 @@ import '../../assets/css/ads_front.css';
 import ChatBot from 'react-simple-chatbot';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-
 class Review extends Component {
     constructor(props) {
         super(props);
@@ -97,11 +95,12 @@ Review.defaultProps = {
 class chatbot extends Component {
     render() {
         return (
-            <ChatBot
-                steps={[
+            <ChatBot  width='30%' headerTitle="Netcapital Chatbot" bubbleStyle={{ fontSize: '11px' }} speechSynthesis={{ enable: true, lang: 'en', voice: null }}
+                      inputStyle={{ fontSize: '11px' }} floating='true' bubbleOptionStyle={{fontSize: '13px' }}
+                      steps={[
                     {
                         id: '1',
-                        message: 'What is your name?',
+                        message: ' Hello , What is your name?',
                         trigger: 'name',
                     },
                     {
@@ -201,18 +200,20 @@ class chatbot extends Component {
                     {
                         id: '8',
                         options: [
-                            { value: 'busnss man', label: 'busnss man', trigger: '9' },
-                            { value: 'employe', label: 'employe', trigger: '9' },
-                            { value: 'student', label: 'student', trigger: '9' },
+                            { value: 'Businessman', label: 'Businessman', trigger: '9' },
+                            { value: 'Employee', label: 'Employee', trigger: '9' },
+                            { value: 'Student', label: 'Student', trigger: '9' },
                         ],
                     },
                     {
                         id: '9',
                         component: (
-                            <div> This is an example ste can give u more information
-                                <h1>The a element</h1>
+                            <div> This is website can give u more information
+                                <h1>click this link</h1><br/>
+                                <img className="group list-group-image"
+                                     src={require("assets/img/ATB.png")}/>
 
-                                <a href="http://www.atb.tn/">Visit ATB!</a>
+                                <a href="http://www.atb.tn/"> Visit ATB!</a>
 
                             </div>
 
