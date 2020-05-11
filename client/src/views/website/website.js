@@ -91,7 +91,7 @@ class Website extends React.Component {
                         { router }
                     </Suspense>
                 </div>
-                {/* <Chatbots/> */}
+                 <Chatbots/>
             </div>
         );
     }
