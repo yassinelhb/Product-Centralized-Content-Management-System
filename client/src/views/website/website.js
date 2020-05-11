@@ -55,7 +55,7 @@ class Website extends React.Component {
 
     loadComponent(page) {
        const Componant =  React.lazy(() => import('../../theme/'+ page.website.theme.theme_name +'/views/'+page.layout.layout_name))
-       return <Componant page={ page } editor = { true } website = { this.state.website } />
+       return <Componant page={ page } editor = { true } website = { this.state.website } id={null}/>
    }
 
     render() {
@@ -69,6 +69,9 @@ class Website extends React.Component {
                     page.layout.layout_name === 'subcategory' ?
                         <Route exact path={`${this.props.match.url}/`+page.productTypePage.page_name + `/` +page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
                         :
+                        page.layout.layout_name === 'BlogDetail' ?
+                            <Route exact path={`${this.props.match.url}/` +page.page_name + '/:id'} render={ () => this.loadComponent(page)} key={page._id}/>
+                            :
                         <Route exact path={`${this.props.match.url}/`+page.page_name} render={ () => this.loadComponent(page)} key={page._id}/>
             )
 

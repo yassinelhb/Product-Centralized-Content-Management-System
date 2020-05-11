@@ -8,6 +8,7 @@ import jwt_decode from "jwt-decode";
 import blog from "../../../services/Blog/Blog";
 import serviceBlog from "../../../services/Blog/Blog.js"
 import ReactHtmlParser from "react-html-parser";
+import {Link} from "react-router-dom";
 
 class Blog extends React.Component {
 
@@ -91,8 +92,7 @@ class Blog extends React.Component {
                  <div>
 
                       {ReactHtmlParser(blog.Description.substr(0,120)+' ... ')}</div><div
-                        class="read-more"><a href="/website/BlogDetail"> <h3>Read more</h3></a></div>
-
+                        class="read-more"><a href={"/website/BlogDetail/"+blog._id}> <h3>Read more</h3></a></div>
                     </span>
 
                         </article>
