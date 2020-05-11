@@ -90,6 +90,7 @@ class Blog extends React.Component {
                             <span className="droite">
 
                  <div>
+                     <div></div>
 
                       {ReactHtmlParser(blog.Description.substr(0,120)+' ... ')}</div><div
                         class="read-more"><a href={"/website/BlogDetail/"+blog._id}> <h3>Read more</h3></a></div>
