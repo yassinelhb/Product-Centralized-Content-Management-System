@@ -65,8 +65,8 @@ class Blog extends React.Component {
 
                     </div>
                 </div>
-                    <div></div>
-                    <div className="product-image">
+
+                <div className="product-image">
                     <a href="#">
                     <img src={require("../../../assets/img/theme/"+blog.Image)} />
                     </a>
