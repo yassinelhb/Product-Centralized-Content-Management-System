@@ -8,6 +8,7 @@ import serviceProductProperty from "../../../services/product/ProductProperty.se
 import jwt_decode from "jwt-decode";
 import EditorInputText from "../../theme1/components/editorInputText";
 import {ContentState, EditorState} from "draft-js";
+import TrackingService from "../../../services/product/tracking.service";
 
 const token = localStorage.getItem("token");
 
@@ -31,7 +32,10 @@ class Detail extends React.Component {
 
         serviceProducts.productDetails(this.state.page.product._id, this.state.website._id)
             .then( res => {
+                TrackingService.productClick(this.state.website._id,res._id).then();
+
                 this.setState({
+
                     page : {
                         ...this.state.page,
                         product: res
@@ -52,7 +56,9 @@ class Detail extends React.Component {
             show: true
         })
     }
-
+    RedirectToBank = (id) => {
+        TrackingService.addBankClick(this.state.websiteId,id).then();
+    }
     addDescription = (description) => {
 
         let list_description = [description]
@@ -229,7 +235,7 @@ class Detail extends React.Component {
             <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
             :
             <>
-                <a className="btn btn-primary" href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
+                <a className="btn btn-primary" onClick={() =>this.RedirectToBank(page.product._id)} href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
                 {
                     ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
                     <div className="toggle_btn">
