@@ -58,7 +58,7 @@ class Blog extends React.Component {
                                             <h1>{blog.Title}</h1>
                                         </a>
                                         <p className="information">Vous ne pouvez pas déposer des billets et pièces dans chaque banque. Où est-ce possible, comment..
-                                            <Link to={ {pathname: '/website/BlogDetail' } } className="navigation_page"> Lire plus </Link>
+                                            <Link to={ {pathname: '/website/BlogDetail/'+blog._id} } className="navigation_page"> Lire plus </Link>
 
                                         </p>
                                         <div className="control">

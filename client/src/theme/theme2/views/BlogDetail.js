@@ -9,6 +9,7 @@ import blog from "../../../services/Blog/Blog";
 import serviceBlog from "../../../services/Blog/Blog.js"
 import ReactHtmlParser from "react-html-parser";
 import Blog from "./Blog";
+import {Link} from "react-router-dom";
 
 
 class BlogDetail extends React.Component {
@@ -48,10 +49,11 @@ class BlogDetail extends React.Component {
                         this.state.test.length ?
                             this.state.test.map(testt =>
                                     testt.Blog.map(testtt =>
-                    <a href={"website/BlogDetail/"+testt._id}><p
+                    < Link to={ {pathname: '/website/BlogDetail/'+testtt._id} }><p
                         className="rightBlog"><span className="darkblue-color">»&nbsp;</span>
-                        <strong>{testtt.Title}</strong></p></a>
-                                    )
+                        <strong>{testtt.Title}</strong></p>
+                    </Link>
+                        )
 
                             ):null
 

@@ -8,6 +8,7 @@ import '../css/BlogStyle.css';
 import serviceBlog from "../../../services/Blog/Blog";
 import Paginator from "../../../views/Blog/Paginator.js"
 import ReactHtmlParser from "react-html-parser";
+import {Link} from "react-router-dom";
 class BlogDetail extends React.Component {
 
     constructor() {
@@ -46,9 +47,9 @@ class BlogDetail extends React.Component {
                         this.state.test.length ?
                             this.state.test.map(testt =>
                                 testt.Blog.map(testtt =>
-                        <a href={"website/BlogDetail/"+testt._id}><p
+                                        < Link to={ {pathname: '/website/BlogDetail/'+testtt._id} }><p
                             className="rightBlog"><span className="darkblue-color">»&nbsp;</span>
-                            <strong>{testtt.Title}</strong></p></a>
+                            <strong>{testtt.Title}</strong></p></Link>
                                 )
 
                             ):null
