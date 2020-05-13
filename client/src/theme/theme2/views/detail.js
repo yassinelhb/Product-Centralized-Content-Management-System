@@ -229,7 +229,7 @@ class Detail extends React.Component {
             <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
             :
             <>
-                <a className="btn btn-primary" href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
+                <a href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
                 {
                     ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
                     <div className="toggle_btn">
@@ -269,7 +269,7 @@ class Detail extends React.Component {
                                 <h1 className="product_title">
                                     { page.page_name }
                                 </h1>
-                                <div className="btn_link_site">
+                                <div className="btn btn-primary btn_link_site">
                                     { link_site }
                                 </div>
                             </div>
