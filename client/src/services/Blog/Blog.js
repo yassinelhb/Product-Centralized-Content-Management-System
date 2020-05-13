@@ -126,8 +126,24 @@ class Blog {
         })
 
     };
+    IdBlog = (Idblog) => {
 
+        const b=Idblog.length;
+        const c =Idblog.substr(20,b);
+        return c;
+    };
+BlogDetail = (Idblog) => {
+    return new Promise((resolve, reject) => {
+        axios.get(api + `Blog/BlogById`+Idblog)
+            .then(res => {
+                resolve(res.data);
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
 
+}
 }
 const instance = new Blog();
 

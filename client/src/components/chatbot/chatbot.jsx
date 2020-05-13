@@ -96,11 +96,11 @@ class chatbot extends Component {
     render() {
         return (
             <ChatBot  width='30%' headerTitle="Netcapital Chatbot" bubbleStyle={{ fontSize: '11px' }} speechSynthesis={{ enable: true, lang: 'en', voice: null }}
-                      inputStyle={{ fontSize: '11px' }}
+                      inputStyle={{ fontSize: '11px' }} floating='true' bubbleOptionStyle={{fontSize: '13px' }}
                       steps={[
                     {
                         id: '1',
-                        message: 'What is your name?',
+                        message: ' Hello , What is your name?',
                         trigger: 'name',
                     },
                     {
@@ -200,9 +200,9 @@ class chatbot extends Component {
                     {
                         id: '8',
                         options: [
-                            { value: 'busnss man', label: 'busnss man', trigger: '9' },
-                            { value: 'employe', label: 'employe', trigger: '9' },
-                            { value: 'student', label: 'student', trigger: '9' },
+                            { value: 'Businessman', label: 'Businessman', trigger: '9' },
+                            { value: 'Employee', label: 'Employee', trigger: '9' },
+                            { value: 'Student', label: 'Student', trigger: '9' },
                         ],
                     },
                     {

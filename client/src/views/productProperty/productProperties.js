@@ -79,7 +79,7 @@ class productProperties extends React.Component {
 
   }
   render() {
-    const { properties,websiteId } = this.state ;
+    const { properties,websiteId,role } = this.state ;
     return (
         <>
           <div className="content">
@@ -89,8 +89,11 @@ class productProperties extends React.Component {
                   <CardHeader>
                     <div className="row">
                     <CardTitle tag="h4">Product Properties</CardTitle>
-                    <AddProductProperty refreshTable={this.refreshTable}/>
-                    <AssignToWebsite websiteId={websiteId} refreshTable={this.refreshTable}/>
+                      {["Administrator","Content director","Content coordinator"].includes(role) ?
+                          <AddProductProperty refreshTable={this.refreshTable}/>
+                          : null}
+
+                      <AssignToWebsite websiteId={websiteId} refreshTable={this.refreshTable}/>
                     </div>
                   </CardHeader>
                   <CardBody>
@@ -101,7 +104,8 @@ class productProperties extends React.Component {
                         <th>Description</th>
                         <th>Type</th>
                         <th>Product SubType</th>
-                        <th>Actions</th>
+                        {["Administrator","Content director","Content coordinator"].includes(role) ?
+                            <th>Actions</th> :null}
 
                       </tr>
                       </thead>
@@ -111,7 +115,11 @@ class productProperties extends React.Component {
                         properties.length ?
                             properties.map(property => <tr key={property._id}> <td>{property.name}</td><td>{property.description}</td><td>{property.type}</td>
                               <td><ul>{property.subType.length ? property.subType.map(subtype => <li> {subtype.name} </li> )  : null}</ul></td>
-                              <td><div className="row"><UpdateProductProperty refreshTable={this.refreshTable} propertyId={property._id}/> <Button color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(property._id)} >Delete</Button></div></td></tr>) :
+                              {["Administrator","Content director","Content coordinator"].includes(role) ?        <td>
+                                <div className="row">
+                                  <UpdateProductProperty refreshTable={this.refreshTable} propertyId={property._id}/> <Button color="danger" outline style={{ 'margin-left':"5px"}}  onClick={() =>this.deleteHandler(property._id)} >Delete</Button></div>
+                              </td> : null}
+                            </tr>) :
                             null
                       }
 

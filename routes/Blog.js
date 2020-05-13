@@ -10,5 +10,6 @@ router.post('/AddBlog', BlogService.addBlog);
 router.get('/', BlogService.getBlog);
 router.get('/test:id', BlogService.getByUser);
 router.get('/BlogBySite:id', BlogService.getBlogByWebsite);
+router.get('/BlogById:id', BlogService.getById);
 
 module.exports = router;

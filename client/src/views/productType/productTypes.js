@@ -109,7 +109,7 @@ class productTypes extends React.Component {
               <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Product Types</CardTitle>
-                  <AddProductType/>
+                  <AddProductType refreshTable={this.refreshTable}/>
                 </CardHeader>
                 <CardBody>
                   <Table responsive>
@@ -128,7 +128,7 @@ class productTypes extends React.Component {
                             types.map(type => <tr key={type._id}>
                               <td>{type.name}</td><td>{type.description}</td>
                               <td><div className="row">
-                                {role == 'Administrator' ?
+                                {["Administrator","Content director","Content coordinator"].includes(role) ?
                               <div className="row">  <UpdateProductType typeId={type._id} /> <Button outline style={{ 'margin-left':"5px"}} color="danger"  onClick={() =>this.deleteHandler(type._id)} >Delete</Button>
                               </div>  :null }
                                 { type.exist ? null : <AssignToWebsite type={type} typeId={type._id} websiteId={this.state.websiteId}   website={website}   /> }

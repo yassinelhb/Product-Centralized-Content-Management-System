@@ -129,3 +129,18 @@ exports.getByUser = async  (req, res) => {
 //        const Blog  = await Blog.find({Title: "Test226"});
 };
 
+exports.getById = async  (req, res) => {
+    const User = req.params.id ;
+
+    try {
+        const blog = Blog.find(
+
+            {_id: User}).populate('users').populate('Blog').then(user => res.json(user)
+
+        );
+    } catch (err) {
+        res.json({message: err});
+    }
+
+//        const Blog  = await Blog.find({Title: "Test226"});
+};

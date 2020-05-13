@@ -5,7 +5,7 @@ import {Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Co
 import TypeService from "../../services/product/ProductType.service";
 import TrackingService from "../../services/product/tracking.service";
 
-const AddTracker = () => {
+const AddTracker = (props) => {
 
 
   const [modal, setModal] = useState(false);
@@ -24,6 +24,7 @@ const AddTracker = () => {
     TrackingService.create(data)
         .then( res => {
           console.log(res);
+          props.refresh();
         })
   };
 

@@ -52,27 +52,27 @@ class Blog extends React.Component {
                     this.state.blogs.length ?
                         this.state.blogs.map(blog =>
                             <div>
-                <div id="container" >
-                <div className="product-details">
-                    <a href="#">
-                    <h1>{blog.Title}</h1>
-                    </a>
-                    <p className="information">Vous ne pouvez pas déposer des billets et pièces dans chaque banque. Où est-ce possible, comment..
-                        <Link to={ {pathname: '/website/BlogDetail' ,   s: [{id: 1, name: 'Ford', color: 'red'}]} } className="navigation_page"> Lire plus </Link>
+                                <div id="container" >
+                                    <div className="product-details">
+                                        <a href="#">
+                                            <h1>{blog.Title}</h1>
+                                        </a>
+                                        <p className="information">Vous ne pouvez pas déposer des billets et pièces dans chaque banque. Où est-ce possible, comment..
+                                            <Link to={ {pathname: '/website/BlogDetail/'+blog._id} } className="navigation_page"> Lire plus </Link>
 
-                    </p>
-                    <div className="control">
+                                        </p>
+                                        <div className="control">
 
-                    </div>
-                </div>
-                <div className="product-image">
-                    <a href="#">
-                    <img src={require("../../../assets/img/theme/"+blog.Image)} />
-                    </a>
+                                        </div>
+                                    </div>
+                                    <div className="product-image">
+                                        <a href="#">
+                                            <img src={require("../../../assets/img/theme/"+blog.Image)} />
+                                        </a>
 
-                </div>
+                                    </div>
 
-                </div>
+                                </div>
 
 
                             </div>

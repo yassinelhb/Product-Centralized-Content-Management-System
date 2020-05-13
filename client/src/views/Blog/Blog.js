@@ -193,15 +193,6 @@ class Blog extends React.Component {
                         </div>
 
                     </FormGroup>
-                    <FormGroup>
-                        <Label>site</Label>
-                        <select name="Blog"  multiple className="form-control" onChange={e => this.multiSelectHandler(e)}>
-                            <option selected>Choose...</option>
-                            {this.state.test2.map(test22 => <option value={test22._id}>{test22.Title}</option>)}
-                        </select>
-
-
-                    </FormGroup>
                     <button type="submit" className="btn-lg btn-dark btn-block"> save Blog </button>
                 </form>
             </div>
