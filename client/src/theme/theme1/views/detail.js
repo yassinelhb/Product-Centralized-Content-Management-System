@@ -37,7 +37,6 @@ class Detail extends React.Component {
         this.getProductDetails()
         serviceProductProperty.getBySubType(this.state.page.productSubType._id)
             .then( res => {
-                TrackingService.productClick(this.state.website._id,res._id).then();
 
                 this.setState({
                     product_property : res,
@@ -49,6 +48,8 @@ class Detail extends React.Component {
     getProductDetails = () => {
         serviceProducts.productDetails(this.state.page.product._id, this.state.website._id)
             .then( res => {
+                TrackingService.productClick(this.state.website._id,res._id).then();
+
                 this.setState({
                     page : {
                         ...this.state.page,
