@@ -275,7 +275,7 @@ class Detail extends React.Component {
                                 <h1 className="product_title">
                                     { page.page_name }
                                 </h1>
-                                <div className="btn_link_site">
+                                <div className="btn btn-primary btn_link_site">
                                     { link_site }
                                 </div>
                             </div>

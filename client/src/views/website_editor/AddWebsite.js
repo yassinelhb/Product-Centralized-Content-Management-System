@@ -66,6 +66,14 @@ const AddWebsite = (props) => {
                 {
                     "layout_name": "subcategory",
                     "layout_img": "subcategory.png"
+                },
+                {
+                    "layout_name": "blog",
+                    "layout_img": "blog.png"
+                },
+                {
+                    "layout_name": "BlogDetail",
+                    "layout_img": "BlogDetail.png"
                 }
             ]
         } ;
