@@ -235,7 +235,7 @@ class Detail extends React.Component {
             <EditorInputText editorState = { page.link_site ? page.link_site :  'Go to web site' } editor = { this.handleTextChange } />
             :
             <>
-                <a className="btn btn-primary" onClick={() =>this.RedirectToBank(page.product._id)} href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
+                <a className="btn btn-primary" target="_blank" onClick={() =>this.RedirectToBank(page.product._id)} href={ page.product.bankLink }>  { page.link_site ? page.link_site :  'Go to web site' } </a>
                 {
                     ( user.role === 'Freelancer' || user.role === 'Content Editor' ) &&
                     <div className="toggle_btn">

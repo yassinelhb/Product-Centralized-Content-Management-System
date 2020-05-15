@@ -64,7 +64,10 @@ exports.update = async  (req, res) => {
 
 // assign a product type to a website
 exports.assignTypeToWebsite = async  (req, res) => {
+    console.log(req.body.website);
+
     const categoryLayout = await Layout.findOne({website:req.body.website,layout_name:'category'}).then().catch();
+
     const prodPage =req.body;
     prodPage.layout = categoryLayout;
     console.log(prodPage);

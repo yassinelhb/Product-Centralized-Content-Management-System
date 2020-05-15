@@ -9,12 +9,12 @@ import index from "react-chartjs-2";
 import Select from "react-select";
 const AssignToWebsite = (props) => {
 
-    const {typeId,type,website,websiteId} =props;
+    const {typeId,type,website} =props;
   const [modal, setModal] = useState(false);
   const [display, setDisplay] = useState(true);
 
     const [subTypeIndex, setIndex] = useState(0);
-  const [subTypes, setSubTypes] = useState([]);
+  const [websiteId, setWebsiteId] = useState('');
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -30,7 +30,7 @@ const AssignToWebsite = (props) => {
                     PropertyService.getBySubType(subType.value).then(properties =>{
                             setProperties(properties) ;
                             properties.map(p=>{
-                                const label = {label:'',property:p._id,website:website._id};
+                                const label = {label:'',property:p._id,website:websiteId};
                                 labels.push(label);
 
 
@@ -51,7 +51,7 @@ setDisplay(false);
                  PropertyService.getBySubType(subType.value).then(properties =>{
                          setProperties(properties) ;
                          properties.map(p=>{
-                             const label = {label:'',property:p._id,website:website._id};
+                             const label = {label:'',property:p._id,website:websiteId};
                              labels.push(label);
 
 
@@ -66,7 +66,7 @@ setDisplay(false);
   const submitHandler = (e) => {
     e.preventDefault();
       console.log(websiteId);
-      TypeService.assignTypeToWebsite(type,website._id,selected)
+      TypeService.assignTypeToWebsite(type,websiteId,selected)
           .then( res => {
               PropertyService.createMany(labels)
                   .then( res => {
@@ -87,7 +87,14 @@ setDisplay(false);
         setLabels(labels);
     }
   useEffect(() => {
-      console.log(website);
+      let data =sessionStorage.getItem('webselect');
+      data = JSON.parse(data);
+
+
+      if(data != null ) {
+          console.log(data._id);
+          setWebsiteId(data._id);}
+    //  console.log(website);
       setOptions([]);
     SubTypeService.getByType(typeId)
         .then( res => {

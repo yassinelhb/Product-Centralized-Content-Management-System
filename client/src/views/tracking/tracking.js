@@ -313,7 +313,7 @@ class tracking extends React.Component {
                                                     <div className="col-8">
                                                         <p style={{'marginTop':'0','marginBottom':'0','fontWeight':'900','fontSize':'17px'}} >{ topReferrer[Object.keys(topReferrer)[0]] }</p>
                                                         <p style={{'marginTop':'0','marginBottom':'0','fontWeight':'normal','fontSize':'14px'}} >  { Object.keys(topReferrer)[0] } </p>
-                                                        <p style={{'marginTop':'0','marginBottom':'0','fontSize':'10px'}}>Top Reffer</p>
+                                                        {Link.type === 'bank' ?   <p style={{'marginTop':'0','marginBottom':'0','fontSize':'10px'}}>Top Country Reffer</p> : <p style={{'marginTop':'0','marginBottom':'0','fontSize':'10px'}}>Top Reffer</p> }
                                                     </div>
                                                 </div>
                                             </div>

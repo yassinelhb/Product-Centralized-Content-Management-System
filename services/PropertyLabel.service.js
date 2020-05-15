@@ -28,7 +28,7 @@ exports.createMany = async  (req, res) => {
 
     try {
         req.body.forEach(label => {
-         Label.create(label).then().catch();
+         Label.create(label).then().catch(err => res.status(400).json('Error: ' + err));
         });
         res.json(req.body)
 } catch (err) {
