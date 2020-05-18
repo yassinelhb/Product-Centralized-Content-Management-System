@@ -462,6 +462,11 @@
     margin-top: 70px;
 }
 
+.wrapper-theme2 .content_product .list_product_desc  .product_desc {
+    position: relative;
+}
+
+
 .wrapper-theme2 .content_product .list_product_desc .product_desc .product_desc_title {
     font-size: 19px;
     margin-top: 15px;

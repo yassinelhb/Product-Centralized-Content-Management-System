@@ -24,7 +24,7 @@ class Category extends React.Component {
             subcategory_page : '',
             editor_text : '',
             alert: '',
-            user: jwt_decode(token).users
+            user: token && jwt_decode(token).users
         }
     }
 

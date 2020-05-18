@@ -30,7 +30,7 @@ class Website extends React.Component {
             .then( res => {
             this.setState({
                 website : res,
-                links: res.header.links
+                links: res.header?.links
             });
         })
 
@@ -86,8 +86,6 @@ class Website extends React.Component {
                     {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>
                 <div className="wrapper-content">
-
-
                     <Suspense fallback={<div>Loading ...</div>}>
                         { router }
                     </Suspense>

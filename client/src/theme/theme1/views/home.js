@@ -23,7 +23,7 @@ class Home extends React.Component {
             best_category_list_edit : false,
             editor_text : '',
             alert: '',
-            user: jwt_decode(token).users
+            user: token && jwt_decode(token).users
         }
 
     }

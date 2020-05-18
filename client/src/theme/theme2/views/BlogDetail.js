@@ -8,7 +8,7 @@ import jwt_decode from "jwt-decode";
 import blog from "../../../services/Blog/Blog";
 import serviceBlog from "../../../services/Blog/Blog.js"
 import ReactHtmlParser from "react-html-parser";
-import Blog from "./Blog";
+import Blog from "./blog";
 import {Link} from "react-router-dom";
 
 

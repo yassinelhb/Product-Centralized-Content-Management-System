@@ -27,7 +27,7 @@ class Subcategory extends React.Component {
             alert: '',
             compares : '',
             show: 2,
-            user: jwt_decode(token).users,
+            user: token && jwt_decode(token).users,
             editor_item: ''
         }
 
@@ -306,6 +306,7 @@ class Subcategory extends React.Component {
                     <div className="list_product">
                         {
                             page_products.map((product_page, index) =>
+                                index < show &&
                                 <div className="product_list_item" key={product_page._id}>
                                     <div className="row">
                                         <div className="col-sm-3">
@@ -397,11 +398,6 @@ class Subcategory extends React.Component {
                    { intro_subcategory_text }
 
                </div>
-
-                    <div className="subcategory_pub">
-                    <img className="img_pub" src={ require('../../../assets/img/damir-bosnjak.jpg') }/>
-                    </div>
-
                     <div className="subcategory_product">
                         <div className="toolbar_filter">
                             <div className="filter_sort">

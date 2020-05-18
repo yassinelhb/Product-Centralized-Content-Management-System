@@ -28,7 +28,7 @@ class Subcategory extends React.Component {
             editor_text : '',
             alert: '',
             show: 2,
-            user: jwt_decode(token).users,
+            user: token && jwt_decode(token).users,
             editor_item: '',
             compares: ''
 
@@ -294,6 +294,7 @@ class Subcategory extends React.Component {
                     <div className="list_product">
                         {
                             page_products.map((product_page, index) =>
+                                index < show &&
                                 <div className="product_list_item" key={ product_page._id }>
                                         <div className="product_item_check">
                                             <label className="custom-checkbox">

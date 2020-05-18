@@ -17,9 +17,10 @@ class Header extends React.Component {
             links: this.props.links,
             toggle_edit : false,
             alert : '',
-            user: jwt_decode(token).users,
+            user: token && jwt_decode(token).users,
         }
     }
+
 
     editButtonClick = () => {
         this.setState({

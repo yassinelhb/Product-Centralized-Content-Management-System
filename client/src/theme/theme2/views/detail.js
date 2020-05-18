@@ -23,7 +23,7 @@ class Detail extends React.Component {
             editor_text : '',
             alert: '',
             show: false,
-            user: jwt_decode(token).users
+            user: token && jwt_decode(token).users
 
         }
     }
