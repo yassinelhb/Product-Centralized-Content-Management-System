@@ -129,7 +129,7 @@ const AddWebsite = (props) => {
                         <FormGroup>
                             <label>Contry</label>
 
-                            <Autocomplete
+                            {/*<Autocomplete
                                 value={Contry}
                                 name="Contry"
                                 items={MoviesData()}
@@ -147,7 +147,12 @@ const AddWebsite = (props) => {
                                 }
                                 onSelect={(event) => setContry(event, 'Contry')}
                                 onChange={(e) => setContry(e.target.value)}
-                            />
+                            />*/}
+
+                            <select className="form-control">
+                                <option></option>
+                                <option>France</option>
+                            </select>
 
 
 
@@ -155,7 +160,8 @@ const AddWebsite = (props) => {
                         </FormGroup>
                         <FormGroup >
                             <label>Language</label>
-                            <Autocomplete
+                            {/*<Autocomplete
+                                class="form-control"
                                 value={Language}
                                 name="Language"
                                 items={LanguageData()}
@@ -174,10 +180,15 @@ const AddWebsite = (props) => {
                                 onSelect={(event) => setLanguage(event, 'Language')}
                                 onChange={(e) => setLanguage(e.target.value)}
                             />
+                            */}
+                            <select className="form-control">
+                                <option></option>
+                                <option>France</option>
+                            </select>
                         </FormGroup>
                     <FormGroup>
                         <label>Currency-sign</label>
-                        <Autocomplete
+                        {/* <Autocomplete
                             value={Curreny_sign}
                             name="Curreny_sign"
                             items={CurrencyData()}
@@ -196,6 +207,11 @@ const AddWebsite = (props) => {
                             onSelect={(event) => setCurreny_sign(event, 'Language')}
                             onChange={(e) => setCurreny_sign(e.target.value)}
                         />
+                        */}
+                        <select className="form-control">
+                            <option></option>
+                            <option>France</option>
+                        </select>
                     </FormGroup>
                         <FormGroup>
 

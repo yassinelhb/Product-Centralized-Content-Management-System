@@ -118,9 +118,9 @@ setDisplay(false);
       <div  style={{ 'margin-left':"20px"}}>
         <Button outline  color="primary" onClick={toggle2}  >Assign to website</Button>
         <Modal isOpen={modal} toggle={toggle} >
-          <ModalHeader toggle={toggle}>Assign to website</ModalHeader>
+          <ModalHeader toggle={toggle}>Assign to websit</ModalHeader>
             {display ?
-                <div>
+                <ModalBody>
             <Select
                 isMulti
                 name="subTypes"
@@ -130,7 +130,7 @@ setDisplay(false);
             />
             <Button color="primary" onClick={addSubTypes} >Add</Button>
             <hr/>
-                </div>:
+                </ModalBody>:
           <form onSubmit={submitHandler}>
           <ModalBody>
 

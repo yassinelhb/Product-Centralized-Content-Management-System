@@ -33,7 +33,7 @@ var routes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
-    component: Icons,
+    component: Dashboard,
     layout: "/admin",
     Roles: ["Administrator","Content coordinator","Content director","Sales manager","Freelancer","Content Editor"]
   },
@@ -46,12 +46,13 @@ var routes = [
     Roles: ["Administrator","Content director"]
   },
   {
-    path: "/Users",
-    name: "Users",
-    icon: "nc-icon nc-single-02",
-    component: Users,
+
+    path: "/Websites",
+    name: "Websites",
+    icon: "nc-icon nc-globe",
+    component: Web,
     layout: "/admin",
-    Roles: ["Administrator","Content director"]
+    Roles: ["Administrator","Content director","Content Editor"]
   },
   {
     path: "/pages",
@@ -64,15 +65,23 @@ var routes = [
   {
     path: "/themes",
     name: "Theme",
-    icon: "nc-icon nc-single-copy-04",
+    icon: "nc-icon nc-laptop",
     component: Theme,
+    layout: "/admin",
+    Roles: ["Administrator","Content director"]
+  },
+  {
+    path: "/components",
+    name: "Component",
+    icon: "nc-icon nc-layout-11",
+    component: Component,
     layout: "/admin",
     Roles: ["Administrator","Content director"]
   },
   {
     path: "/productTypes",
     name: "Product Types",
-    icon: "nc-icon nc-single-copy-04",
+    icon: "nc-icon nc-credit-card",
     component: productTypes,
     layout: "/admin",
     Roles: ["Administrator","Content director","Content Editor","Content coordinator"]
@@ -80,7 +89,7 @@ var routes = [
   {
     path: "/productSubTypes",
     name: "Product Sub-Types",
-    icon: "nc-icon nc-single-copy-04",
+    icon: "nc-icon nc-credit-card",
     component: productSubTypes,
     layout: "/admin",
     Roles: ["Administrator","Content director","Content Editor","Content coordinator"]
@@ -89,7 +98,7 @@ var routes = [
   {
     path: "/products",
     name: "Products",
-    icon: "nc-icon nc-single-copy-04",
+    icon: "nc-icon nc-credit-card",
     component: Products,
     layout: "/admin",
     Roles: ["Administrator","Content director","Content Editor","Freelancer","Content coordinator"]
@@ -97,7 +106,7 @@ var routes = [
   {
     path: "/countryproducts",
     name: "Country Products",
-    icon: "nc-icon nc-single-copy-04",
+    icon: "nc-icon nc-credit-card",
     component: CountryProducts,
     layout: "/admin",
     Roles: ["Administrator","Content director","Content Editor","Content coordinator"]
@@ -105,7 +114,7 @@ var routes = [
   {
     path: "/productProperties",
     name: "Product Properties",
-    icon: "nc-icon nc-single-copy-04",
+    icon: "nc-icon nc-credit-card",
     component: productProperties,
     layout: "/admin",
     Roles: ["Administrator","Content director","Content Editor","Content coordinator"]
@@ -116,68 +125,6 @@ var routes = [
     name: "Url Tracking",
     icon: "nc-icon nc-single-copy-04",
     component: tracking,
-    layout: "/admin",
-    Roles: ["Administrator","Content director"]
-  },
-
-  {
-
-    path: "/Websites",
-    name: "Websites",
-    icon: "nc-icon nc-globe",
-    component: Web,
-    layout: "/admin",
-    Roles: ["Administrator","Content director","Freelancer"]
-  },
-  {
-    path: "/validation",
-    name: "BlogValidation",
-    icon: "nc-icon nc-globe",
-    component: Blogvalidation,
-    layout: "/admin",
-    Roles: ["Administrator","Content director"]
-  },
-  {
-
-    path: "/CreateBlog",
-    name: "Create Blog",
-    icon: "nc-icon nc-globe",
-    component: Blog,
-    layout: "/admin",
-    Roles: ["Administrator","Content director","Freelancer"]
-  },
-  {
-
-    path: "/Blog",
-    name: "Blog",
-    icon: "nc-icon nc-globe",
-    component: yourBlog,
-    layout: "/admin",
-    Roles: ["Administrator","Content director","Freelancer"]
-  },
-
-  {
-
-    path: "/Verify_text",
-    name: "Verify text",
-    icon: "nc-icon nc-globe",
-    component: TextApi,
-    layout: "/admin",
-    Roles: ["Administrator","Content director","Freelancer"]
-  },
-  {
-    path: "/Ads_banner",
-    name: "Ads_banner",
-    icon: "nc-icon nc-calendar-60",
-    component: Ads_banner,
-    layout: "/admin",
-    Roles: ["Administrator","Content director","Freelancer"]
-  },
-  {
-    path: "/component",
-    name: "Component",
-    icon: "nc-icon nc-tile-56",
-    component: Component,
     layout: "/admin",
     Roles: ["Administrator","Content director"]
   },

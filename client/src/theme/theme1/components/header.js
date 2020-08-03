@@ -132,8 +132,8 @@ class Header extends React.Component {
         const { logo } = this.props
 
         // fetch pages
-        const pages = this.props.pages.map(link =>
-            <option key={link._id} value={link._id}> { link.page_name} </option>
+        const pages = this.props.pages.filter(page => page.layout.layout_name !== 'subcategory' && page.layout.layout_name !== 'detail').map(page =>
+            <option key={page._id} value={page._id}> { page.page_name} </option>
         )
 
         // fetch links

@@ -55,7 +55,7 @@ class Footer extends React.Component {
             <div className="credits ml-auto">
               <div className="copyright">
                 &copy; {1900 + new Date().getYear()}, made with{" "}
-                <i className="fa fa-heart heart" /> by Creative Tim
+                <i className="fa fa-heart heart" /> by Code Warriors
               </div>
             </div>
           </Row>

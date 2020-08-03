@@ -10,7 +10,9 @@ import '../../assets/css/website.css';
 
 import ChatBot from 'react-simple-chatbot';
 import Header from "../../components/Navbars/DemoNavbar";
+import jwt_decode from "jwt-decode";
 
+const token = localStorage.getItem("token");
 
 class Website extends React.Component {
 
@@ -20,6 +22,7 @@ class Website extends React.Component {
             website: '',
             pages: '',
             links: '',
+            user: token && jwt_decode(token).users,
 
         }
 
@@ -79,10 +82,15 @@ class Website extends React.Component {
          return (
 
             <div className={ website.theme && 'wrapper wrapper-' + website.theme.theme_name }>
-
-                <NavTools/>
+                {
+                    (this.state.user.role === 'Administrator' || this.state.user.role === 'Content Editor') &&
+                    <div className="header-top">
+                        <div className="container">
+                            <Link to="/admin/dashboard">Admin</Link>
+                        </div>
+                    </div>
+                }
                 <Suspense fallback={<div>Loading ...</div>}>
-
                     {  website.header && pages ? this.loadHeader(): ''}
                 </Suspense>
                 <div className="wrapper-content">

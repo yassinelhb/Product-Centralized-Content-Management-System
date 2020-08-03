@@ -113,73 +113,24 @@ const UpdateWebsite = (props) => {
                         <FormGroup>
                             <label>Contry</label>
 
-                            <Autocomplete
-                                value={Contry}
-                                name="Contry"
-                                items={MoviesData()}
-                                getItemValue={item => item.name}
-                                shouldItemRender={renderMovieTitle}
-                                renderMenu={item => (
-                                    <div className="dropdown">
-                                        {item}
-                                    </div>
-                                )}
-                                renderItem={(item, isHighlighted) =>
-                                    <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
-                                        {item.name}
-                                    </div>
-                                }
-                                onSelect={(event) => setContry(event, 'Contry')}
-                                onChange={(e) => setContry(e.target.value)}
-                            />
-
+                            <select className="form-control">
+                                <option>France</option>
+                            </select>
 
 
 
                         </FormGroup>
                         <FormGroup >
                             <label>Language</label>
-                            <Autocomplete
-                                value={Language}
-                                name="Language"
-                                items={LanguageData()}
-                                getItemValue={item => item.name}
-                                shouldItemRender={LanguageTitle}
-                                renderMenu={item => (
-                                    <div className="dropdown">
-                                        {item}
-                                    </div>
-                                )}
-                                renderItem={(item, isHighlighted) =>
-                                    <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
-                                        {item.name}
-                                    </div>
-                                }
-                                onSelect={(event) => setLanguage(event, 'Language')}
-                                onChange={(e) => setLanguage(e.target.value)}
-                            />
+                            <select className="form-control">
+                                <option>Francais</option>
+                            </select>
                         </FormGroup>
                         <FormGroup>
                             <label>Currency-sign</label>
-                            <Autocomplete
-                                value={Curreny_sign}
-                                name="Curreny_sign"
-                                items={CurrencyData()}
-                                getItemValue={item => item.name}
-                                shouldItemRender={CurrencyTitle}
-                                renderMenu={item => (
-                                    <div className="dropdown">
-                                        {item}
-                                    </div>
-                                )}
-                                renderItem={(item, isHighlighted) =>
-                                    <div className={`item ${isHighlighted ? 'selected-item' : ''}`}>
-                                        {item.name}
-                                    </div>
-                                }
-                                onSelect={(event) => setCurreny_sign(event, 'Language')}
-                                onChange={(e) => setCurreny_sign(e.target.value)}
-                            />
+                            <select className="form-control">
+                                <option>Euro</option>
+                            </select>
                         </FormGroup>
                         <FormGroup>
 

@@ -1,5 +1,13 @@
 /* translator */
 
+.header-top a {
+    display: block;
+    padding: 5px;
+}
+
+.navbar-nav {
+    align-items: center;
+}
 .content_trans {
     position: relative;
     z-index: 9999;
